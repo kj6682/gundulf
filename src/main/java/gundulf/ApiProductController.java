@@ -20,6 +20,7 @@ class ApiProductController {
     ResponseEntity<String> list(@RequestParam(value = "page", defaultValue = "0") int page,
                                 @RequestParam(value = "size", defaultValue = "0") int size){
 
+        System.out.println("/products -> " + products);
         return apiBouncer.get(products);
 
     }
