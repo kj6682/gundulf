@@ -8,7 +8,7 @@
     "description": "the application lists all the products and allow the lab manager to create or delete items"
   },
   "api": {
-    "products": "https://gundulf-products.herokuapp.com/api/products/",
-    "items": "https://gundulf-products.herokuapp.com/api/items/"
+    "products": "https://gundulf.herokuapp.com/api/products",
+    "items": "https://gundulf.herokuapp.com/api/items"
   }
 }

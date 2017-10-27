@@ -1232,7 +1232,11 @@ exports.default = SafeHTMLElement;
 /* 21 */
 /***/ (function(module, exports) {
 
+<<<<<<< HEAD
 module.exports = {"app":{"description":"This is the Application description that sucks"},"header":{"title":"gundulf or rochester","caption":"this is a simple responsive application to manage the product catalog","description":"the application lists all the products and allow the lab manager to create or delete items"},"api":{"products":"http://localhost:8080/api/products","items":"http://localhost:8080/api/items"}};
+=======
+module.exports = {"app":{"description":"This is the Application description that sucks"},"header":{"title":"gundulf or rochester","caption":"this is a simple responsive application to manage the product catalog","description":"the application lists all the products and allow the lab manager to create or delete items"},"api":{"products":"https://gundulf-products.herokuapp.com/api/products","items":"https://gundulf-products.herokuapp.com/api/items"}};
+>>>>>>> dev
 
 /***/ }),
 /* 22 */
