@@ -19,5 +19,5 @@ api:
 spring:
   profiles: heroku
 api:
-  products: "https://gundulf-products.herokuapp.com"
-  items: "https://gundulf-products.herokuapp.com"
+  products: "https://gundulf-products.herokuapp.com/api/products"
+  items: "https://gundulf-products.herokuapp.com/api/items"
