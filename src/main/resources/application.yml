@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: gundulf
+  jackson:
+    serializazion:
+      WRITE_DATES_AS_TIMESTAMPS : false
+  data:
+    rest:
+      base-path: /api
+---
+spring:
+  profiles: dev
+server:
+  port: 8080
+api:
+  products: "http://localhost:9000/api/products"
+  items: "http://localhost:9000/api/items"
+---
+spring:
+  profiles: heroku
+api:
+  products: "http://localhost:9000"
+  items: "http://localhost:9000"

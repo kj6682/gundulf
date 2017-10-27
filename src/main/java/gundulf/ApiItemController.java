@@ -1,0 +1,49 @@
+package gundulf;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api")
+class ApiItemController {
+
+    @Autowired
+    ApiBouncer apiBouncer;
+
+    @Value("${api.items}")
+    private String items;
+
+
+    @GetMapping("/items")
+    ResponseEntity<String> list(@RequestParam(value = "page", defaultValue = "0") int page,
+                                @RequestParam(value = "size", defaultValue = "0") int size){
+
+        return apiBouncer.get(items);
+
+    }
+
+    @GetMapping("/items/search")
+    ResponseEntity<String>  search(@RequestParam(value = "name", defaultValue = "") String name) {
+
+        return apiBouncer.get(items + "/search?name=" + name);
+    }
+
+    @PostMapping(value = "/items")
+    ResponseEntity<?> create(@RequestBody String item) {
+
+        return apiBouncer.post(items, item);
+
+    }
+
+
+
+    @DeleteMapping(value = "/items/{id}")
+    void delete(@PathVariable(required = true) Long id) {
+
+        apiBouncer.delete(items + "/" + id);
+    }
+
+
+}//:)
