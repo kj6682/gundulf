@@ -13,7 +13,10 @@ import {get} from './api/client.jsx'
 import {getByName} from './api/client.jsx'
 import {post} from './api/client.jsx'
 import {deleteObject} from './api/client.jsx'
-var api = require('config').api
+
+const isProduction = process.env.NODE_ENV==='production'
+var config = (isProduction)?require('../config.prod.json'):require('../config.dev.json')
+var api = config.api
 
 const customStyles = {
     content: {
@@ -25,8 +28,6 @@ const customStyles = {
         transform: 'translate(-50%, -50%)'
     }
 };
-
-
 
 
 class App extends React.Component {
@@ -83,7 +84,8 @@ class App extends React.Component {
             "name": product.name,
             "pieces": product.pieces,
             "producer": product.producer,
-            "status": "string"})
+            "status": "string"
+        })
 
         post(api.products, newProduct).then(() => get(api.products, {page: 0}).then((data) => {
             this.setState({products: data});
@@ -134,7 +136,7 @@ class App extends React.Component {
     render() {
 
         let comp_addItem = <AddItem
-            callbacks={{add:this.addItem}}/>
+            callbacks={{add: this.addItem}}/>
 
         let comp_addProduct = <AddProduct
             isOpen={this.state.modalIsOpen}
@@ -161,39 +163,43 @@ class App extends React.Component {
         return (
             <div className='container'>
 
-                <div className="header col-12">
+                <div className="header col-4">
                     <Header/>
                     {comp_searchBar}
                     <p></p>
 
                 </div>
 
-                <div className="container">
-                    <h2>Base Products</h2>
+                <div className="container col-8">
 
-                    <div className="main col-10">
-                        {comp_itemList}
-                    </div>
-                    <div className="col-2">
-                        {comp_addItem}
+                    <div className="container col-12">
+                        <h2>Base Products</h2>
+
+                        <div className="main col-10">
+                            {comp_itemList}
+                        </div>
+                        <div className="col-2">
+                            {comp_addItem}
+                        </div>
+
                     </div>
 
+                    <div className="container col-4">
+                        <h2>Commercial Products
+                            <button onClick={this.openModal}>+</button>
+                        </h2>
+
+                        <div className=" col-1">
+                            <p className="smalltext"></p>
+                        </div>
+                        <div className="main col-10">
+                            {comp_productList}
+                        </div>
+                        <div className=" col-1">
+                            <p className="smalltext"></p>
+                        </div>
+                    </div>
                 </div>
-
-                <div className="container">
-                    <h2>Commercial Products   <button onClick={this.openModal}>+</button></h2>
-
-                    <div className=" col-1">
-                        <p className="smalltext"></p>
-                    </div>
-                    <div className="main col-10">
-                        {comp_productList}
-                    </div>
-                    <div className=" col-1">
-                        <p className="smalltext"></p>
-                    </div>
-                </div>
-
 
 
                 <Modal
@@ -206,7 +212,6 @@ class App extends React.Component {
                     {comp_addProduct}
 
                 </Modal>
-
 
 
             </div>

@@ -4,8 +4,8 @@
   "description": "gundulf is a humble application entry point",
   "scripts": {
     "dev": "webpack-dev-server --progress",
-    "build": "NODE_ENV=production webpack --config ./webpack.prod.config.js --progress",
-    "build-dev": "NODE_ENV=development webpack --config ./webpack.dev.config.js --progress"
+    "build-dev": "webpack  --progress",
+    "build": "webpack --env.NODE_ENV=production --env.production --progress"
   },
   "keywords": [],
   "author": "kj6682",

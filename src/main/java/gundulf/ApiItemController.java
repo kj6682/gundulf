@@ -19,7 +19,7 @@ class ApiItemController {
     @GetMapping("/items")
     ResponseEntity<String> list(@RequestParam(value = "page", defaultValue = "0") int page,
                                 @RequestParam(value = "size", defaultValue = "0") int size){
-        System.out.println("/items -> " + items);
+
         return apiBouncer.get(items);
 
     }
