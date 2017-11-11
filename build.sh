@@ -9,6 +9,6 @@ set -o pipefail
 npm run build
 mvn clean install
 git add .
-git commit -m"release $VERSION.1"
+git commit -m"release $VERSION.2"
 git push heroku master
 git push origin master
