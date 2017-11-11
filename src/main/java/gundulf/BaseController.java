@@ -12,5 +12,13 @@ class BaseController {
         return "index.html";
     }
 
+    @RequestMapping("/products")
+    public String products() {
+        return "chef.html";
+    }
 
+    @RequestMapping("/orders")
+    public String orders() {
+        return "shop.html";
+    }
 }

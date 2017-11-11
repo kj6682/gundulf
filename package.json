@@ -1,6 +1,6 @@
 {
   "name": "gundulf",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "gundulf is a humble application entry point",
   "scripts": {
     "dev": "webpack-dev-server --progress",
@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "react": "^16.0.0",
+    "react-bootstrap": "^0.31.5",
     "react-dom": "^16.0.0",
     "react-modal": "^3.1.0"
   },

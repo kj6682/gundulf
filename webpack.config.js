@@ -12,10 +12,13 @@ module.exports = (env = {}) => {
 
 
     return {
-        entry: SRC_DIR + "/index.jsx",
+        entry: {
+            chef: SRC_DIR + "/chef/index.jsx",
+            shop:   SRC_DIR + "/shop/index.jsx",
+        },
         output: {
             path: TARGET_DIR,
-            filename: "bundle.js",
+            filename: "[name].bundle.js",
             publicPath: '/'
         },
         module: {

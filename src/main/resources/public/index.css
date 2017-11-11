@@ -104,7 +104,7 @@ table {
     border-radius: 4px;
     font-size: 16px;
     background-color: white;
-    background-image: url('/img/search.png');
+    background-image: url('/public/img/search.png');
     background-position: .5em 1em;
     background-repeat: no-repeat;
     background-size: 1.2em 1.2em;

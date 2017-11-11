@@ -1,6 +1,7 @@
 import React from 'react';
-var header = (process.env.NODE_ENV==='production')?require('../config.prod.json').header:require('../config.dev.json').header
-
+const isProduction = process.env.NODE_ENV==='production'
+var config = require('../config.json')
+var header = (isProduction)? config.prod.header : config.dev.header
 
 export default class Header extends React.Component {
 

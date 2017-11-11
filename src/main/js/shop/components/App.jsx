@@ -15,8 +15,8 @@ import {post} from './api/client.jsx'
 import {deleteObject} from './api/client.jsx'
 
 const isProduction = process.env.NODE_ENV==='production'
-var config = (isProduction)?require('../config.prod.json'):require('../config.dev.json')
-var api = config.api
+var config = require('../config.json')
+var api = (isProduction)? config.prod.api : config.dev.api
 
 const customStyles = {
     content: {
