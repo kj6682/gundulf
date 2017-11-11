@@ -94,13 +94,14 @@ class AddProduct extends React.Component {
                     controlId="name"
                     validationState={this.getValidationState('name')}
                 >
+                    <ControlLabel>Name :</ControlLabel>
                     <FormControl
                         type="text"
                         value={this.state.name}
                         placeholder={this.state.name}
                         onChange={this.handleChange}
                     />
-                    <FormControl.Feedback />
+                    <FormControl.Feedback/>
 
                 </FormGroup>
 
@@ -108,58 +109,62 @@ class AddProduct extends React.Component {
                     controlId="category"
                     validationState={this.getValidationState('category')}
                 >
+                    <ControlLabel>Category :</ControlLabel>
                     <FormControl
                         type="text"
                         value={this.state.category}
                         placeholder="Enter text"
                         onChange={this.handleChange}
                     />
-                    <FormControl.Feedback />
+                    <FormControl.Feedback/>
                 </FormGroup>
 
                 <FormGroup
                     controlId="producer"
                     validationState={this.getValidationState('producer')}
                 >
+                    <ControlLabel>Producer :</ControlLabel>
                     <FormControl
                         type="text"
                         value={this.state.producer}
                         placeholder="Enter text"
                         onChange={this.handleChange}
                     />
-                    <FormControl.Feedback />
+                    <FormControl.Feedback/>
                 </FormGroup>
 
                 <FormGroup
                     controlId="pieces"
                     validationState={this.getValidationStatePieces()}
                 >
+                    <ControlLabel>Number of pieces :</ControlLabel>
                     <FormControl
                         type="text"
                         value={this.state.pieces}
                         placeholder="Enter text"
                         onChange={this.handleChange}
                     />
-                    <FormControl.Feedback />
+                    <FormControl.Feedback/>
                 </FormGroup>
 
                 <FormGroup
                     controlId="created"
                     validationState={this.getValidationState('created')}
                 >
+                    <ControlLabel>Creation Date :</ControlLabel>
                     <FormControl
                         type="date"
                         value={this.state.created}
                         placeholder="Enter text"
                         onChange={this.handleChange}
                     />
-                    <FormControl.Feedback />
+                    <FormControl.Feedback/>
                 </FormGroup>
 
-                <Button  onClick={this.cancel}>
+                <Button onClick={this.cancel}>
                     Cancel
                 </Button>
-                <Button  bsStyle="primary"onClick={this.submit}>
+                <Button bsStyle="primary" onClick={this.submit}>
                     Add
                 </Button>
 
