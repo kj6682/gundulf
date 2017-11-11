@@ -22,7 +22,7 @@ class ItemList extends React.Component {
             <div>
                 {(this.props.items.length > 0) ?
 
-                    <Table striped bordered condensed hover>
+                    <Table responsive striped bordered condensed hover>
 
                     <tbody>
                         <tr>

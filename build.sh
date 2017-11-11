@@ -11,3 +11,4 @@ mvn clean install
 git add .
 git commit -m"release $VERSION.1"
 git push heroku master
+git push origin master

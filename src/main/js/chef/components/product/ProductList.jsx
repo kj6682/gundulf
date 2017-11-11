@@ -21,7 +21,7 @@ class ProductList extends React.Component {
         return (
             <div>
                 {(this.props.products.length > 0) ?
-                    <Table striped bordered condensed hover>
+                    <Table responsive striped bordered condensed hover>
                         <tbody>
                         <tr>
                             <th>Name</th>
