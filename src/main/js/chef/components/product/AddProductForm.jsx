@@ -1,49 +1,37 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import {FormGroup, ControlLabel, FormControl, HelpBlock, Button} from 'react-bootstrap';
+import {FormGroup, ControlLabel, FormControl, HelpBlock, Button, ButtonGroup} from 'react-bootstrap';
 
-const dummyProduct = {
-    "category": "category",
-    "created": "created",
-    "id": 0,
-    "name": "name",
-    "pieces": "pieces",
-    "producer": "producer",
-    "status": "string"
-}
 
 class AddProduct extends React.Component {
 
     constructor(props) {
         super(props)
 
-        this.state = dummyProduct;
+        this.state = {
+            "category": "",
+            "created": "0001-01-01",
+            "name": "",
+            "pieces": "",
+            "producer": "",
+        };
 
         this.handleChange = this.handleChange.bind(this)
         this.submit = this.submit.bind(this)
         this.cancel = this.cancel.bind(this)
-        this.defaultState = this.defaultState.bind(this)
         this.getValidationState = this.getValidationState.bind(this)
 
     }
 
     componentDidMount() {
-        if (this.props.product == null) {
-            this.setState(this.defaultState())
-        } else {
-            this.setState({
-                    name: this.props.product.name,
-                    category: this.props.product.category,
-                    pieces: this.props.product.pieces,
-                    producer: this.props.product.producer,
-                    created: this.props.product.created
-                }
-            )
-        }
-    }
-
-    defaultState() {
-        return dummyProduct
+        this.setState({
+                name: this.props.product.name,
+                category: this.props.product.category,
+                pieces: this.props.product.pieces,
+                producer: this.props.product.producer,
+                created: this.props.product.created
+            }
+        )
     }
 
 
@@ -63,12 +51,10 @@ class AddProduct extends React.Component {
             created: this.state.created
         }
         this.props.callbacks.add(newProduct)
-        this.setState(this.defaultState())
     }
 
     cancel(e) {
         this.props.callbacks.cancel();
-        this.setState(this.defaultState())
     }
 
     getValidationState(elem) {
@@ -88,6 +74,7 @@ class AddProduct extends React.Component {
     render() {
         return (
             <form>
+
                 <FormGroup
                     controlId="name"
                     validationState={this.getValidationState('name')}
@@ -159,19 +146,20 @@ class AddProduct extends React.Component {
                     <FormControl.Feedback/>
                 </FormGroup>
 
-                <Button onClick={this.cancel}>
-                    Cancel
-                </Button>
-                <Button bsStyle="primary" onClick={this.submit}>
-                    Add
-                </Button>
+                <ButtonGroup>
+                    <Button onClick={this.cancel}>
+                        Cancel
+                    </Button>
+                    <Button bsStyle="primary" onClick={this.submit}>
+                        Add
+                    </Button>
+                </ButtonGroup>
 
             </form>
         )
     }
 
 }
-
 
 AddProduct.propTypes = {
     products: PropTypes.object,

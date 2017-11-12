@@ -5,7 +5,7 @@ import Header from './Header.jsx';
 import SearchBar from './SearchBar.jsx';
 import ProductList from './product/ProductList.jsx';
 import AddProduct from './product/AddProduct.jsx';
-import ProductModal from './product/ProductModal.jsx';
+
 import AddProductForm from "./product/AddProductForm.jsx";
 
 import AddItem from "./item/AddItem.jsx";
@@ -45,7 +45,6 @@ class App extends React.Component {
         this.removeProduct = this.removeProduct.bind(this)
         this.search = this.search.bind(this)
 
-        this.open = this.open.bind(this)
         this.close = this.close.bind(this)
         this.cancel = this.cancel.bind(this)
     }
@@ -66,12 +65,6 @@ class App extends React.Component {
         this.setState({ show: false });
     }
 
-    open() {
-        console.log("open")
-        this.setState({ show: true });
-        console.log(this.state)
-        this.render()
-    }
 
     search(search4me) {
         var params = {name: [search4me]}
@@ -145,6 +138,10 @@ class App extends React.Component {
             product = {this.state.newProduct}
             callbacks={{add: this.addProduct, cancel:this.cancel}}/>
 
+        let addProductForm = <AddProductForm
+            product = {this.state.newProduct}
+            callbacks={{add: this.addProduct, cancel:this.cancel}}/>
+
         let itemList = <ItemList items={this.state.items}
                                  callbacks={{
                                      remove: this.removeItem,
@@ -155,10 +152,6 @@ class App extends React.Component {
                                        callbacks={{
                                            remove: this.removeProduct
                                        }}/>
-
-        let addProductForm = <AddProductForm
-            product = {this.state.newProduct}
-            callbacks={{add: this.addProduct, cancel:this.cancel}}/>
 
         return (
             <div className='container'>
@@ -191,13 +184,6 @@ class App extends React.Component {
                     </Panel>
                 </Accordion>
 
-                <Button
-                    bsStyle="primary"
-                    bsSize="large"
-                    onClick={this.open}
-                >
-                    Launch contained modal
-                </Button>
 
                 <Modal
                     show={this.state.show}
@@ -206,13 +192,13 @@ class App extends React.Component {
                     aria-labelledby="contained-modal-title"
                 >
                     <Modal.Header closeButton>
-                        <Modal.Title id="contained-modal-title">Contained Modal</Modal.Title>
+                        <Modal.Title id="contained-modal-title">Create a new product from the selected item</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         {addProductForm}
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={this.close}>Close</Button>
+
                     </Modal.Footer>
                 </Modal>
 
