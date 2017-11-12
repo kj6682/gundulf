@@ -2,19 +2,22 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import {FormGroup, ControlLabel, FormControl, HelpBlock, Button} from 'react-bootstrap';
 
+const dummyProduct = {
+    "category": "category",
+    "created": "created",
+    "id": 0,
+    "name": "name",
+    "pieces": "pieces",
+    "producer": "producer",
+    "status": "string"
+}
+
 class AddProduct extends React.Component {
 
     constructor(props) {
         super(props)
 
-        this.state = {
-            name: 'product',
-            category: 'category',
-            pieces: '1',
-            producer: 'producer',
-            created: '2017-07-13',
-            isChecked: false
-        }
+        this.state = dummyProduct;
 
         this.handleChange = this.handleChange.bind(this)
         this.submit = this.submit.bind(this)
@@ -40,13 +43,7 @@ class AddProduct extends React.Component {
     }
 
     defaultState() {
-        return {
-            name: 'product',
-            category: 'category',
-            pieces: '1',
-            producer: 'producer',
-            created: '2017-07-13'
-        }
+        return dummyProduct
     }
 
 
@@ -70,6 +67,7 @@ class AddProduct extends React.Component {
     }
 
     cancel(e) {
+        this.props.callbacks.cancel();
         this.setState(this.defaultState())
     }
 
