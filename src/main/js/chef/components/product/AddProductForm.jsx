@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {FormGroup, ControlLabel, FormControl, HelpBlock, Button, ButtonGroup} from 'react-bootstrap';
 
 
-class AddProduct extends React.Component {
+class AddProductForm extends React.Component {
 
     constructor(props) {
         super(props)
@@ -54,6 +54,7 @@ class AddProduct extends React.Component {
     }
 
     cancel(e) {
+        this.setState({product: this.props.product})
         this.props.callbacks.cancel();
     }
 
@@ -161,9 +162,9 @@ class AddProduct extends React.Component {
 
 }
 
-AddProduct.propTypes = {
-    products: PropTypes.object,
+AddProductForm.propTypes = {
+    product: PropTypes.object,
     callbacks: PropTypes.object.isRequired
 }
 
-export default AddProduct
+export default AddProductForm

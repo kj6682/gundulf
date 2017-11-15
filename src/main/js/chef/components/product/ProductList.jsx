@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Product from './Product.jsx';
+import AddProduct from './AddProduct.jsx';
 
 import { Table } from 'react-bootstrap';
 
@@ -10,6 +11,7 @@ class ProductList extends React.Component {
     }
 
     render() {
+
         var products = this.props.products.map(product =>
             <Product
                 key={product.id}
@@ -17,9 +19,16 @@ class ProductList extends React.Component {
                 callbacks={this.props.callbacks}/>
         );
 
+        let addProduct = <AddProduct
+            product = {this.props.product}
+            callbacks={this.props.callbacks}/>
+
 
         return (
             <div>
+
+                {addProduct}
+
                 {(this.props.products.length > 0) ?
                     <Table responsive striped bordered condensed hover>
                         <tbody>

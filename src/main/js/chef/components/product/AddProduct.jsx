@@ -16,7 +16,7 @@ class AddProduct extends React.Component {
 
         let addProductForm = <AddProductForm
             product={this.props.product}
-            callbacks={{add: this.props.callbacks.add}}/>
+            callbacks={this.props.callbacks}/>
 
         return (
             <div>

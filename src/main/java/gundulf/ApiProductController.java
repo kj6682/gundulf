@@ -45,5 +45,13 @@ class ApiProductController {
         apiBouncer.delete(products + "/" + id);
     }
 
+    @GetMapping("/products/{producer}")
+    ResponseEntity<String> listByProducer(@PathVariable String producer,
+                                @RequestParam(value = "page", defaultValue = "0") int page,
+                                @RequestParam(value = "size", defaultValue = "0") int size){
+
+        return apiBouncer.get(products+"/" + producer);
+
+    }
 
 }//:)

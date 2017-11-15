@@ -36,7 +36,12 @@ class App extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {products: [], items: [], search4me: '', newProduct: dummyProduct, show: false};
+        this.state = {products: [],
+                      items: [],
+                      search4me: '',
+                      newProduct: dummyProduct,
+                      show: false,
+                      producer: ''};
 
         this.selectItem = this.selectItem.bind(this)
         this.addProduct = this.addProduct.bind(this)
@@ -47,15 +52,18 @@ class App extends React.Component {
 
         this.close = this.close.bind(this)
         this.cancel = this.cancel.bind(this)
+
+        this.selectProducer = this.selectProducer.bind(this)
     }
 
     componentDidMount() {
         var params = {}
 
+/*
         get(api.products, params).then((data) => {
             this.setState({products: data});
         });
-
+*/
         get(api.items, params).then((data) => {
             this.setState({items: data});
         });
@@ -69,9 +77,11 @@ class App extends React.Component {
     search(search4me) {
         var params = {name: [search4me]}
         this.setState({search4me: search4me})
-        getByName(api.products, params).then((data) => {
+
+         getByName(api.products, params).then((data) => {
             this.setState({products: data});
         });
+
         getByName(api.items, params).then((data) => {
             this.setState({items: data});
         });
@@ -88,8 +98,10 @@ class App extends React.Component {
             "status": "string"
         })
 
-        post(api.products, newProduct).then(() => get(api.products, {page: 0}).then((data) => {
-            this.setState({products: data, show: false, newProduct:dummyProduct});
+        var dummy = dummyProduct
+        dummy.producer = this.state.producer
+        post(api.products, newProduct).then(() => get(api.products, {producer: this.state.producer, page: 0}).then((data) => {
+            this.setState({products: data, show: false, newProduct:dummy});
         }));
     }
 
@@ -126,6 +138,16 @@ class App extends React.Component {
     }
 
 
+    selectProducer(producer){
+        var product = this.state.newProduct
+        product.producer = producer
+        this.setState({producer: producer, newProduct: product});
+
+        get(api.products, {producer: producer}).then((data) => {
+            this.setState({products: data});
+        });
+    }
+
     render() {
 
         let searchBar = <SearchBar search4me={this.state.search4me}
@@ -134,9 +156,6 @@ class App extends React.Component {
         let addItem = <AddItem
             callbacks={{add: this.addItem}}/>
 
-        let addProduct = <AddProduct
-            product = {this.state.newProduct}
-            callbacks={{add: this.addProduct, cancel:this.cancel}}/>
 
         let addProductForm = <AddProductForm
             product = {this.state.newProduct}
@@ -149,7 +168,10 @@ class App extends React.Component {
                                  }}/>
 
         let productList = <ProductList products={this.state.products}
+                                       product = {this.state.newProduct}
                                        callbacks={{
+                                           add: this.addProduct,
+                                           cancel:this.cancel,
                                            remove: this.removeProduct
                                        }}/>
 
@@ -165,7 +187,7 @@ class App extends React.Component {
                 </Jumbotron>
 
 
-                <Accordion defaultActiveKey="2">
+                <Accordion defaultActiveKey="1">
                     <Panel header="Base Products" eventKey="1">
 
                         {addItem}
@@ -174,14 +196,24 @@ class App extends React.Component {
 
 
                     </Panel>
-                    <Panel header="Commercial Products" eventKey="2">
-
-
-                        {addProduct}
+                    <Panel header="All Commercial Products" eventKey="" onSelect={this.selectProducer}>
 
                         {productList}
 
                     </Panel>
+
+                    <Panel header="Four" eventKey="Four" onSelect={this.selectProducer}>
+
+                        {productList}
+
+                    </Panel>
+
+                    <Panel header="Cake" eventKey="Cake" onSelect={this.selectProducer}>
+
+                        {productList}
+
+                    </Panel>
+
                 </Accordion>
 
 
