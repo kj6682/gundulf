@@ -3,7 +3,7 @@
 # use this PROD script to prepare the release of the bundle
 #
 export VERSION="1.1.0"
-export BUILD="3"
+export BUILD="4"
 set -e
 set -o pipefail
 
