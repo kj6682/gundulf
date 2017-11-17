@@ -1,217 +1,154 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Modal from 'react-modal';
 
 import Header from './Header.jsx';
 import SearchBar from './SearchBar.jsx';
 import ProductList from './product/ProductList.jsx';
-import AddProduct from './product/AddProduct.jsx';
-import ItemList from './item/ItemList.jsx';
-import AddItem from "./item/AddItem.jsx";
-
+import OrderForm from './order/OrderForm.jsx'
 import {get} from './api/client.jsx'
 import {getByName} from './api/client.jsx'
-import {post} from './api/client.jsx'
-import {deleteObject} from './api/client.jsx'
 
-const isProduction = process.env.NODE_ENV==='production'
+import {Accordion, Panel, Jumbotron, Button, Modal, FormGroup} from 'react-bootstrap';
+
+const isProduction = process.env.NODE_ENV === 'production'
 var config = require('../config.json')
-var api = (isProduction)? config.prod.api : config.dev.api
-
-const customStyles = {
-    content: {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)'
-    }
-};
+var api = (isProduction) ? config.prod.api : config.dev.api
 
 
 class App extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {products: [], items: [], search4me: '', modalIsOpen: false, newProduct : ''};
+        this.state = {
+            products: [],
+            items: [],
+            search4me: '',
+            show: false,
+            producer: '',
+            product: ''
+        };
 
-        this.selectItem = this.selectItem.bind(this)
-        this.addProduct = this.addProduct.bind(this)
-        this.addItem = this.addItem.bind(this)
-        this.removeItem = this.removeItem.bind(this)
-        this.removeProduct = this.removeProduct.bind(this)
         this.search = this.search.bind(this)
-
-        this.openModal = this.openModal.bind(this);
-        this.afterOpenModal = this.afterOpenModal.bind(this);
-        this.closeModal = this.closeModal.bind(this);
-
+        this.selectProducer = this.selectProducer.bind(this)
+        this.openModal = this.openModal.bind(this)
+        this.closeModal = this.closeModal.bind(this)
+        this.createOrder = this.createOrder.bind(this)
     }
 
     componentDidMount() {
-        /*var params = {
-            size: '2',
-            page: '2'
-        };*/
-        var params = {}
-
-        get(api.products, params).then((data) => {
-            this.setState({products: data});
-        });
-
-        get(api.items, params).then((data) => {
-            this.setState({items: data});
-        });
+      this.setState({today: new Date().toISOString().slice(0,10)})
     }
+
 
     search(search4me) {
         var params = {name: [search4me]}
         this.setState({search4me: search4me})
+
         getByName(api.products, params).then((data) => {
             this.setState({products: data});
         });
-        getByName(api.items, params).then((data) => {
-            this.setState({items: data});
+
+    }
+
+    selectProducer(producer) {
+
+        this.setState({producer: producer});
+
+        get(api.products, {producer: producer}).then((data) => {
+            this.setState({products: data});
         });
     }
 
-    addProduct(product) {
-        var newProduct = JSON.stringify({
-            "category": product.category,
-            "created": product.created,
-            "id": 0,
-            "name": product.name,
-            "pieces": product.pieces,
-            "producer": product.producer,
-            "status": "string"
-        })
-
-        post(api.products, newProduct).then(() => get(api.products, {page: 0}).then((data) => {
-            this.setState({products: data});
-        }));
-    }
-
-    addItem(item) {
-        var newItem = JSON.stringify({
-            "category": item.category,
-            "id": 0,
-            "name": item.name,
-            "producer": item.producer
-        })
-        post(api.items, newItem).then(() => get(api.items, {page: 0}).then((data) => {
-            this.setState({items: data});
-        }));
-    }
-
-    removeProduct(id) {
-        deleteObject(api.products, id).then(() => get(api.products, {page: 0}).then((data) => {
-            this.setState({products: data});
-        }));
-    }
-
-    removeItem(id) {
-        deleteObject(api.items, id).then(() => get(api.items, {page: 0}).then((data) => {
-            this.setState({items: data});
-        }));
-    }
-
-    selectItem(item) {
-        console.log(item)
-    }
-
-    openModal(item) {
-        this.setState({modalIsOpen: true, newProduct: item});
-    }
-
-    afterOpenModal() {
-        // references are now sync'd and can be accessed.
-        //this.subtitle.style.color = '#f00';
+    openModal(product) {
+        this.setState({product: product, show: true});
     }
 
     closeModal() {
-        this.setState({modalIsOpen: false});
+        this.setState({show: false});
+    }
+
+    createOrder(order){
+        console.log('create order name ' + order.name)
+        console.log('create order cate ' + order.category)
+        console.log('create order prod ' + order.producer)
+        console.log('create order piec ' + order.pieces)
+        console.log('create order quan ' + order.quantity)
+        console.log('create order date ' + order.date)
+        this.closeModal()
     }
 
     render() {
 
-        let comp_addItem = <AddItem
-            callbacks={{add: this.addItem}}/>
+        let searchBar = <SearchBar search4me={this.state.search4me}
+                                   callbacks={{onUserInput: this.search}}/>
 
-        let comp_addProduct = <AddProduct
-            isOpen={this.state.modalIsOpen}
-            onAfterOpen={this.afterOpenModal}
-            onRequestClose={this.closeModal}
-            product = {this.state.newProduct}
-            callbacks={{add:this.addProduct, close:this.closeModal}}/>
 
-        let comp_searchBar = <SearchBar search4me={this.state.search4me}
-                                        callbacks={{onUserInput: this.search}}/>
+        let productList = <ProductList products={this.state.products}
+                                       product={this.state.newProduct}
+                                       callbacks={{
+                                           select: this.openModal
+                                       }}/>
 
-        let comp_itemList = <ItemList items={this.state.items}
-                                      callbacks={{
-                                          remove: this.removeItem,
-                                          select: this.openModal
-                                      }}/>
+        let modal = <Modal show={this.state.show}
+                           onHide={this.closeModal}
+                           container={this}
+                           aria-labelledby="contained-modal-title"
+        >
+            <Modal.Header closeButton>
+                <Modal.Title id="contained-modal-title">{this.state.product.producer}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <h1>{this.state.product.name} {this.state.product.pieces}</h1>
+                <OrderForm
+                    name={this.state.product.name}
+                    category={this.state.product.category}
+                    producer={this.state.product.producer}
+                    pieces={this.state.product.pieces}
+                    quantity={'0'}
+                    date= {this.state.today}
+                    callbacks={{add: this.createOrder,
+                                       cancel:this.closeModal}}/>
+            </Modal.Body>
+            <Modal.Footer>
 
-        let comp_productList = <ProductList products={this.state.products}
-                                            callbacks={{
-                                                remove: this.removeProduct
-                                            }}/>
-
+            </Modal.Footer>
+        </Modal>
 
         return (
             <div className='container'>
 
-                <div className="header col-4">
+                <Jumbotron>
+
                     <Header/>
-                    {comp_searchBar}
-                    <p></p>
 
-                </div>
+                    {searchBar}
 
-                <div className="container col-8">
-
-                    <div className="container col-12">
-                        <h2>Base Products</h2>
-
-                        <div className="main col-10">
-                            {comp_itemList}
-                        </div>
-                        <div className="col-2">
-                            {comp_addItem}
-                        </div>
-
-                    </div>
-
-                    <div className="container col-4">
-                        <h2>Commercial Products
-                            <button onClick={this.openModal}>+</button>
-                        </h2>
-
-                        <div className=" col-1">
-                            <p className="smalltext"></p>
-                        </div>
-                        <div className="main col-10">
-                            {comp_productList}
-                        </div>
-                        <div className=" col-1">
-                            <p className="smalltext"></p>
-                        </div>
-                    </div>
-                </div>
+                </Jumbotron>
 
 
-                <Modal
-                    isOpen={this.state.modalIsOpen}
-                    onAfterOpen={this.afterOpenModal}
-                    onRequestClose={this.closeModal}
-                    style={customStyles}
-                    contentLabel="Add New Product"
-                >
-                    {comp_addProduct}
+                <Accordion defaultActiveKey="1">
 
-                </Modal>
+                    <Panel header="My orders" eventKey="" onSelect={this.selectProducer}>
+
+                        <h1>my orders</h1>
+
+                    </Panel>
+
+                    <Panel header="Four" eventKey="Four" onSelect={this.selectProducer}>
+
+                        {productList}
+
+                    </Panel>
+
+                    <Panel header="Cake" eventKey="Cake" onSelect={this.selectProducer}>
+
+                        {productList}
+
+                    </Panel>
+
+                </Accordion>
+
+                {modal}
 
 
             </div>

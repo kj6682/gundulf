@@ -1,16 +1,16 @@
 {
   "dev": {
     "app": {
-      "description": "This is the Application description that sucks"
+      "description": "This is the Application description that is not so good"
     },
     "header": {
-      "title": "gundulf of chatham",
-      "caption": "this is a simple responsive application to manage the product catalog",
-      "description": "the application lists all the products and allow the lab manager to create or delete items"
+      "title": "gundulf of chatam",
+      "caption": "this is a simple responsive application to manage the orders",
+      "description": "the application lists all the products by producer and allows the shop to create or delete orders"
     },
     "api": {
       "products": "http://localhost:8080/api/products",
-      "items": "http://localhost:8080/api/items"
+      "items": "http://localhost:8080/api/orders"
     }
   },
   "prod": {
@@ -18,13 +18,13 @@
       "description": "This is the text above the list of results and this really rocks"
     },
     "header": {
-      "title": "gundulf",
-      "caption": "this is a simple responsive application to manage the product catalog",
-      "description": "the application lists all the products and allow the lab manager to create or delete items"
+      "title": "gundulf and orders",
+      "caption": "this is a simple responsive application to manage the orders",
+      "description": "the application lists all the products by producer and allows the shop to create or delete orders"
     },
     "api": {
       "products": "https://gundulf.herokuapp.com/api/products",
-      "items": "https://gundulf.herokuapp.com/api/items"
+      "items": "https://gundulf.herokuapp.com/api/orders"
     }
   }
 }

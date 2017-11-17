@@ -1,7 +1,10 @@
 
 export function get(endpoint, params){
     var  query = ''
-    
+    if(params.producer){
+       query = '/' + params.producer
+    }
+
     if(params.page){
         var esc = encodeURIComponent;
         query = Object.keys(params)
