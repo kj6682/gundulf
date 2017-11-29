@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"/>
+
+</head>
+<body>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    var name = [[${name}]];
+    function producerName() {
+        return name;
+    }
+    /*]]>*/
+</script>
+<div id='app'>
+</div>
+<script src="/chef.bundle.js"></script>
+</body>
+</html>

@@ -1,7 +1,9 @@
 package gundulf;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 class BaseController {
@@ -13,23 +15,26 @@ class BaseController {
     }
 
     @RequestMapping("/four")
-    public String oven() {
-        return "four/chef.html";
+    public String oven(@RequestParam(value="name", required=false, defaultValue="Four") String name, Model model) {
+        model.addAttribute("name", name);
+        return "chef";
     }
 
     @RequestMapping("/entremets")
-    public String dessert() {
-        return "entremets/chef.html";
+    public String dessert(@RequestParam(value="name", required=false, defaultValue="Entremets") String name, Model model) {
+        model.addAttribute("name", name);
+        return "chef";
     }
-
     @RequestMapping("/tartes")
-    public String cakes() {
-        return "tartes/chef.html";
+    public String cakes(@RequestParam(value="name", required=false, defaultValue="Tartes") String name, Model model) {
+        model.addAttribute("name", name);
+        return "chef";
     }
 
     @RequestMapping("/chocolat")
-    public String chocolat() {
-        return "chocolat/chef.html";
+    public String chocolat(@RequestParam(value="name", required=false, defaultValue="Chocolat") String name, Model model) {
+        model.addAttribute("name", name);
+        return "chef";
     }
 
     @RequestMapping("/orders")
