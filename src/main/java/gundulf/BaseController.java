@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 class BaseController {
 
 
+
     @RequestMapping("/")
-    public String index() {
-        return "index.html";
+    public String main(@RequestParam(value="name", required=false, defaultValue="") String name, Model model) {
+        model.addAttribute("name", name);
+        return "chef";
     }
 
     @RequestMapping("/four")

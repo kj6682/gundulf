@@ -175,6 +175,9 @@ class App extends React.Component {
                                            remove: this.removeProduct
                                        }}/>
 
+        let producer = producerName();
+        let headerLabel = (!producer || !producer.length)?"All":producer
+        headerLabel = headerLabel + " Commercial Products"
         return (
             <div className='container'>
 
@@ -196,19 +199,8 @@ class App extends React.Component {
 
 
                     </Panel>
-                    <Panel header="All Commercial Products" eventKey="" onSelect={this.selectProducer}>
 
-                        {productList}
-
-                    </Panel>
-
-                    <Panel header="Four" eventKey="Four" onSelect={this.selectProducer}>
-
-                        {productList}
-
-                    </Panel>
-
-                    <Panel header="Cake" eventKey="Cake" onSelect={this.selectProducer}>
+                    <Panel header={headerLabel} eventKey={producer} onSelect={this.selectProducer}>
 
                         {productList}
 

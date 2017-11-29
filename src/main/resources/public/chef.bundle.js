@@ -40188,6 +40188,10 @@ var App = function (_React$Component) {
                     remove: this.removeProduct
                 } });
 
+            var producer = producerName();
+            var name = !producer || !producer.length ? "All" : producer;
+            console.log(">" + producer + "<");
+            console.log(">" + name + "<");
             return _react2.default.createElement(
                 'div',
                 { className: 'container' },
@@ -40208,17 +40212,7 @@ var App = function (_React$Component) {
                     ),
                     _react2.default.createElement(
                         _reactBootstrap.Panel,
-                        { header: 'All Commercial Products', eventKey: '', onSelect: this.selectProducer },
-                        productList
-                    ),
-                    _react2.default.createElement(
-                        _reactBootstrap.Panel,
-                        { header: 'Four', eventKey: 'Four', onSelect: this.selectProducer },
-                        productList
-                    ),
-                    _react2.default.createElement(
-                        _reactBootstrap.Panel,
-                        { header: 'Cake', eventKey: 'Cake', onSelect: this.selectProducer },
+                        { header: name, eventKey: producer, onSelect: this.selectProducer },
                         productList
                     )
                 ),
