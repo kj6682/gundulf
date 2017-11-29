@@ -3,7 +3,7 @@
 # use this PROD script to prepare the release of the bundle
 #
 export VERSION="1.1.0"
-export BUILD="4"
+export BUILD="5"
 set -e
 set -o pipefail
 
@@ -11,5 +11,7 @@ npm run build
 mvn clean install
 git add .
 git commit -m"release $VERSION.$BUILD"
+git tag -a $VERSION.$BUILD -m "$VERSION.$BUILD"
 git push heroku master
 git push origin master
+git push origin --tags
