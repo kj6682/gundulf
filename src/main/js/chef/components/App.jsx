@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import Header from './Header.jsx';
+import Header from './header/Header.jsx';
 import SearchBar from './SearchBar.jsx';
 import ProductList from './product/ProductList.jsx';
 import AddProduct from './product/AddProduct.jsx';
@@ -19,7 +19,7 @@ import {deleteObject} from './api/client.jsx'
 import {Navbar, Nav, NavItem, NavDropdown, MenuItem, Accordion, Panel, Jumbotron, Button,Modal} from 'react-bootstrap';
 
 const isProduction = process.env.NODE_ENV === 'production'
-var config = require('../config.json')
+var config = require('./config.json')
 var api = (isProduction) ? config.prod.api : config.dev.api
 
 const dummyProduct = {

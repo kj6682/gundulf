@@ -1,0 +1,14 @@
+{
+  "dev": {
+    "api": {
+      "products": "http://localhost:8080/api/products",
+      "items": "http://localhost:8080/api/items"
+    }
+  },
+  "prod": {
+    "api": {
+      "products": "https://gundulf.herokuapp.com/api/products",
+      "items": "https://gundulf.herokuapp.com/api/items"
+    }
+  }
+}

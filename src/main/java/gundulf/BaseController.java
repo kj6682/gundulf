@@ -12,9 +12,24 @@ class BaseController {
         return "index.html";
     }
 
-    @RequestMapping("/products")
-    public String products() {
-        return "chef.html";
+    @RequestMapping("/four")
+    public String oven() {
+        return "four/chef.html";
+    }
+
+    @RequestMapping("/entremets")
+    public String dessert() {
+        return "entremets/chef.html";
+    }
+
+    @RequestMapping("/tartes")
+    public String cakes() {
+        return "tartes/chef.html";
+    }
+
+    @RequestMapping("/chocolat")
+    public String chocolat() {
+        return "chocolat/chef.html";
     }
 
     @RequestMapping("/orders")
