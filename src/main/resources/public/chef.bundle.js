@@ -39722,7 +39722,7 @@ var AddProductForm = function (_React$Component) {
             "category": "",
             "created": "0001-01-01",
             "name": "",
-            "pieces": "",
+            "pieces": "1",
             "producer": ""
         };
 
@@ -39739,7 +39739,6 @@ var AddProductForm = function (_React$Component) {
         value: function componentDidMount() {
             this.setState({
                 name: this.props.product.name,
-                category: this.props.product.category,
                 pieces: this.props.product.pieces,
                 producer: this.props.product.producer,
                 created: this.props.product.created
@@ -39756,7 +39755,7 @@ var AddProductForm = function (_React$Component) {
         value: function submit(e) {
             var newProduct = {
                 name: this.state.name,
-                category: this.state.category,
+                category: '',
                 pieces: this.state.pieces,
                 producer: this.state.producer,
                 created: this.state.created
@@ -39804,44 +39803,6 @@ var AddProductForm = function (_React$Component) {
                         type: 'text',
                         value: this.state.name,
                         placeholder: this.state.name,
-                        onChange: this.handleChange
-                    }),
-                    _react2.default.createElement(_reactBootstrap.FormControl.Feedback, null)
-                ),
-                _react2.default.createElement(
-                    _reactBootstrap.FormGroup,
-                    {
-                        controlId: 'category',
-                        validationState: this.getValidationState('category')
-                    },
-                    _react2.default.createElement(
-                        _reactBootstrap.ControlLabel,
-                        null,
-                        'Category :'
-                    ),
-                    _react2.default.createElement(_reactBootstrap.FormControl, {
-                        type: 'text',
-                        value: this.state.category,
-                        placeholder: 'Enter text',
-                        onChange: this.handleChange
-                    }),
-                    _react2.default.createElement(_reactBootstrap.FormControl.Feedback, null)
-                ),
-                _react2.default.createElement(
-                    _reactBootstrap.FormGroup,
-                    {
-                        controlId: 'producer',
-                        validationState: this.getValidationState('producer')
-                    },
-                    _react2.default.createElement(
-                        _reactBootstrap.ControlLabel,
-                        null,
-                        'Producer :'
-                    ),
-                    _react2.default.createElement(_reactBootstrap.FormControl, {
-                        type: 'text',
-                        value: this.state.producer,
-                        placeholder: 'Enter text',
                         onChange: this.handleChange
                     }),
                     _react2.default.createElement(_reactBootstrap.FormControl.Feedback, null)
@@ -40004,7 +39965,7 @@ var dummyProduct = {
     "id": 0,
     "name": "name",
     "pieces": "pieces",
-    "producer": "producer",
+    "producer": producer,
     "status": "string"
 };
 
@@ -40033,7 +39994,7 @@ var App = function (_React$Component) {
         _this.close = _this.close.bind(_this);
         _this.cancel = _this.cancel.bind(_this);
 
-        _this.selectProducer = _this.selectProducer.bind(_this);
+        _this.showProducts = _this.showProducts.bind(_this);
         return _this;
     }
 
@@ -40083,15 +40044,13 @@ var App = function (_React$Component) {
                 "id": 0,
                 "name": product.name,
                 "pieces": product.pieces,
-                "producer": product.producer,
+                "producer": producer,
                 "status": "string"
             });
 
-            var dummy = dummyProduct;
-            dummy.producer = this.state.producer;
             (0, _client.post)(api.products, newProduct).then(function () {
                 return (0, _client.get)(api.products, { producer: _this4.state.producer, page: 0 }).then(function (data) {
-                    _this4.setState({ products: data, show: false, newProduct: dummy });
+                    _this4.setState({ products: data, show: false, newProduct: dummyProduct });
                 });
             });
         }
@@ -40145,13 +40104,9 @@ var App = function (_React$Component) {
             this.setState({ newProduct: dummyProduct, show: false });
         }
     }, {
-        key: 'selectProducer',
-        value: function selectProducer() {
+        key: 'showProducts',
+        value: function showProducts() {
             var _this8 = this;
-
-            var product = this.state.newProduct;
-            product.producer = producer;
-            this.setState({ producer: producer, newProduct: product });
 
             (0, _client.get)(api.products, { producer: producer }).then(function (data) {
                 _this8.setState({ products: data });
@@ -40185,9 +40140,6 @@ var App = function (_React$Component) {
                     remove: this.removeProduct
                 } });
 
-            var producer = window.proxy.producer;
-            var headerLabel = !producer || !producer.length ? "All" : producer;
-            headerLabel = headerLabel + " Commercial Products";
             return _react2.default.createElement(
                 'div',
                 { className: 'container' },
@@ -40208,7 +40160,7 @@ var App = function (_React$Component) {
                     ),
                     _react2.default.createElement(
                         _reactBootstrap.Panel,
-                        { header: headerLabel, eventKey: producer, onSelect: this.selectProducer },
+                        { header: producer + " Commercial Products", eventKey: producer, onSelect: this.showProducts },
                         productList
                     )
                 ),
@@ -40482,11 +40434,6 @@ var ProductList = function (_React$Component) {
                             _react2.default.createElement(
                                 'th',
                                 null,
-                                'Category           '
-                            ),
-                            _react2.default.createElement(
-                                'th',
-                                null,
                                 'Pieces             '
                             ),
                             _react2.default.createElement(
@@ -40575,11 +40522,6 @@ var Product = function (_Component) {
                     'td',
                     null,
                     this.props.product.name
-                ),
-                _react2.default.createElement(
-                    'td',
-                    null,
-                    this.props.product.category
                 ),
                 _react2.default.createElement(
                     'td',

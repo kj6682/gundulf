@@ -12,7 +12,7 @@ class AddProductForm extends React.Component {
             "category": "",
             "created": "0001-01-01",
             "name": "",
-            "pieces": "",
+            "pieces": "1",
             "producer": "",
         };
 
@@ -26,7 +26,6 @@ class AddProductForm extends React.Component {
     componentDidMount() {
         this.setState({
                 name: this.props.product.name,
-                category: this.props.product.category,
                 pieces: this.props.product.pieces,
                 producer: this.props.product.producer,
                 created: this.props.product.created
@@ -45,7 +44,7 @@ class AddProductForm extends React.Component {
     submit(e) {
         let newProduct = {
             name: this.state.name,
-            category: this.state.category,
+            category: '',
             pieces: this.state.pieces,
             producer: this.state.producer,
             created: this.state.created
@@ -91,33 +90,6 @@ class AddProductForm extends React.Component {
 
                 </FormGroup>
 
-                <FormGroup
-                    controlId="category"
-                    validationState={this.getValidationState('category')}
-                >
-                    <ControlLabel>Category :</ControlLabel>
-                    <FormControl
-                        type="text"
-                        value={this.state.category}
-                        placeholder="Enter text"
-                        onChange={this.handleChange}
-                    />
-                    <FormControl.Feedback/>
-                </FormGroup>
-
-                <FormGroup
-                    controlId="producer"
-                    validationState={this.getValidationState('producer')}
-                >
-                    <ControlLabel>Producer :</ControlLabel>
-                    <FormControl
-                        type="text"
-                        value={this.state.producer}
-                        placeholder="Enter text"
-                        onChange={this.handleChange}
-                    />
-                    <FormControl.Feedback/>
-                </FormGroup>
 
                 <FormGroup
                     controlId="pieces"

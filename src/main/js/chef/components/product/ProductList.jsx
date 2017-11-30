@@ -34,7 +34,6 @@ class ProductList extends React.Component {
                         <tbody>
                         <tr>
                             <th>Name</th>
-                            <th>Category           </th>
                             <th>Pieces             </th>
                             <th>Producer           </th>
                             <th></th>

@@ -27,7 +27,7 @@ const dummyProduct = {
     "id": 0,
     "name": "name",
     "pieces": "pieces",
-    "producer": "producer",
+    "producer": producer,
     "status": "string"
 }
 
@@ -52,7 +52,7 @@ class App extends React.Component {
         this.close = this.close.bind(this)
         this.cancel = this.cancel.bind(this)
 
-        this.selectProducer = this.selectProducer.bind(this)
+        this.showProducts = this.showProducts.bind(this)
     }
 
     componentWillMount(){
@@ -91,14 +91,12 @@ class App extends React.Component {
             "id": 0,
             "name": product.name,
             "pieces": product.pieces,
-            "producer": product.producer,
+            "producer": producer,
             "status": "string"
         })
 
-        var dummy = dummyProduct
-        dummy.producer = this.state.producer
         post(api.products, newProduct).then(() => get(api.products, {producer: this.state.producer, page: 0}).then((data) => {
-            this.setState({products: data, show: false, newProduct:dummy});
+            this.setState({products: data, show: false, newProduct:dummyProduct});
         }));
     }
 
@@ -135,10 +133,7 @@ class App extends React.Component {
     }
 
 
-    selectProducer(){
-        var product = this.state.newProduct
-        product.producer = producer
-        this.setState({producer: producer, newProduct: product});
+    showProducts(){
 
         get(api.products, {producer: producer}).then((data) => {
             this.setState({products: data});
@@ -172,9 +167,6 @@ class App extends React.Component {
                                            remove: this.removeProduct
                                        }}/>
 
-        let producer = window.proxy.producer;
-        let headerLabel = (!producer || !producer.length)?"All":producer
-        headerLabel = headerLabel + " Commercial Products"
         return (
             <div className='container'>
 
@@ -197,7 +189,7 @@ class App extends React.Component {
 
                     </Panel>
 
-                    <Panel header={headerLabel} eventKey={producer} onSelect={this.selectProducer}>
+                    <Panel header={producer + " Commercial Products"} eventKey={producer} onSelect={this.showProducts}>
 
                         {productList}
 

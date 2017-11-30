@@ -16,7 +16,6 @@ class Product extends Component {
     render() {
         return (<tr>
                   <td>{this.props.product.name}</td>
-                  <td>{this.props.product.category}</td>
                   <td>{this.props.product.pieces}</td>
                   <td>{this.props.product.producer}</td>
                   <td>
