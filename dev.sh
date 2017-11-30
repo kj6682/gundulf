@@ -3,6 +3,11 @@
 #
 # use this DEV script to fully build the bundle with dev config
 export VERSION="1.1.0"
+export PROXY_PRODUCTS="http://localhost:8080/api/products"
+export PROXY_ITEMS="http://localhost:8080/api/items"
+export API_PRODUCTS="http://localhost:9000/api/products"
+export API_ITEMS="http://localhost:9000/api/items"
+
 set -e
 set -o pipefail
 

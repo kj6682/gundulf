@@ -12,7 +12,7 @@ class ApiProductController {
     @Autowired
     ApiBouncer apiBouncer;
 
-    @Value("${api.products}")
+    @Value("${API_PRODUCTS}")
     private String products;
 
 
@@ -36,7 +36,6 @@ class ApiProductController {
         return apiBouncer.post(products, product);
 
     }
-
 
 
     @DeleteMapping(value = "/products/{id}")

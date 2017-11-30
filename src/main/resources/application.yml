@@ -12,9 +12,6 @@ spring:
   profiles: dev
 server:
   port: 8080
-api:
-  products: "http://localhost:9000/api/products"
-  items: "http://localhost:9000/api/items"
 ---
 spring:
   profiles: heroku

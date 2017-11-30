@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 301);
+/******/ 	return __webpack_require__(__webpack_require__.s = 300);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -39590,8 +39590,7 @@ module.exports = { "dev": { "app": { "description": "This is the Application des
 /* 297 */,
 /* 298 */,
 /* 299 */,
-/* 300 */,
-/* 301 */
+/* 300 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39603,7 +39602,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactDom = __webpack_require__(12);
 
-var _App = __webpack_require__(302);
+var _App = __webpack_require__(301);
 
 var _App2 = _interopRequireDefault(_App);
 
@@ -39612,7 +39611,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 (0, _reactDom.render)(_react2.default.createElement(_App2.default, null), document.getElementById('app'));
 
 /***/ }),
-/* 302 */
+/* 301 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39632,23 +39631,23 @@ var _propTypes = __webpack_require__(6);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _Header = __webpack_require__(303);
+var _Header = __webpack_require__(302);
 
 var _Header2 = _interopRequireDefault(_Header);
 
-var _SearchBar = __webpack_require__(304);
+var _SearchBar = __webpack_require__(303);
 
 var _SearchBar2 = _interopRequireDefault(_SearchBar);
 
-var _ProductList = __webpack_require__(305);
+var _ProductList = __webpack_require__(304);
 
 var _ProductList2 = _interopRequireDefault(_ProductList);
 
-var _OrderForm = __webpack_require__(307);
+var _OrderForm = __webpack_require__(306);
 
 var _OrderForm2 = _interopRequireDefault(_OrderForm);
 
-var _client = __webpack_require__(308);
+var _client = __webpack_require__(307);
 
 var _reactBootstrap = __webpack_require__(24);
 
@@ -39838,7 +39837,7 @@ App.propTypes = {
 exports.default = App;
 
 /***/ }),
-/* 303 */
+/* 302 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39911,7 +39910,7 @@ var Header = function (_React$Component) {
 exports.default = Header;
 
 /***/ }),
-/* 304 */
+/* 303 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39975,7 +39974,7 @@ SearchBar.propTypes = {
 exports.default = SearchBar;
 
 /***/ }),
-/* 305 */
+/* 304 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39995,7 +39994,7 @@ var _propTypes = __webpack_require__(6);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _Product = __webpack_require__(306);
+var _Product = __webpack_require__(305);
 
 var _Product2 = _interopRequireDefault(_Product);
 
@@ -40081,7 +40080,7 @@ ProductList.propTypes = {
 exports.default = ProductList;
 
 /***/ }),
-/* 306 */
+/* 305 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40181,7 +40180,7 @@ Product.propTypes = {
 exports.default = Product;
 
 /***/ }),
-/* 307 */
+/* 306 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40356,7 +40355,7 @@ OrderForm.propTypes = {
 exports.default = OrderForm;
 
 /***/ }),
-/* 308 */
+/* 307 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

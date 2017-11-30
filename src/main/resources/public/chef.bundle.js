@@ -39995,9 +39995,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var isProduction = "dev" === 'production';
-var config = __webpack_require__(300);
-var api = isProduction ? config.prod.api : config.dev.api;
+var api = window.proxy.api;
+var producer = window.proxy.producer;
 
 var dummyProduct = {
     "category": "category",
@@ -40022,7 +40021,7 @@ var App = function (_React$Component) {
             search4me: '',
             newProduct: dummyProduct,
             show: false,
-            producer: '' };
+            producer: producer };
 
         _this.selectItem = _this.selectItem.bind(_this);
         _this.addProduct = _this.addProduct.bind(_this);
@@ -40039,17 +40038,15 @@ var App = function (_React$Component) {
     }
 
     _createClass(App, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {}
+    }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
             var _this2 = this;
 
             var params = {};
 
-            /*
-                    get(api.products, params).then((data) => {
-                        this.setState({products: data});
-                    });
-            */
             (0, _client.get)(api.items, params).then(function (data) {
                 _this2.setState({ items: data });
             });
@@ -40149,7 +40146,7 @@ var App = function (_React$Component) {
         }
     }, {
         key: 'selectProducer',
-        value: function selectProducer(producer) {
+        value: function selectProducer() {
             var _this8 = this;
 
             var product = this.state.newProduct;
@@ -40188,10 +40185,9 @@ var App = function (_React$Component) {
                     remove: this.removeProduct
                 } });
 
-            var producer = producerName();
-            var name = !producer || !producer.length ? "All" : producer;
-            console.log(">" + producer + "<");
-            console.log(">" + name + "<");
+            var producer = window.proxy.producer;
+            var headerLabel = !producer || !producer.length ? "All" : producer;
+            headerLabel = headerLabel + " Commercial Products";
             return _react2.default.createElement(
                 'div',
                 { className: 'container' },
@@ -40212,7 +40208,7 @@ var App = function (_React$Component) {
                     ),
                     _react2.default.createElement(
                         _reactBootstrap.Panel,
-                        { header: name, eventKey: producer, onSelect: this.selectProducer },
+                        { header: headerLabel, eventKey: producer, onSelect: this.selectProducer },
                         productList
                     )
                 ),
@@ -40281,6 +40277,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var isProduction = "dev" === 'production';
 var config = __webpack_require__(291);
+var name = window.proxy.producer;
 
 var Header = function (_React$Component) {
     _inherits(Header, _React$Component);
@@ -40294,7 +40291,7 @@ var Header = function (_React$Component) {
     _createClass(Header, [{
         key: 'render',
         value: function render() {
-            var title = config.title + " " + producerName();
+            var title = config.title + " " + name;
             return _react2.default.createElement(
                 'div',
                 null,
@@ -41148,6 +41145,9 @@ function get(endpoint, params) {
         query = '?' + query;
     }
 
+    console.log('in get');
+    console.log(endpoint);
+
     return fetch(endpoint + query).then(function (response) {
         return response.json();
     }).catch(function (err) {
@@ -41184,15 +41184,6 @@ function deleteObject(endpoint, id) {
         console.log(err);
     });
 }
-
-/***/ }),
-/* 300 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = { "dev": { "api": { "products": "http://localhost:8080/api/products", "items": "http://localhost:8080/api/items" } }, "prod": { "api": { "products": "https://gundulf.herokuapp.com/api/products", "items": "https://gundulf.herokuapp.com/api/items" } } };
 
 /***/ })
 /******/ ]);

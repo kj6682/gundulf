@@ -12,7 +12,7 @@ class ApiItemController {
     @Autowired
     ApiBouncer apiBouncer;
 
-    @Value("${api.items}")
+    @Value("${API_ITEMS}")
     private String items;
 
 

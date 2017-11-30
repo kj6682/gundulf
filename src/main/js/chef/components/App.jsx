@@ -18,9 +18,8 @@ import {deleteObject} from './api/client.jsx'
 
 import {Navbar, Nav, NavItem, NavDropdown, MenuItem, Accordion, Panel, Jumbotron, Button,Modal} from 'react-bootstrap';
 
-const isProduction = process.env.NODE_ENV === 'production'
-var config = require('./config.json')
-var api = (isProduction) ? config.prod.api : config.dev.api
+const api = window.proxy.api;
+const producer = window.proxy.producer;
 
 const dummyProduct = {
     "category": "category",
@@ -41,7 +40,7 @@ class App extends React.Component {
                       search4me: '',
                       newProduct: dummyProduct,
                       show: false,
-                      producer: ''};
+                      producer: producer};
 
         this.selectItem = this.selectItem.bind(this)
         this.addProduct = this.addProduct.bind(this)
@@ -56,14 +55,12 @@ class App extends React.Component {
         this.selectProducer = this.selectProducer.bind(this)
     }
 
+    componentWillMount(){
+
+    }
     componentDidMount() {
         var params = {}
 
-/*
-        get(api.products, params).then((data) => {
-            this.setState({products: data});
-        });
-*/
         get(api.items, params).then((data) => {
             this.setState({items: data});
         });
@@ -138,7 +135,7 @@ class App extends React.Component {
     }
 
 
-    selectProducer(producer){
+    selectProducer(){
         var product = this.state.newProduct
         product.producer = producer
         this.setState({producer: producer, newProduct: product});
@@ -175,7 +172,7 @@ class App extends React.Component {
                                            remove: this.removeProduct
                                        }}/>
 
-        let producer = producerName();
+        let producer = window.proxy.producer;
         let headerLabel = (!producer || !producer.length)?"All":producer
         headerLabel = headerLabel + " Commercial Products"
         return (

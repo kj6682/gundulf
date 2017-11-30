@@ -1,5 +1,6 @@
 package gundulf;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,33 +10,40 @@ import org.springframework.web.bind.annotation.RequestParam;
 class BaseController {
 
 
+    @Value("${PROXY_PRODUCTS}")
+    private String proxyProducts;
+
+    @Value("${PROXY_ITEMS}")
+    private String proxyItems;
 
     @RequestMapping("/")
-    public String main(@RequestParam(value="name", required=false, defaultValue="") String name, Model model) {
-        model.addAttribute("name", name);
-        return "chef";
+    public String main(Model model) {
+        return "index";
     }
 
     @RequestMapping("/four")
-    public String oven(@RequestParam(value="name", required=false, defaultValue="Four") String name, Model model) {
-        model.addAttribute("name", name);
-        return "chef";
+    public String oven(Model model) {
+        return getModel("Four", model);
     }
 
     @RequestMapping("/entremets")
-    public String dessert(@RequestParam(value="name", required=false, defaultValue="Entremets") String name, Model model) {
-        model.addAttribute("name", name);
-        return "chef";
+    public String dessert( Model model) {
+        return getModel("Entremets", model);
     }
     @RequestMapping("/tartes")
-    public String cakes(@RequestParam(value="name", required=false, defaultValue="Tartes") String name, Model model) {
-        model.addAttribute("name", name);
-        return "chef";
+    public String cakes(Model model) {
+        return getModel("Tartes", model);
     }
 
     @RequestMapping("/chocolat")
-    public String chocolat(@RequestParam(value="name", required=false, defaultValue="Chocolat") String name, Model model) {
-        model.addAttribute("name", name);
+    public String chocolat(Model model) {
+        return getModel("Chocolat", model);
+    }
+
+    private String getModel(String producer, Model model) {
+        model.addAttribute("producer", producer);
+        model.addAttribute("proxyProducts", proxyProducts);
+        model.addAttribute("proxyItems", proxyItems);
         return "chef";
     }
 
