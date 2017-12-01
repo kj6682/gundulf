@@ -77,7 +77,7 @@ class App extends React.Component {
             "status": "string"
         })
 
-        post(api.products, newProduct).then(() => get(api.products, {producer: this.state.producer, page: 0}).then((data) => {
+        post(api.products, newProduct).then(() => get(api.products + '/' + producer, { page: 0 }).then((data) => {
             this.setState({products: data, show: false, newProduct:dummyProduct});
         }));
     }
