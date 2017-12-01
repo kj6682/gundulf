@@ -30,6 +30,7 @@ class BaseController {
     public String dessert( Model model) {
         return getModel("Entremets", model);
     }
+
     @RequestMapping("/tartes")
     public String cakes(Model model) {
         return getModel("Tartes", model);

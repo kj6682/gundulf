@@ -30,6 +30,12 @@ class ApiProductController {
         return apiBouncer.get(products + "/search?name=" + name);
     }
 
+    @GetMapping("/products/search/{producer}")
+    ResponseEntity<String>  search(@PathVariable(required = true) String producer, @RequestParam(value = "name", defaultValue = "") String name) {
+
+        return apiBouncer.get(products + "/search/"+ producer + "?name=" + name);
+    }
+
     @PostMapping(value = "/products")
     ResponseEntity<?> create(@RequestBody String product) {
 

@@ -4,10 +4,15 @@ import PropTypes from 'prop-types';
 import Header from './header/Header.jsx';
 import SearchBar from './SearchBar.jsx';
 import ProductList from './product/ProductList.jsx';
+import AddProduct from './product/AddProduct.jsx';
 
 import AddProductForm from "./product/AddProductForm.jsx";
 
+import AddItem from "./item/AddItem.jsx";
+import ItemList from './item/ItemList.jsx';
+
 import {get} from './api/client.jsx'
+import {getByName} from './api/client.jsx'
 import {post} from './api/client.jsx'
 import {deleteObject} from './api/client.jsx'
 
@@ -31,25 +36,33 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {products: [],
+                      items: [],
                       search4me: '',
                       newProduct: dummyProduct,
                       show: false,
                       producer: producer};
 
+        this.selectItem = this.selectItem.bind(this)
         this.addProduct = this.addProduct.bind(this)
+        this.addItem = this.addItem.bind(this)
+        this.removeItem = this.removeItem.bind(this)
         this.removeProduct = this.removeProduct.bind(this)
         this.search = this.search.bind(this)
 
         this.close = this.close.bind(this)
         this.cancel = this.cancel.bind(this)
 
-        this.getProducts = this.getProducts.bind(this)
+        this.showProducts = this.showProducts.bind(this)
     }
 
-    componentDidMount() {
+    componentWillMount(){
 
-        get(api.products +'/' + producer /*, { page:2, size:3 }*/ ).then((data) => {
-            this.setState({products: data});
+    }
+    componentDidMount() {
+        var params = {}
+
+        get(api.items, params).then((data) => {
+            this.setState({items: data});
         });
     }
 
@@ -59,10 +72,15 @@ class App extends React.Component {
 
 
     search(search4me) {
+        var params = {name: [search4me]}
         this.setState({search4me: search4me})
 
-         get(api.products + '/search/' + producer, {name: [search4me]}).then((data) => {
+         getByName(api.products, params).then((data) => {
             this.setState({products: data});
+        });
+
+        getByName(api.items, params).then((data) => {
+            this.setState({items: data});
         });
     }
 
@@ -82,19 +100,40 @@ class App extends React.Component {
         }));
     }
 
+    addItem(item) {
+        var newItem = JSON.stringify({
+            "category": item.category,
+            "id": 0,
+            "name": item.name,
+            "producer": item.producer
+        })
+        post(api.items, newItem).then(() => get(api.items, {page: 0}).then((data) => {
+            this.setState({items: data});
+        }));
+    }
+
     removeProduct(id) {
         deleteObject(api.products, id).then(() => get(api.products, {page: 0}).then((data) => {
             this.setState({products: data});
         }));
     }
 
+    removeItem(id) {
+        deleteObject(api.items, id).then(() => get(api.items, {page: 0}).then((data) => {
+            this.setState({items: data});
+        }));
+    }
+
+    selectItem(item) {
+        this.setState({newProduct: item, show: true});
+    }
 
     cancel(item) {
         this.setState({newProduct: dummyProduct, show: false});
     }
 
 
-    getProducts(){
+    showProducts(){
 
         get(api.products, {producer: producer}).then((data) => {
             this.setState({products: data});
@@ -106,10 +145,19 @@ class App extends React.Component {
         let searchBar = <SearchBar search4me={this.state.search4me}
                                    callbacks={{onUserInput: this.search}}/>
 
+        let addItem = <AddItem
+            callbacks={{add: this.addItem}}/>
+
 
         let addProductForm = <AddProductForm
             product = {this.state.newProduct}
             callbacks={{add: this.addProduct, cancel:this.cancel}}/>
+
+        let itemList = <ItemList items={this.state.items}
+                                 callbacks={{
+                                     remove: this.removeItem,
+                                     select: this.selectItem
+                                 }}/>
 
         let productList = <ProductList products={this.state.products}
                                        product = {this.state.newProduct}
@@ -131,9 +179,17 @@ class App extends React.Component {
                 </Jumbotron>
 
 
-                <Accordion defaultActiveKey={producer}>
+                <Accordion defaultActiveKey="1">
+                    <Panel header="Base Products" eventKey="1">
 
-                    <Panel header={producer + " Commercial Products"} eventKey={producer} onSelect={this.getProducts}>
+                        {addItem}
+
+                        {itemList}
+
+
+                    </Panel>
+
+                    <Panel header={producer + " Commercial Products"} eventKey={producer} onSelect={this.showProducts}>
 
                         {productList}
 

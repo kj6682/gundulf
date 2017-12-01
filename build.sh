@@ -3,7 +3,11 @@
 # use this PROD script to prepare the release of the bundle
 #
 export VERSION="1.1.0"
-export BUILD="5"
+
+COUNTER_FILE="count.tmp"
+BUILD=`cat $COUNTER_FILE`
+((BUILD++))
+
 set -e
 set -o pipefail
 
@@ -15,3 +19,4 @@ git tag -a $VERSION.$BUILD -m "$VERSION.$BUILD"
 git push heroku master
 git push origin master
 git push origin --tags
+echo $BUILD > $COUNTER_FILE
