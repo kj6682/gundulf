@@ -15,48 +15,35 @@ class ApiProductController {
     @Value("${API_PRODUCTS}")
     private String products;
 
-
-    @GetMapping("/products")
-    ResponseEntity<String> list(@RequestParam(value = "page", defaultValue = "0") int page,
-                                @RequestParam(value = "size", defaultValue = "0") int size){
-
-        return apiBouncer.get(products);
-
-    }
-
-    @GetMapping("/products/search")
-    ResponseEntity<String>  search(@RequestParam(value = "name", defaultValue = "") String name) {
-
-        return apiBouncer.get(products + "/search?name=" + name);
-    }
-
-    @GetMapping("/products/search/{producer}")
-    ResponseEntity<String>  search(@PathVariable(required = true) String producer, @RequestParam(value = "name", defaultValue = "") String name) {
-
-        return apiBouncer.get(products + "/search/"+ producer + "?name=" + name);
-    }
-
-    @PostMapping(value = "/products")
-    ResponseEntity<?> create(@RequestBody String product) {
-
-        return apiBouncer.post(products, product);
-
-    }
-
-
-    @DeleteMapping(value = "/products/{id}")
-    void delete(@PathVariable(required = true) Long id) {
-
-        apiBouncer.delete(products + "/" + id);
-    }
-
     @GetMapping("/products/{producer}")
     ResponseEntity<String> listByProducer(@PathVariable String producer,
                                 @RequestParam(value = "page", defaultValue = "0") int page,
                                 @RequestParam(value = "size", defaultValue = "0") int size){
 
-        return apiBouncer.get(products+"/" + producer);
+        return apiBouncer.get(products +"/"+ producer);
 
+    }
+
+    @GetMapping("/products/{producer}/search")
+    ResponseEntity<String>  search(@PathVariable(required = true) String producer,
+                                   @RequestParam(value = "name", defaultValue = "") String name) {
+
+        return apiBouncer.get(products +"/"+ producer +"/search?name=" + name);
+    }
+
+    @PostMapping(value = "/products/{producer}")
+    ResponseEntity<?> create(@PathVariable String producer,
+                             @RequestBody String product) {
+
+        return apiBouncer.post(products +"/"+ producer, product);
+
+    }
+
+    @DeleteMapping(value = "/products/{producer}/{id}")
+    void delete(@PathVariable String producer,
+                @PathVariable(required = true) Long id) {
+
+        apiBouncer.delete(products +"/"+ producer +"/"+ id);
     }
 
 }//:)

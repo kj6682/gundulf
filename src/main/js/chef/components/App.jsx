@@ -11,7 +11,7 @@ import {get} from './api/client.jsx'
 import {post} from './api/client.jsx'
 import {deleteObject} from './api/client.jsx'
 
-import {Navbar, Nav, NavItem, NavDropdown, MenuItem, Accordion, Panel, Jumbotron, Button,Modal} from 'react-bootstrap';
+import {Navbar, Nav, NavItem, NavDropdown, MenuItem, Accordion, Panel, Jumbotron, Button, Modal} from 'react-bootstrap';
 
 const api = window.proxy.api;
 const producer = window.proxy.producer;
@@ -30,11 +30,13 @@ class App extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {products: [],
-                      search4me: '',
-                      newProduct: dummyProduct,
-                      show: false,
-                      producer: producer};
+        this.state = {
+            products: [],
+            search4me: '',
+            newProduct: dummyProduct,
+            show: false,
+            producer: producer
+        };
 
         this.addProduct = this.addProduct.bind(this)
         this.removeProduct = this.removeProduct.bind(this)
@@ -48,20 +50,20 @@ class App extends React.Component {
 
     componentDidMount() {
 
-        get(api.products +'/' + producer /*, { page:2, size:3 }*/ ).then((data) => {
+        get(api.products, producer /*, { page:2, size:3 }*/).then((data) => {
             this.setState({products: data});
         });
     }
 
     close() {
-        this.setState({ show: false });
+        this.setState({show: false});
     }
 
 
     search(search4me) {
         this.setState({search4me: search4me})
 
-         get(api.products + '/search/' + producer, {name: [search4me]}).then((data) => {
+        get(api.products, producer + '/search', {name: [search4me]}).then((data) => {
             this.setState({products: data});
         });
     }
@@ -77,13 +79,17 @@ class App extends React.Component {
             "status": "string"
         })
 
-        post(api.products, newProduct).then(() => get(api.products + '/' + producer, { page: 0 }).then((data) => {
-            this.setState({products: data, show: false, newProduct:dummyProduct});
-        }));
+        post(api.products, producer, newProduct).then(
+            () => get(api.products, producer, {page: 0}).then(
+                (data) => {
+                    this.setState({products: data, show: false, newProduct: dummyProduct});
+                }
+            )
+        );
     }
 
     removeProduct(id) {
-        deleteObject(api.products, id).then(() => get(api.products, {page: 0}).then((data) => {
+        deleteObject(api.products, producer, id).then(() => get(api.products, producer, {page: 0}).then((data) => {
             this.setState({products: data});
         }));
     }
@@ -94,7 +100,7 @@ class App extends React.Component {
     }
 
 
-    getProducts(){
+    getProducts() {
 
         get(api.products, {producer: producer}).then((data) => {
             this.setState({products: data});
@@ -108,14 +114,14 @@ class App extends React.Component {
 
 
         let addProductForm = <AddProductForm
-            product = {this.state.newProduct}
-            callbacks={{add: this.addProduct, cancel:this.cancel}}/>
+            product={this.state.newProduct}
+            callbacks={{add: this.addProduct, cancel: this.cancel}}/>
 
         let productList = <ProductList products={this.state.products}
-                                       product = {this.state.newProduct}
+                                       product={this.state.newProduct}
                                        callbacks={{
                                            add: this.addProduct,
-                                           cancel:this.cancel,
+                                           cancel: this.cancel,
                                            remove: this.removeProduct
                                        }}/>
 
@@ -149,7 +155,8 @@ class App extends React.Component {
                     aria-labelledby="contained-modal-title"
                 >
                     <Modal.Header closeButton>
-                        <Modal.Title id="contained-modal-title">Create a new product from the selected item</Modal.Title>
+                        <Modal.Title id="contained-modal-title">Create a new product from the selected
+                            item</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         {addProductForm}

@@ -1,4 +1,4 @@
-export function get(endpoint, params) {
+export function get(endpoint, producer, params) {
 
     var query = ''
 
@@ -10,9 +10,9 @@ export function get(endpoint, params) {
     }
 
     console.log('in get')
-    console.log(endpoint + query)
+    console.log(endpoint +'/'+ producer + query)
 
-    return fetch(endpoint + query)
+    return fetch(endpoint +'/'+ producer + query)
         .then((response) => response.json())
         .catch(err => {
             console.log(err);
@@ -20,8 +20,8 @@ export function get(endpoint, params) {
 }
 
 
-export function post(endpoint, item) {
-    return fetch(endpoint, {
+export function post(endpoint, producer, item) {
+    return fetch(endpoint +'/'+ producer, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -31,8 +31,8 @@ export function post(endpoint, item) {
     })
 }
 
-export function deleteObject(endpoint, id) {
-    return fetch(endpoint + '/' + id, {method: 'DELETE',})
+export function deleteObject(endpoint, producer, id) {
+    return fetch(endpoint +'/'+ producer + '/' + id, {method: 'DELETE',})
         .catch(err => {
             console.log(err);
         });
