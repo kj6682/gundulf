@@ -40508,9 +40508,6 @@ function get(endpoint, producer, params) {
         }).join('&');
     }
 
-    console.log('in get');
-    console.log(endpoint + '/' + producer + query);
-
     return fetch(endpoint + '/' + producer + query).then(function (response) {
         return response.json();
     }).catch(function (err) {
