@@ -3,12 +3,14 @@ package gundulf;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.ObjectCodec;
+import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -31,27 +33,22 @@ class ApiOrderController {
     @Value("${API_PRODUCTS}")
     private String products;
 
-    @GetMapping("/orders/to/{producer}")
-    ResponseEntity<String> prepareOrderList(@PathVariable String producer,
+    @GetMapping("/orders/from/{shop}/to/{producer}")
+    ResponseEntity<String> prepareOrderList(@PathVariable String shop,
+                                            @PathVariable String producer,
                                             @RequestParam(value = "page", defaultValue = "0") int page,
                                             @RequestParam(value = "size", defaultValue = "0") int size) {
 
 
         try {
-            String jsonProds = apiBouncer.get(products + "/" + producer).getBody();
 
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            List<Order> listOrds = getOrders(producer);
 
-            List<Order> listProds = objectMapper.readValue(jsonProds, new TypeReference<List<Order>>() {});
-            listProds.stream().forEach(System.out::println);
+            List<Order> listProds = getOrdersFromProducts(producer);
 
-            String jsonOrders = apiBouncer.get(orders + "/to/" + producer).getBody();
-            List<Order> listOrds = objectMapper.readValue(jsonOrders, new TypeReference<List<Order>>() {});
-            listOrds.stream().forEach(System.out::println);
+            listOrds.addAll(listProds);
 
-
-            ResponseEntity response = new ResponseEntity(listProds.addAll(listOrds), HttpStatus.OK);
+            ResponseEntity response = new ResponseEntity(listOrds, HttpStatus.OK);
             return response;
         } catch (Exception e) {
             System.out.println("dd");
@@ -59,6 +56,26 @@ class ApiOrderController {
 
 
         return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+    }
+
+    private List<Order> getOrdersFromProducts(@PathVariable String producer) throws IOException {
+        SimpleModule module = new SimpleModule(ProductDeserializer.class.getName(), new Version(1, 0, 0, null, null, null));
+        module.addDeserializer(Order.class, new ProductDeserializer());
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        objectMapper.registerModule(module);
+
+        String jsonProds = apiBouncer.get(products + "/" + producer).getBody();
+        return objectMapper.readValue(jsonProds, new TypeReference<List<Order>>() {});
+    }
+
+    private List<Order> getOrders(@PathVariable String producer) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        String jsonOrders = apiBouncer.get(orders + "/to/" + producer).getBody();
+        return objectMapper.readValue(jsonOrders, new TypeReference<List<Order>>() {});
     }
 
 

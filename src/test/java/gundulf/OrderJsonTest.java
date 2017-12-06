@@ -55,19 +55,14 @@ public class OrderJsonTest {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-
         SimpleModule module = new SimpleModule(ApiOrderController.ProductDeserializer.class.getName(), new Version(1, 0, 0, null, null, null));
         module.addDeserializer(ApiOrderController.Order.class, new ApiOrderController.ProductDeserializer());
         objectMapper.registerModule(module);
 
         String jsonProductArray = new String(Files.readAllBytes(jsonOne.toPath()));
 
-
         ApiOrderController.Order one = objectMapper.readValue(jsonProductArray, ApiOrderController.Order.class);
-        System.out.println(one);
-
-
-
+        assertThat(one.equals("Order{id=46, product='millefoglie', pieces=1, producer='Four'}"));
 
     }
 
