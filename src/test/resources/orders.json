@@ -31,5 +31,27 @@
     "quantity": 10,
     "shop": "Luxembourg",
     "status": "NEW"
+  },
+  {
+    "created" : "2017-12-03",
+    "deadline": "2017-12-08",
+    "executed": 0,
+    "pieces": 2,
+    "producer": "Four",
+    "product": "Baba",
+    "quantity": 10,
+    "shop": "Luxembourg",
+    "status": "NEW"
+  },
+  {
+    "created" : "2017-12-03",
+    "deadline": "2017-12-08",
+    "executed": 0,
+    "pieces": 2,
+    "producer": "Four",
+    "product": "Baba",
+    "quantity": 15,
+    "shop": "Paris",
+    "status": "NEW"
   }
 ]
