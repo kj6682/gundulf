@@ -51,7 +51,27 @@ class ApiOrderController {
             ResponseEntity response = new ResponseEntity(listOrds, HttpStatus.OK);
             return response;
         } catch (Exception e) {
-            System.out.println("dd");
+            System.out.println("something went wrong here");
+        }
+
+
+        return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/orders/to/{producer}")
+    ResponseEntity<String> prepareOrderList(@PathVariable String producer,
+                                            @RequestParam(value = "page", defaultValue = "0") int page,
+                                            @RequestParam(value = "size", defaultValue = "0") int size) {
+
+
+        try {
+
+            List<Order> listOrds = getOrders(producer);
+
+            ResponseEntity response = new ResponseEntity(listOrds, HttpStatus.OK);
+            return response;
+        } catch (Exception e) {
+            System.out.println("something went wrong here");
         }
 
 

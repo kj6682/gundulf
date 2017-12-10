@@ -14,7 +14,7 @@ module.exports = (env = {}) => {
     return {
         entry: {
             chef: SRC_DIR + "/chef/index.jsx",
-            shop:  SRC_DIR + "/shop/index.jsx",
+            shop: SRC_DIR + "/shop/index.jsx",
         },
         output: {
             path: TARGET_DIR,
@@ -26,12 +26,21 @@ module.exports = (env = {}) => {
                 {
                     test: /\.jsx?/,
                     include: SRC_DIR,
+                    exclude: /node_modules/,
                     loader: 'babel-loader'
                 },
                 {
                     test: /\.json$/,
                     loader: "json-loader"
                 },
+                {
+                    test: /\.css$/,
+                    loader: "style-loader!css-loader"
+                },
+                {
+                    test: /\.(eot|svg|ttf|woff|woff2)$/,
+                    loader: 'file-loader?name=fonts/[name].[ext]'
+                }
             ]
         },
         plugins: (function () {

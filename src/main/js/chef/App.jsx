@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import Header from './header/Header.jsx';
-import SearchBar from './SearchBar.jsx';
-import ProductList from './product/ProductList.jsx';
+import Header from './components/Header.jsx';
+import SearchBar from './components/SearchBar.jsx';
+import ProductList from './components/ProductList.jsx';
+import OrderList from './components/OrderList.jsx';
 
-import AddProductForm from "./product/AddProductForm.jsx";
+import AddProductForm from "./components/AddProductForm.jsx";
 
 import {get} from './api/client.jsx'
 import {post} from './api/client.jsx'
@@ -32,6 +33,7 @@ class App extends React.Component {
         super(props);
         this.state = {
             products: [],
+            orders: [],
             search4me: '',
             newProduct: dummyProduct,
             show: false,
@@ -46,12 +48,12 @@ class App extends React.Component {
         this.cancel = this.cancel.bind(this)
 
         this.getProducts = this.getProducts.bind(this)
+        this.getOrders = this.getOrders.bind(this)
     }
 
-    componentDidMount() {
-
-        get(api.products, producer /*, { page:2, size:3 }*/).then((data) => {
-            this.setState({products: data});
+    componentWillMount() {
+        get(api.orders+"/to", producer /*, { page:2, size:3 }*/).then((data) => {
+            this.setState({orders: data});
         });
     }
 
@@ -64,8 +66,11 @@ class App extends React.Component {
         this.setState({search4me: search4me})
 
         get(api.products, producer + '/search', {name: [search4me]}).then((data) => {
+
             this.setState({products: data});
         });
+
+
     }
 
     addProduct(product) {
@@ -102,13 +107,18 @@ class App extends React.Component {
 
     getProducts() {
 
-        get(api.products, {producer: producer}).then((data) => {
+        get(api.products, producer /*, { page:2, size:3 }*/).then((data) => {
             this.setState({products: data});
         });
     }
 
-    render() {
+    getOrders() {
+        get(api.orders+"/to", producer /*, { page:2, size:3 }*/).then((data) => {
+            this.setState({orders: data});
+        });
+    }
 
+    render() {
         let searchBar = <SearchBar search4me={this.state.search4me}
                                    callbacks={{onUserInput: this.search}}/>
 
@@ -125,6 +135,8 @@ class App extends React.Component {
                                            remove: this.removeProduct
                                        }}/>
 
+        let orderList = <OrderList orders={this.state.orders}/>
+
         return (
             <div className='container'>
 
@@ -137,11 +149,18 @@ class App extends React.Component {
                 </Jumbotron>
 
 
-                <Accordion defaultActiveKey={producer}>
+                <Accordion defaultActiveKey="orders">
 
-                    <Panel header={producer + " Commercial Products"} eventKey={producer} onSelect={this.getProducts}>
+                    <Panel header={producer + " Commercial Products"} eventKey="products" onSelect={this.getProducts}>
 
                         {productList}
+
+                    </Panel>
+
+
+                    <Panel header={producer + " Orders"} eventKey="orders" onSelect={this.getOrders}>
+
+                        {orderList}
 
                     </Panel>
 

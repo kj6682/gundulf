@@ -8,7 +8,7 @@ export function get(endpoint, producer, params) {
             .map(k => esc(k) + '=' + esc(params[k]))
             .join('&');
     }
-
+    console.log(endpoint +'/'+ producer + query)
     return fetch(endpoint +'/'+ producer + query)
         .then((response) => response.json())
         .catch(err => {

@@ -16,6 +16,9 @@ class BaseController {
     @Value("${PROXY_ITEMS}")
     private String proxyItems;
 
+    @Value("${PROXY_ORDERS}")
+    private String proxyOrders;
+
     @RequestMapping("/")
     public String main(Model model) {
         return "index";
@@ -45,7 +48,8 @@ class BaseController {
         model.addAttribute("producer", producer);
         model.addAttribute("proxyProducts", proxyProducts);
         model.addAttribute("proxyItems", proxyItems);
-        return "chef";
+        model.addAttribute("proxyOrders", proxyOrders);
+        return "chef/index";
     }
 
     @RequestMapping("/orders")
