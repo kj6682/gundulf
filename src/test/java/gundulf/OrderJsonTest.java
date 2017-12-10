@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.autoconfigure.json.JsonTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.ResourceUtils;
 
@@ -40,7 +39,7 @@ public class OrderJsonTest {
     public void serialise() throws Exception{
 
         ObjectMapper objectMapper = new ObjectMapper();
-        ApiOrderController.Order order =  new ApiOrderController.Order();
+        Order order =  new Order();
         order.setId((long)0);
         order.setProduct("millefoglie");
         order.setPieces((short)10);
@@ -56,12 +55,12 @@ public class OrderJsonTest {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         SimpleModule module = new SimpleModule(ApiOrderController.ProductDeserializer.class.getName(), new Version(1, 0, 0, null, null, null));
-        module.addDeserializer(ApiOrderController.Order.class, new ApiOrderController.ProductDeserializer());
+        module.addDeserializer(Order.class, new ApiOrderController.ProductDeserializer());
         objectMapper.registerModule(module);
 
         String jsonProductArray = new String(Files.readAllBytes(jsonOne.toPath()));
 
-        ApiOrderController.Order one = objectMapper.readValue(jsonProductArray, ApiOrderController.Order.class);
+        Order one = objectMapper.readValue(jsonProductArray, Order.class);
         assertThat(one.equals("Order{id=46, product='millefoglie', pieces=1, producer='Four'}"));
 
     }
@@ -77,7 +76,7 @@ public class OrderJsonTest {
         System.out.println(jsonProductArray);
 
 
-        List<ApiOrderController.Order> listProds = objectMapper.readValue(jsonProductArray, new TypeReference<List<ApiOrderController.Order>>(){});
+        List<Order> listProds = objectMapper.readValue(jsonProductArray, new TypeReference<List<Order>>(){});
         listProds.stream().forEach(System.out::println);
     }
 }
