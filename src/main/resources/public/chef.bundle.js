@@ -40585,17 +40585,27 @@ var OrderList = function (_React$Component) {
                             _react2.default.createElement(
                                 'th',
                                 null,
-                                'Producer'
-                            ),
-                            _react2.default.createElement(
-                                'th',
-                                null,
                                 'Product             '
                             ),
                             _react2.default.createElement(
                                 'th',
                                 null,
                                 'Pieces             '
+                            ),
+                            _react2.default.createElement(
+                                'th',
+                                null,
+                                'Quantity             '
+                            ),
+                            _react2.default.createElement(
+                                'th',
+                                null,
+                                'deadline             '
+                            ),
+                            _react2.default.createElement(
+                                'th',
+                                null,
+                                'Shop             '
                             ),
                             _react2.default.createElement('th', null)
                         ),
@@ -40676,17 +40686,27 @@ var Order = function (_Component) {
                 _react2.default.createElement(
                     'td',
                     null,
-                    this.props.order.producer
-                ),
-                _react2.default.createElement(
-                    'td',
-                    null,
                     this.props.order.product
                 ),
                 _react2.default.createElement(
                     'td',
                     null,
                     this.props.order.pieces
+                ),
+                _react2.default.createElement(
+                    'td',
+                    null,
+                    this.props.order.quantity
+                ),
+                _react2.default.createElement(
+                    'td',
+                    null,
+                    this.props.order.deadline
+                ),
+                _react2.default.createElement(
+                    'td',
+                    null,
+                    this.props.order.shop
                 ),
                 _react2.default.createElement(
                     'td',
