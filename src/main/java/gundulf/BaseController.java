@@ -54,6 +54,6 @@ class BaseController {
 
     @RequestMapping("/orders")
     public String orders() {
-        return "shop.html";
+        return "shop";
     }
 }

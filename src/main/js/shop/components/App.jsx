@@ -146,6 +146,18 @@ class App extends React.Component {
 
                     </Panel>
 
+                    <Panel header="entremtes" eventKey="Entremets" onSelect={this.selectProducer}>
+
+                        {productList}
+
+                    </Panel>
+
+                    <Panel header="chocolat" eventKey="Chocolats" onSelect={this.selectProducer}>
+
+                        {productList}
+
+                    </Panel>
+
                 </Accordion>
 
                 {modal}

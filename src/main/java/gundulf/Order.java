@@ -8,55 +8,6 @@ import org.kj6682.commons.LocalDateSerializer;
 
 import java.time.LocalDate;
 
-/*
-    @GetMapping("/orders/from/{shop}/to/{producer}")
-    ResponseEntity<String> prepareOrderList(@PathVariable String shop,
-                                            @PathVariable String producer,
-                                            @RequestParam(value = "page", defaultValue = "0") int page,
-                                            @RequestParam(value = "size", defaultValue = "0") int size) {
-
-
-        try {
-
-            List<Order> listOrds = getOrders(producer);
-
-            List<Order> listProds = getOrdersFromProducts(producer);
-
-            listOrds.addAll(listProds);
-
-            ResponseEntity response = new ResponseEntity(listOrds, HttpStatus.OK);
-            return response;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-        return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-    }
-
-
-
-    private List<Order> getOrdersFromProducts(@PathVariable String producer) throws IOException {
-        SimpleModule module = new SimpleModule(ProductDeserializer.class.getName(), new Version(1, 0, 0, null, null, null));
-        module.addDeserializer(Order.class, new ProductDeserializer());
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-        objectMapper.registerModule(module);
-
-        String jsonProds = apiBouncer.get(products + "/" + producer).getBody();
-        return objectMapper.readValue(jsonProds, new TypeReference<List<Order>>() {});
-    }
-
-    private List<Order> getOrders(@PathVariable String producer) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-        String jsonOrders = apiBouncer.get(orders + "/to/" + producer).getBody();
-        return objectMapper.readValue(jsonOrders, new TypeReference<List<Order>>() {});
-    }
-
-*/
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 class Order {

@@ -39827,6 +39827,16 @@ var App = function (_React$Component) {
                         _reactBootstrap.Panel,
                         { header: 'Cake', eventKey: 'Cake', onSelect: this.selectProducer },
                         productList
+                    ),
+                    _react2.default.createElement(
+                        _reactBootstrap.Panel,
+                        { header: 'entremtes', eventKey: 'Entremets', onSelect: this.selectProducer },
+                        productList
+                    ),
+                    _react2.default.createElement(
+                        _reactBootstrap.Panel,
+                        { header: 'chocolat', eventKey: 'Chocolats', onSelect: this.selectProducer },
+                        productList
                     )
                 ),
                 modal

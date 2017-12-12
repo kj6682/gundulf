@@ -1,91 +1,83 @@
 package gundulf;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.ObjectCodec;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api")
 class ApiOrderController {
 
 
+    @Autowired
+    ApiBouncer apiBouncer;
+
     @Value("${API_ORDERS}")
     private String orders;
 
-    @Value("${API_PRODUCTS}")
-    private String products;
-
-
-    @Autowired
-    private RestTemplate restTemplate;
-
-
+    /**
+     * ORDER-001 - the_producer_lists_the_orders
+     * <p>
+     * as a producer
+     * I want to list all my order lines
+     * so that I can facilitate dispatching the products
+     */
     @GetMapping("/orders/to/{producer}")
-    ResponseEntity<String> prepareOrderList(@PathVariable String producer,
-                                            @RequestParam(value = "page", defaultValue = "0") int page,
-                                            @RequestParam(value = "size", defaultValue = "0") int size) {
+    ResponseEntity<String> producerOrders(@PathVariable String producer) {
 
+        return apiBouncer.get(orders + "/to/" + producer);
 
-        try {
-
-            Order[] o = restTemplate.getForObject(orders + "/to/" + producer, Order[].class);
-            List<Order> listOrds = Arrays.asList(o);
-            ResponseEntity response = new ResponseEntity(listOrds, HttpStatus.OK);
-            return response;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-        return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
     }
 
-    static class ProductDeserializer extends StdDeserializer<Order> {
+    /**
+     * ORDER-002 - the_producer_lists_the_daily_todo
+     * <p>
+     * as a producer
+     * I want to get my todolist
+     * so that I can facilitate my daily work
+     * and possibly anticipate the future productions
+     */
+    @GetMapping("/orders/to/{producer}/group_by_product")
+    ResponseEntity<String> producerTodos(@PathVariable String producer) {
 
-        public ProductDeserializer() {
-            this(null);
-        }
+        return apiBouncer.get(orders + "/to/" + producer + "group_by_product");
 
-        public ProductDeserializer(Class<?> vc) {
-            super(vc);
-        }
-
-        @Override
-        public Order deserialize(JsonParser parser, DeserializationContext deserializer) throws IOException{
-            Order order = new Order();
-            ObjectCodec codec = parser.getCodec();
-            JsonNode node = codec.readTree(parser);
-
-            // try catch block
-            JsonNode jId = node.get("id");
-            Long id = jId.asLong();
-            order.setId(id);
-
-            JsonNode jProduct = node.get("name");
-            String product = jProduct.asText();
-            order.setProduct(product);
-
-            JsonNode jPieces = node.get("pieces");
-            short pieces = (short)jPieces.asInt();
-            order.setPieces(pieces);
-
-            JsonNode jProducer = node.get("producer");
-            String producer = jProducer.asText();
-            order.setProducer(producer);
-
-            return order;
-        }
     }
+
+    /**
+     * ORDER-003 - the_shop_holder_lists_the_orders
+     * <p>
+     * as a shop holder
+     * I want to list all my orders
+     * so that I can track what I asked
+     * and possibly validate returns
+     */
+    @GetMapping("/orders/from/{shop}")
+    ResponseEntity<String> shopOrders(@PathVariable String shop) {
+
+        return apiBouncer.get(orders + "/from/" + shop);
+
+    }
+
+    /**
+     * ORDER-004 - the_shop_holder_list_the_products_to_place_orders
+     * <p>
+     * as a shop holder
+     * I want to list all the products of a producer
+     * so I can place an order on it
+     * and possibly modify it
+     */
+    @GetMapping("/orders/from/{shop}/to/{producer}")
+    ResponseEntity<String> prepareOrderList(@PathVariable String shop,
+                                            @PathVariable String producer) {
+
+
+        return apiBouncer.get(orders + "/from/" + shop +"/to/"+ producer);
+    }
+
+
 }//:)
