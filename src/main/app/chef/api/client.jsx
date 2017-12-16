@@ -8,8 +8,8 @@ export function get(endpoint, producer, params) {
             .map(k => esc(k) + '=' + esc(params[k]))
             .join('&');
     }
-    console.log(endpoint +'/'+ producer + query)
-    return fetch(endpoint +'/'+ producer + query)
+    console.log(endpoint + query)
+    return fetch(endpoint + query)
         .then((response) => response.json())
         .catch(err => {
             console.log(err);
@@ -17,8 +17,8 @@ export function get(endpoint, producer, params) {
 }
 
 
-export function post(endpoint, producer, item) {
-    return fetch(endpoint +'/'+ producer, {
+export function post(endpoint, item) {
+    return fetch(endpoint, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',

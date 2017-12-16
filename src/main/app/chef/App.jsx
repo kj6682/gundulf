@@ -49,10 +49,13 @@ class App extends React.Component {
 
         this.getProducts = this.getProducts.bind(this)
         this.getOrders = this.getOrders.bind(this)
+        this.getOrdersGroupedByProduct = this.getOrdersGroupedByProduct.bind(this)
+
     }
 
     componentWillMount() {
-        get(api.orders+"/to", producer /*, { page:2, size:3 }*/).then((data) => {
+        const uri = api.orders + '/producer/' + producer
+        get(uri).then((data) => {
             this.setState({orders: data});
         });
     }
@@ -65,7 +68,8 @@ class App extends React.Component {
     search(search4me) {
         this.setState({search4me: search4me})
 
-        get(api.products, producer + '/search', {name: [search4me]}).then((data) => {
+        const uri = api.products + '/' + producer + '/search'
+        get(uri, {name: [search4me]}).then((data) => {
 
             this.setState({products: data});
         });
@@ -83,9 +87,9 @@ class App extends React.Component {
             "producer": producer,
             "status": "string"
         })
-
-        post(api.products, producer, newProduct).then(
-            () => get(api.products, producer, {page: 0}).then(
+        const uri = api.products +'/'+ producer
+        post(uri, newProduct).then(
+            () => get(uri, {page: 0}).then(
                 (data) => {
                     this.setState({products: data, show: false, newProduct: dummyProduct});
                 }
@@ -94,7 +98,8 @@ class App extends React.Component {
     }
 
     removeProduct(id) {
-        deleteObject(api.products, producer, id).then(() => get(api.products, producer, {page: 0}).then((data) => {
+        const uri = api.products +'/'+ producer
+        deleteObject(uri, id).then(() => get(api.products, producer, {page: 0}).then((data) => {
             this.setState({products: data});
         }));
     }
@@ -106,14 +111,22 @@ class App extends React.Component {
 
 
     getProducts() {
-
-        get(api.products, producer /*, { page:2, size:3 }*/).then((data) => {
+        const uri = api.products +'/'+ producer
+        get(uri).then((data) => {
             this.setState({products: data});
         });
     }
 
     getOrders() {
-        get(api.orders+"/to", producer /*, { page:2, size:3 }*/).then((data) => {
+        const uri = api.orders + '/producer/' + producer
+        get(uri).then((data) => {
+            this.setState({orders: data});
+        });
+    }
+
+    getOrdersGroupedByProduct() {
+        const uri = api.orders + '/producer/' + producer + '/group_by_product'
+        get(uri).then((data) => {
             this.setState({orders: data});
         });
     }
@@ -159,6 +172,12 @@ class App extends React.Component {
 
 
                     <Panel header={producer + " Orders"} eventKey="orders" onSelect={this.getOrders}>
+
+                        {orderList}
+
+                    </Panel>
+
+                    <Panel header={producer + " ToDos"} eventKey="todo" onSelect={this.getOrdersGroupedByProduct}>
 
                         {orderList}
 

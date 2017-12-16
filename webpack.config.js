@@ -1,7 +1,7 @@
 var webpack = require('webpack')
 var path = require('path')
 
-var SRC_DIR = path.resolve(__dirname + '/src/main/js')
+var SRC_DIR = path.resolve(__dirname + '/src/main/app')
 var TARGET_DIR = path.resolve(__dirname + '/src/main/resources/public')
 
 

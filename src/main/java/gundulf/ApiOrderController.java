@@ -26,10 +26,10 @@ class ApiOrderController {
      * I want to list all my order lines
      * so that I can facilitate dispatching the products
      */
-    @GetMapping("/orders/to/{producer}")
+    @GetMapping("/orders/producer/{producer}")
     ResponseEntity<String> producerOrders(@PathVariable String producer) {
 
-        return apiBouncer.get(orders + "/to/" + producer);
+        return apiBouncer.get(orders + "/producer/" + producer);
 
     }
 
@@ -41,10 +41,10 @@ class ApiOrderController {
      * so that I can facilitate my daily work
      * and possibly anticipate the future productions
      */
-    @GetMapping("/orders/to/{producer}/group_by_product")
+    @GetMapping("/orders/producer/{producer}/group_by_product")
     ResponseEntity<String> producerTodos(@PathVariable String producer) {
 
-        return apiBouncer.get(orders + "/to/" + producer + "group_by_product");
+        return apiBouncer.get(orders + "/producer/" + producer + "/group_by_product");
 
     }
 
@@ -56,10 +56,10 @@ class ApiOrderController {
      * so that I can track what I asked
      * and possibly validate returns
      */
-    @GetMapping("/orders/from/{shop}")
+    @GetMapping("/orders/shop/{shop}")
     ResponseEntity<String> shopOrders(@PathVariable String shop) {
 
-        return apiBouncer.get(orders + "/from/" + shop);
+        return apiBouncer.get(orders + "/shop/" + shop);
 
     }
 
@@ -71,12 +71,12 @@ class ApiOrderController {
      * so I can place an order on it
      * and possibly modify it
      */
-    @GetMapping("/orders/from/{shop}/to/{producer}")
+    @GetMapping("/orders/shop/{shop}/products/{producer}")
     ResponseEntity<String> prepareOrderList(@PathVariable String shop,
                                             @PathVariable String producer) {
 
 
-        return apiBouncer.get(orders + "/from/" + shop +"/to/"+ producer);
+        return apiBouncer.get(orders + "/shop/" + shop +"/products/"+ producer);
     }
 
 
