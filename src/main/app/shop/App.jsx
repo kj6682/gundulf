@@ -1,17 +1,17 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import Header from './Header.jsx';
-import SearchBar from './SearchBar.jsx';
-import ProductList from './product/ProductList.jsx';
-import OrderForm from './order/OrderForm.jsx'
+import Header from './components/Header.jsx';
+import SearchBar from './components/SearchBar.jsx';
+import ProductList from './components/product/ProductList.jsx';
+import OrderForm from './components/order/OrderForm.jsx'
 import {get} from './api/client.jsx'
 import {getByName} from './api/client.jsx'
 
 import {Accordion, Panel, Jumbotron, Button, Modal, FormGroup} from 'react-bootstrap';
 
 const isProduction = process.env.NODE_ENV === 'production'
-var config = require('../config.json')
+var config = require('./config.json')
 var api = (isProduction) ? config.prod.api : config.dev.api
 
 

@@ -3,13 +3,13 @@ var path = require('path')
 
 var SRC_DIR = path.resolve(__dirname + '/src/main/app')
 var TARGET_DIR = path.resolve(__dirname + '/src/main/resources/public')
-
+var TEMPLATE_DIR = path.resolve(__dirname + '/src/main/resources/templates')
 
 module.exports = (env = {}) => {
 
 
     const isProduction = env.production === true
-
+    const isDevServer = env.devserver === true
 
     return {
         entry: {
@@ -44,7 +44,7 @@ module.exports = (env = {}) => {
             ]
         },
         plugins: (function () {
-            if (isProduction)
+            if (isProduction) {
                 return [
                     new webpack.optimize.UglifyJsPlugin({minimize: true}),
                     new webpack.DefinePlugin({
@@ -52,12 +52,22 @@ module.exports = (env = {}) => {
                             'NODE_ENV': JSON.stringify('production')
                         }
                     })]
-            else
+            }
+            else if(isDevServer) {
+                return [new webpack.DefinePlugin({
+                    'process.env': {
+                        'NODE_ENV': JSON.stringify('dev'),
+                        'DEV_SERVER' : JSON.stringify('true')
+                    }
+                })]
+            }
+            else {
                 return [new webpack.DefinePlugin({
                     'process.env': {
                         'NODE_ENV': JSON.stringify('dev')
                     }
                 })]
+            }
         })(),
 
         devtool: (function () {
@@ -74,7 +84,7 @@ module.exports = (env = {}) => {
                     "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, remember-me"
                 },
 
-                contentBase: TARGET_DIR,
+                contentBase: TEMPLATE_DIR,
                 historyApiFallback: true,
                 inline: true,
                 port: 8081

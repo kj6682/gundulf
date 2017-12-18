@@ -14,8 +14,27 @@ import {deleteObject} from './api/client.jsx'
 
 import {Navbar, Nav, NavItem, NavDropdown, MenuItem, Accordion, Panel, Jumbotron, Button, Modal} from 'react-bootstrap';
 
-const api = window.proxy.api;
-const producer = window.proxy.producer;
+var api;
+var producer;
+
+if (!process.env.DEV_SERVER) {
+    producer = window.proxy.producer;
+    api = window.proxy.api;
+}
+else {
+    producer = 'Four';
+    api =
+        {
+            products: "http://localhost:8080/api/products",
+            items: "http://localhost:8080/api/items",
+            orders: "http://localhost:8080/api/orders"
+        }
+}
+
+const uri_orders = api.orders + '/producer/' + producer;
+const uri_orders_group_by_product = uri_orders + '/group_by_product';
+const uri_products = api.products + '/' + producer;
+const uri_products_search = uri_products + '/search';
 
 const dummyProduct = {
     "category": "category",
@@ -54,8 +73,8 @@ class App extends React.Component {
     }
 
     componentWillMount() {
-        const uri = api.orders + '/producer/' + producer
-        get(uri).then((data) => {
+
+        get(uri_orders).then((data) => {
             this.setState({orders: data});
         });
     }
@@ -68,8 +87,7 @@ class App extends React.Component {
     search(search4me) {
         this.setState({search4me: search4me})
 
-        const uri = api.products + '/' + producer + '/search'
-        get(uri, {name: [search4me]}).then((data) => {
+        get(uri_products_search, {name: [search4me]}).then((data) => {
 
             this.setState({products: data});
         });
@@ -87,8 +105,8 @@ class App extends React.Component {
             "producer": producer,
             "status": "string"
         })
-        const uri = api.products +'/'+ producer
-        post(uri, newProduct).then(
+
+        post(uri_products, newProduct).then(
             () => get(uri, {page: 0}).then(
                 (data) => {
                     this.setState({products: data, show: false, newProduct: dummyProduct});
@@ -98,8 +116,7 @@ class App extends React.Component {
     }
 
     removeProduct(id) {
-        const uri = api.products +'/'+ producer
-        deleteObject(uri, id).then(() => get(api.products, producer, {page: 0}).then((data) => {
+        deleteObject(uri_products, id).then(() => get(uri_products, {page: 0}).then((data) => {
             this.setState({products: data});
         }));
     }
@@ -111,22 +128,20 @@ class App extends React.Component {
 
 
     getProducts() {
-        const uri = api.products +'/'+ producer
-        get(uri).then((data) => {
+        get(uri_products).then((data) => {
             this.setState({products: data});
         });
     }
 
     getOrders() {
-        const uri = api.orders + '/producer/' + producer
-        get(uri).then((data) => {
+        get(uri_orders).then((data) => {
             this.setState({orders: data});
         });
     }
 
     getOrdersGroupedByProduct() {
-        const uri = api.orders + '/producer/' + producer + '/group_by_product'
-        get(uri).then((data) => {
+
+        get(uri_orders_group_by_product).then((data) => {
             this.setState({orders: data});
         });
     }

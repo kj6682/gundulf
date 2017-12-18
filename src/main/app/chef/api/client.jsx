@@ -3,7 +3,7 @@ export function get(endpoint, producer, params) {
     var query = ''
 
     var esc = encodeURIComponent;
-    if(params) {
+    if (params) {
         query = query + '?' + Object.keys(params)
             .map(k => esc(k) + '=' + esc(params[k]))
             .join('&');
@@ -28,9 +28,10 @@ export function post(endpoint, item) {
     })
 }
 
-export function deleteObject(endpoint, producer, id) {
-    return fetch(endpoint +'/'+ producer + '/' + id, {method: 'DELETE',})
+export function deleteObject(endpoint, id) {
+    return fetch(endpoint + '/' + id, {method: 'DELETE',})
         .catch(err => {
             console.log(err);
         });
 }
+
