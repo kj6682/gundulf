@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import AddProductForm from "./AddProductForm.jsx";
 import {Button, Panel, Glyphicon, Grid, Row, Col} from 'react-bootstrap';
 
+var config = require('./config.json')
+
 class AddProduct extends React.Component {
     constructor(...args) {
         super(...args);
@@ -23,9 +25,9 @@ class AddProduct extends React.Component {
                 <Grid>
                     <Row className="show-grid">
                         <Col xs={12} md={10}>
-                            This is the list of the commercial products. They are composed of at least one base product and can be used else
-                            by shops and customers to create orders.
-                            These products can be associated with a recipe.
+
+                            {config.products}
+
                             <p>&nbsp;</p></Col>
                         <Col xs={12} md={2}>
                             <Button onClick={() => this.setState({ open: !this.state.open, icon: (this.state.icon ==='plus')?'minus':'plus' })}>

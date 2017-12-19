@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Order from './Order.jsx';
+var config = require('./config.json')
 
 import { Table } from 'react-bootstrap';
 
@@ -20,6 +21,8 @@ class OrderList extends React.Component {
 
         return (
             <div>
+
+                <p>{config.orders}</p>
 
                 {(this.props.orders.length > 0) ?
                     <Table responsive striped bordered condensed hover>

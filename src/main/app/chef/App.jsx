@@ -5,6 +5,7 @@ import Header from './components/Header.jsx';
 import SearchBar from './components/SearchBar.jsx';
 import ProductList from './components/ProductList.jsx';
 import OrderList from './components/OrderList.jsx';
+import TodoList from './components/TodoList.jsx';
 
 import AddProductForm from "./components/AddProductForm.jsx";
 
@@ -53,6 +54,7 @@ class App extends React.Component {
         this.state = {
             products: [],
             orders: [],
+            todos: [],
             search4me: '',
             newProduct: dummyProduct,
             show: false,
@@ -74,8 +76,8 @@ class App extends React.Component {
 
     componentWillMount() {
 
-        get(uri_orders).then((data) => {
-            this.setState({orders: data});
+        get(uri_orders_group_by_product).then((data) => {
+            this.setState({todos: data});
         });
     }
 
@@ -142,7 +144,7 @@ class App extends React.Component {
     getOrdersGroupedByProduct() {
 
         get(uri_orders_group_by_product).then((data) => {
-            this.setState({orders: data});
+            this.setState({todos: data});
         });
     }
 
@@ -165,6 +167,8 @@ class App extends React.Component {
 
         let orderList = <OrderList orders={this.state.orders}/>
 
+        let todoList = <TodoList todos={this.state.todos}/>
+
         return (
             <div className='container'>
 
@@ -177,11 +181,12 @@ class App extends React.Component {
                 </Jumbotron>
 
 
-                <Accordion defaultActiveKey="orders">
+                <Accordion defaultActiveKey="todos">
 
-                    <Panel header={producer + " Commercial Products"} eventKey="products" onSelect={this.getProducts}>
 
-                        {productList}
+                    <Panel header={producer + " ToDos"} eventKey="todos" onSelect={this.getOrdersGroupedByProduct}>
+
+                        {todoList}
 
                     </Panel>
 
@@ -192,9 +197,9 @@ class App extends React.Component {
 
                     </Panel>
 
-                    <Panel header={producer + " ToDos"} eventKey="todo" onSelect={this.getOrdersGroupedByProduct}>
+                    <Panel header={producer + " Commercial Products"} eventKey="products" onSelect={this.getProducts}>
 
-                        {orderList}
+                        {productList}
 
                     </Panel>
 
