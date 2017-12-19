@@ -1,4 +1,4 @@
-export function get(endpoint, producer, params) {
+export function get(endpoint, params) {
 
     var query = ''
 
@@ -8,7 +8,9 @@ export function get(endpoint, producer, params) {
             .map(k => esc(k) + '=' + esc(params[k]))
             .join('&');
     }
+
     console.log(endpoint + query)
+
     return fetch(endpoint + query)
         .then((response) => response.json())
         .catch(err => {
