@@ -8,13 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 class BaseController {
 
-
     @Value("${PROXY_PRODUCTS}")
     private String proxyProducts;
-
     @Value("${PROXY_ITEMS}")
     private String proxyItems;
-
     @Value("${PROXY_ORDERS}")
     private String proxyOrders;
 
@@ -25,22 +22,22 @@ class BaseController {
 
     @RequestMapping("/four")
     public String oven(Model model) {
-        return getModel("Four", model);
+        return getModel(PRODUCER.OVEN.getName(), model);
     }
 
     @RequestMapping("/entremets")
-    public String dessert( Model model) {
-        return getModel("Entremets", model);
+    public String dessert(Model model) {
+        return getModel(PRODUCER.DESSERT.getName(), model);
     }
 
     @RequestMapping("/tartes")
     public String cakes(Model model) {
-        return getModel("Tartes", model);
+        return getModel(PRODUCER.CAKES.getName(), model);
     }
 
     @RequestMapping("/chocolat")
     public String chocolat(Model model) {
-        return getModel("Chocolat", model);
+        return getModel(PRODUCER.CHOCOLATE.getName(), model);
     }
 
     private String getModel(String producer, Model model) {
@@ -54,5 +51,19 @@ class BaseController {
     @RequestMapping("/orders")
     public String orders() {
         return "shop";
+    }
+
+    private enum PRODUCER {
+        OVEN("four"), DESSERT("entremets"), CHOCOLATE("chocolat"), CAKES("tartes");
+
+        private String name;
+
+        PRODUCER(String name) {
+            this.name = name;
+        }
+
+        String getName() {
+            return this.name;
+        }
     }
 }

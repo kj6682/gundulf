@@ -23,7 +23,7 @@ if (!process.env.DEV_SERVER) {
     api = window.proxy.api;
 }
 else {
-    producer = 'Four';
+    producer = 'four';
     api =
         {
             products: "http://localhost:8080/api/products",
@@ -184,20 +184,20 @@ class App extends React.Component {
                 <Accordion defaultActiveKey="todos">
 
 
-                    <Panel header={producer + " ToDos"} eventKey="todos" onSelect={this.getOrdersGroupedByProduct}>
+                    <Panel header={"ToDo"} eventKey="todos" onSelect={this.getOrdersGroupedByProduct}>
 
                         {todoList}
 
                     </Panel>
 
 
-                    <Panel header={producer + " Orders"} eventKey="orders" onSelect={this.getOrders}>
+                    <Panel header={"Orders"} eventKey="orders" onSelect={this.getOrders}>
 
                         {orderList}
 
                     </Panel>
 
-                    <Panel header={producer + " Commercial Products"} eventKey="products" onSelect={this.getProducts}>
+                    <Panel header={"Commercial Products"} eventKey="products" onSelect={this.getProducts}>
 
                         {productList}
 
