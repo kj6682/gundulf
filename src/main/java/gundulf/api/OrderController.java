@@ -68,8 +68,8 @@ class OrderController {
      * <p>
      * as a shop holder
      * I want to list all the products of a producer
-     * so I can place an order on it
-     * and possibly modify it
+     * so I can place an order for their products
+     * and possibly modify or cancel my commands
      */
     @GetMapping("/orders/shop/{shop}/products/{producer}")
     ResponseEntity<String> prepareOrderList(@PathVariable String shop,

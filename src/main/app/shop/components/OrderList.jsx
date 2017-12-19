@@ -1,50 +1,49 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Product from './Product.jsx';
+import Order from './Order.jsx';
 
 
 import { Table } from 'react-bootstrap';
 
-class ProductList extends React.Component {
+class OrderList extends React.Component {
     constructor(props) {
         super(props)
     }
 
     render() {
 
-        var products = this.props.products.map(product =>
-            <Product
-                key={product.id}
-                product={product}
+
+        var orders = this.props.orders.map(order =>
+            <Order
+                key={order.id}
+                order={order}
                 callbacks={this.props.callbacks}/>
         );
-
 
         return (
             <div>
 
 
-                {(this.props.products.length > 0) ?
+                {(this.props.orders.length > 0) ?
                     <Table responsive striped bordered condensed hover>
                         <tbody>
                         <tr>
-                            <th>Name</th>
-                            <th>#</th>
-                            <th>Category           </th>
-
-                            <th></th>
+                            <th>deadline</th>
+                            <th>product</th>
+                            <th>quantity</th>
                         </tr>
-                        {products}
+                        {orders}
                         </tbody>
                     </Table> : <p>no object found for this selection</p>}
             </div>
         )
+
     }
 }
 
-ProductList.propTypes = {
-    products: PropTypes.arrayOf(PropTypes.object),
+OrderList.propTypes = {
+    orders: PropTypes.arrayOf(PropTypes.object),
     callbacks: PropTypes.object.isRequired
 }
 
-export default ProductList
+export default OrderList

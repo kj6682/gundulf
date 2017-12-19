@@ -6,7 +6,7 @@ var producer;
 if(!process.env.DEV_SERVER)
     producer = window.proxy.producer;
 else
-    producer = 'Four';
+    producer = 'four';
 
 
 export default class Header extends React.Component {
