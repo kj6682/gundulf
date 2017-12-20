@@ -38,7 +38,7 @@ class App extends React.Component {
             chocolat: [],
             tartes: [],
             today: '',
-            producer: 'four'
+            producer: ''
         };
 
         this.selectProducerToPlaceOrders = this.selectProducerToPlaceOrders.bind(this)
@@ -54,22 +54,10 @@ class App extends React.Component {
 
         this.setState({producer: producer});
 
-        if (producer === 'four')
-            get(uri_orders_to_producer + producer).then((data) => {
-                this.setState({four: data});
-            });
-        else if (producer === 'entremets')
-            get(uri_orders_to_producer + producer).then((data) => {
-                this.setState({entremets: data});
-            });
-        else if (producer === 'chocolat')
-            get(uri_orders_to_producer + producer).then((data) => {
-                this.setState({chocolat: data});
-            });
-        else if (producer === 'tartes')
-            get(uri_orders_to_producer + producer).then((data) => {
-                this.setState({tartes: data});
-            });
+
+        get(uri_orders_to_producer + producer).then((data) => {
+            this.setState({orders: data});
+        });
         //neither robust nor elegant
     }
 
@@ -95,17 +83,6 @@ class App extends React.Component {
         let orderList = <OrderList orders={this.state.orders}
                                    callbacks={{}}/>
 
-        let fourOrderList = <OrderList orders={this.state.four}
-                                   callbacks={{}}/>
-
-        let entremetsOrderList = <OrderList orders={this.state.entremets}
-                                   callbacks={{}}/>
-
-        let chocolatOrderList = <OrderList orders={this.state.chocolat}
-                                   callbacks={{}}/>
-
-        let tartesOrderList = <OrderList orders={this.state.tarte}
-                                   callbacks={{}}/>
 
         return (
             <div className='container'>
@@ -127,25 +104,25 @@ class App extends React.Component {
 
                     <Panel header="four" eventKey="four" onSelect={this.selectProducerToPlaceOrders}>
 
-                        {fourOrderList}
+                        {orderList}
 
                     </Panel>
 
                     <Panel header="tartes" eventKey="tartes" onSelect={this.selectProducerToPlaceOrders}>
 
-                        {tartesOrderList}
+                        {orderList}
 
                     </Panel>
 
                     <Panel header="entremetes" eventKey="entremets" onSelect={this.selectProducerToPlaceOrders}>
 
-                        {entremetsOrderList}
+                        {orderList}
 
                     </Panel>
 
                     <Panel header="chocolat" eventKey="chocolat" onSelect={this.selectProducerToPlaceOrders}>
 
-                        {chocolatOrderList}
+                        {orderList}
 
                     </Panel>
 
