@@ -34,7 +34,7 @@ class App extends React.Component {
         this.state = {
             orders: [],
             four: [],
-            entremetes: [],
+            entremets: [],
             chocolat: [],
             tartes: [],
             today: '',
@@ -55,9 +55,23 @@ class App extends React.Component {
         this.setState({producer: producer});
 
         console.log(uri_orders_to_producer + producer)
-        get(uri_orders_to_producer + producer).then((data) => {
-            this.setState({four: data});
-        });
+        if (producer == 'four') {
+            get(uri_orders_to_producer + producer).then((data) => {
+                this.setState({four: data});
+            });
+        }else if (producer == 'entremets'){
+            get(uri_orders_to_producer + producer).then((data) => {
+                this.setState({entremets: data});
+            });
+        }else if (producer == 'chocolat'){
+            get(uri_orders_to_producer + producer).then((data) => {
+                this.setState({chocolat: data});
+            });
+        }else if (producer == 'tartes'){
+            get(uri_orders_to_producer + producer).then((data) => {
+                this.setState({tartes: data});
+            });
+        }
         //neither robust nor elegant
     }
 
@@ -85,16 +99,16 @@ class App extends React.Component {
                                    callbacks={{}}/>
 
         let fourOrderList = <OrderList orders={this.state.four}
-                                   callbacks={{}}/>
-
-        let tartesOrderList = <OrderList orders={this.state.tartes}
                                        callbacks={{}}/>
 
-        let entremetesOrderList = <OrderList orders={this.state.entremetes}
-                                           callbacks={{}}/>
+        let tartesOrderList = <OrderList orders={this.state.tartes}
+                                         callbacks={{}}/>
+
+        let entremetsOrderList = <OrderList orders={this.state.entremets}
+                                            callbacks={{}}/>
 
         let chocolatOrderList = <OrderList orders={this.state.chocolat}
-                                         callbacks={{}}/>
+                                           callbacks={{}}/>
 
         return (
             <div className='container'>
@@ -126,9 +140,9 @@ class App extends React.Component {
 
                     </Panel>
 
-                    <Panel header="entremetes" eventKey="entremets" onSelect={this.selectProducerToPlaceOrders}>
+                    <Panel header="entremets" eventKey="entremets" onSelect={this.selectProducerToPlaceOrders}>
 
-                        {entremetesOrderList}
+                        {entremetsOrderList}
 
                     </Panel>
 
