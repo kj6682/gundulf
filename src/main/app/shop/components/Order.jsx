@@ -18,9 +18,9 @@ class Order extends Component {
 
 
         return (<tr>
-                  <td>{this.props.order.deadline}</td>
-                  <td>{this.props.order.product}</td>
-                  <td>{this.props.order.quantity}</td>
+                  <td className={"col-md-2"}>{this.props.order.deadline}</td>
+                  <td className={"col-md-5"}>{this.props.order.product}</td>
+                  <td className={"col-md-5"}>{this.props.order.quantity}</td>
                 </tr>
         )
     }

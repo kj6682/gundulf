@@ -24,7 +24,7 @@ else {
 
 
 const uri_orders = api.orders + '/shop/' + shop;
-const uri_orders_to_producer = api.orders + '/shop/' + shop + '/products/';
+const uri_orders_to_producer = uri_orders + '/products/';
 
 class App extends React.Component {
 
@@ -54,14 +54,15 @@ class App extends React.Component {
 
         this.setState({producer: producer});
 
-
+        console.log(uri_orders_to_producer + producer)
         get(uri_orders_to_producer + producer).then((data) => {
-            this.setState({orders: data});
+            this.setState({four: data});
         });
         //neither robust nor elegant
     }
 
     listMyOrders() {
+        console.log(uri_orders)
         get(uri_orders).then((data) => {
             this.setState({orders: data});
         });
@@ -83,6 +84,17 @@ class App extends React.Component {
         let orderList = <OrderList orders={this.state.orders}
                                    callbacks={{}}/>
 
+        let fourOrderList = <OrderList orders={this.state.four}
+                                   callbacks={{}}/>
+
+        let tartesOrderList = <OrderList orders={this.state.tartes}
+                                       callbacks={{}}/>
+
+        let entremetesOrderList = <OrderList orders={this.state.entremetes}
+                                           callbacks={{}}/>
+
+        let chocolatOrderList = <OrderList orders={this.state.chocolat}
+                                         callbacks={{}}/>
 
         return (
             <div className='container'>
@@ -104,25 +116,25 @@ class App extends React.Component {
 
                     <Panel header="four" eventKey="four" onSelect={this.selectProducerToPlaceOrders}>
 
-                        {orderList}
+                        {fourOrderList}
 
                     </Panel>
 
                     <Panel header="tartes" eventKey="tartes" onSelect={this.selectProducerToPlaceOrders}>
 
-                        {orderList}
+                        {tartesOrderList}
 
                     </Panel>
 
                     <Panel header="entremetes" eventKey="entremets" onSelect={this.selectProducerToPlaceOrders}>
 
-                        {orderList}
+                        {entremetesOrderList}
 
                     </Panel>
 
                     <Panel header="chocolat" eventKey="chocolat" onSelect={this.selectProducerToPlaceOrders}>
 
-                        {orderList}
+                        {chocolatOrderList}
 
                     </Panel>
 

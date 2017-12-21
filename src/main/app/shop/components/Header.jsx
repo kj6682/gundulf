@@ -12,7 +12,7 @@ else
 export default class Header extends React.Component {
 
     render() {
-        let title = config.title + " " + shop;
+        let title = config.title + " " + shop + " shop";
         return (
             <div>
                 <div><img src="img/hop.png" className="logoimg" /></div>
