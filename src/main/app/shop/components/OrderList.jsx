@@ -15,7 +15,7 @@ class OrderList extends React.Component {
 
         var orders = this.props.orders.map(order =>
             <Order
-                key={order.id}
+                key={order.id+order.deadLineAndProduct}
                 order={order}
                 callbacks={this.props.callbacks}/>
         );
