@@ -54,25 +54,11 @@ class App extends React.Component {
 
         this.setState({producer: producer});
 
-        console.log(uri_orders_to_producer + producer)
-        if (producer == 'four') {
-            get(uri_orders_to_producer + producer).then((data) => {
-                this.setState({four: data});
-            });
-        }else if (producer == 'entremets'){
-            get(uri_orders_to_producer + producer).then((data) => {
-                this.setState({entremets: data});
-            });
-        }else if (producer == 'chocolat'){
-            get(uri_orders_to_producer + producer).then((data) => {
-                this.setState({chocolat: data});
-            });
-        }else if (producer == 'tartes'){
-            get(uri_orders_to_producer + producer).then((data) => {
-                this.setState({tartes: data});
-            });
-        }
-        //neither robust nor elegant
+        let container = producer
+        get(uri_orders_to_producer + producer).then((data) => {
+            this.setState({[container]: data});
+        });
+
     }
 
     listMyOrders() {
