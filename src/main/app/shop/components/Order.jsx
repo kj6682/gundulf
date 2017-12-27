@@ -16,60 +16,52 @@ class Order extends Component {
 
         this.select = this.select.bind(this);
         this.handleChange = this.handleChange.bind(this)
-        this.handleClick = this.handleClick.bind(this)
-        this.onSubmit = this.onSubmit(this)
         this.getValidationState = this.getValidationState.bind(this)
-        this.handleKeyUp = this.handleKeyUp.bind(this)
         this.sendData = this.sendData.bind(this)
+        this.handleKeyUp = this.handleKeyUp.bind(this)
 
     }
 
     componentDidMount() {
         this.setState({
-                id: this.props.order.id,
-                quantity: this.props.order.quantity,
-                deadline: this.props.order.deadline
+                "id": this.props.order.id,
+                "created": this.props.order.created,
+                "deadline": this.props.order.deadline,
+                "quantity": this.props.order.quantity,
+                "producer": this.props.order.producer
             }
         )
     }
 
-    select() {
-
-
-    }
-
-    handleClick(e) {
+    select(e) {
         let attribute = e.target.id
-        console.log(attribute)
-        console.log(e.target.value)
+        console.log('onClick ' + this.state.quantity)
 
         this.setState({
-            [attribute]: ''
+            quantity: ''
         })
     }
 
-    onSubmit(e) {
-       console.log("onSubmit")
-    }
 
     sendData(e) {
-        e.preventDefault()
-        console.log("sendData")
+
+        console.log("sendData " + this.state.quantity)
     }
 
-    handleKeyUp(e) {
-        if (e.keyCode == 13) return this.sendData()
-    }
 
     handleChange(e) {
-        console.log("handleChange")
         let attribute = e.target.id
-        console.log(attribute)
-        console.log(e.target.value)
+        let value = e.target.value
 
+        if (value < 0 || isNaN(value)) {
+            console.log("invalid input " + value)
+            return
+        }
+        console.log('before ' + this.state.quantity)
         this.setState({
-            [attribute]: e.target.value
+            quantity: value
         })
+
     }
 
     getValidationState() {
@@ -78,33 +70,33 @@ class Order extends Component {
         return 'error';
     }
 
+    handleKeyUp(e) {
+        const key = e.charCode || e.keyCode
+
+        console.log(key);
+        if (key == 13) {
+            console.log("you  typed enter")
+            this.refs.myInput.blur()
+            //  e.preventDefault();
+            //  e.stopPropagation();
+        }
+
+    }
+
     render() {
 
-
+        console.log('render  ' + this.state.quantity)
         return (<tr>
                 <td className={"col-md-2"}>{this.props.order.deadline}</td>
                 <td className={"col-md-5"}>{this.props.order.product}</td>
                 <td className={"col-md-5"}>
 
-                    <form onKeyUp={this.handleKeyUp}>
+                    <input ref="myInput" type="text" value={this.state.quantity}
+                           onChange={this.handleChange}
+                           onClick={this.select}
+                           onKeyDown={this.handleKeyUp}
+                           onBlur={this.sendData}/>
 
-                        <FormGroup
-                            controlId={"quantity"}
-                            validationState={this.getValidationState()}
-                        >
-                            <InputGroup>
-                                <FormControl
-                                    type="input"
-                                    value={this.state.quantity}
-                                    placeholder={this.state.quantity}
-                                    onChange={this.handleChange}
-                                    onClick={this.handleClick}
-
-                                />
-                            </InputGroup>
-
-                        </FormGroup>
-                    </form>
                 </td>
             </tr>
         )

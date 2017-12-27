@@ -40325,33 +40325,10 @@ var App = function (_React$Component) {
 
             this.setState({ producer: producer });
 
-            console.log(uri_orders_to_producer + producer);
-
             var container = producer;
             (0, _client.get)(uri_orders_to_producer + producer).then(function (data) {
                 _this2.setState(_defineProperty({}, container, data));
             });
-
-            /*
-                    if (producer == 'four') {
-                        get(uri_orders_to_producer + producer).then((data) => {
-                            this.setState({four: data});
-                        });
-                    }else if (producer == 'entremets'){
-                        get(uri_orders_to_producer + producer).then((data) => {
-                            this.setState({entremets: data});
-                        });
-                    }else if (producer == 'chocolat'){
-                        get(uri_orders_to_producer + producer).then((data) => {
-                            this.setState({chocolat: data});
-                        });
-                    }else if (producer == 'tartes'){
-                        get(uri_orders_to_producer + producer).then((data) => {
-                            this.setState({tartes: data});
-                        });
-                    }
-                    */
-            //neither robust nor elegant
         }
     }, {
         key: 'listMyOrders',
@@ -40657,6 +40634,8 @@ var _reactBootstrap = __webpack_require__(24);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -40671,13 +40650,74 @@ var Order = function (_Component) {
 
         var _this = _possibleConstructorReturn(this, (Order.__proto__ || Object.getPrototypeOf(Order)).call(this, props));
 
+        _this.state = {
+            "id": "",
+            "created": "0001-01-01",
+            "deadline": "0001-01-01",
+            "quantity": 0,
+            "producer": ""
+        };
+
         _this.select = _this.select.bind(_this);
+        _this.handleChange = _this.handleChange.bind(_this);
+        _this.handleClick = _this.handleClick.bind(_this);
+        _this.onSubmit = _this.onSubmit(_this);
+        _this.getValidationState = _this.getValidationState.bind(_this);
+        _this.handleKeyUp = _this.handleKeyUp.bind(_this);
+        _this.sendData = _this.sendData.bind(_this);
+
         return _this;
     }
 
     _createClass(Order, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            this.setState({
+                id: this.props.order.id,
+                quantity: this.props.order.quantity,
+                deadline: this.props.order.deadline
+            });
+        }
+    }, {
         key: 'select',
         value: function select() {}
+    }, {
+        key: 'handleClick',
+        value: function handleClick(e) {
+            var attribute = e.target.id;
+            console.log(attribute);
+            console.log(e.target.value);
+
+            this.setState(_defineProperty({}, attribute, ''));
+        }
+    }, {
+        key: 'onSubmit',
+        value: function onSubmit(e) {
+            console.log("onSubmit");
+        }
+    }, {
+        key: 'sendData',
+        value: function sendData(e) {
+            e.preventDefault();
+            console.log("sendData");
+        }
+    }, {
+        key: 'handleChange',
+        value: function handleChange(e) {
+            console.log("handleChange");
+            var attribute = e.target.id;
+            console.log(attribute);
+            console.log(e.target.value);
+
+            this.setState(_defineProperty({}, attribute, e.target.value));
+        }
+    }, {
+        key: 'getValidationState',
+        value: function getValidationState() {
+
+            if (this.state.quantity > 0) return 'success';
+            return 'error';
+        }
     }, {
         key: 'render',
         value: function render() {
@@ -40698,7 +40738,8 @@ var Order = function (_Component) {
                 _react2.default.createElement(
                     'td',
                     { className: "col-md-5" },
-                    this.props.order.quantity
+                    _react2.default.createElement('input', { type: 'input', value: this.state.order.quantity,
+                        onChange: this.handleChange })
                 )
             );
         }
