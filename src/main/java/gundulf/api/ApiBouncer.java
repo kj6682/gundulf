@@ -54,8 +54,9 @@ class ApiBouncer {
         return response;
     }
 
-    void delete(String endpoint) {
+    ResponseEntity<?> delete(String endpoint) {
 
         restTemplate.delete(endpoint);
+        return ResponseEntity.ok().build();
     }
 }

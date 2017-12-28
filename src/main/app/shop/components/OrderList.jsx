@@ -31,6 +31,7 @@ class OrderList extends React.Component {
                             <th>deadline</th>
                             <th>product</th>
                             <th>quantity</th>
+                            <th></th>
                         </tr>
                         {orders}
                         </tbody>

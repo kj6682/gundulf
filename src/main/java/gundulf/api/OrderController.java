@@ -76,30 +76,46 @@ class OrderController {
         return apiBouncer.get(orders + "/shop/" + shop + "/products/" + producer);
     }
 
-
+    /**
+     *
+     * ORDER-004 - the_shop_holder_list_the_products_to_place_orders
+     *
+     * as a shop holder
+     * I want to list all the products of a producer
+     * so I can place an order on it
+     * and possibly modify it
+     */
     @PostMapping(value = "/orders/shop/{shop}/to/{producer}")
     ResponseEntity<?> create(@PathVariable String shop,
                                   @PathVariable String producer,
                                   @RequestBody String order) {
 
-        System.out.println("sending order to ");
-        System.out.println(orders + "/shop/" + shop + "/to/" + producer);
-        System.out.println("with content");
-        System.out.println(order);
         return apiBouncer.post(orders + "/shop/" + shop + "/to/" + producer, order);
 
     }
 
+    /**
+     *
+     * ORDER-004 - the_shop_holder_list_the_products_to_place_orders
+     *
+     * as a shop holder
+     * I want to list all the products of a producer
+     * so I can place an order on it
+     * and possibly modify it
+     */
     @PutMapping(value = "/orders/shop/{shop}/{id}")
     ResponseEntity<?> update(@PathVariable String shop,
                                   @PathVariable String id,
                                   @RequestBody String order) {
 
-        System.out.println("sending order to ");
-        System.out.println(orders + "/shop/" + shop + "/" + id);
-        System.out.println("with content");
-        System.out.println(order);
         return apiBouncer.put(orders + "/shop/" + shop + "/" + id, order);
 
+    }
+
+    @DeleteMapping(value = "/orders/shop/{shop}/{id}")
+    void delete(@PathVariable String shop,
+                @PathVariable(required = true) Long id) {
+
+        apiBouncer.delete(orders + "/shop/" + shop + "/" + id);
     }
 }//:)

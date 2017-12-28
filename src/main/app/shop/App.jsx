@@ -6,6 +6,7 @@ import OrderList from './components/OrderList.jsx';
 import {get} from './api/client.jsx'
 import {post} from './api/client.jsx'
 import {put} from './api/client.jsx'
+import {deleteObject} from './api/client.jsx'
 
 import {Accordion, Panel, Jumbotron, Button, Modal, FormGroup} from 'react-bootstrap';
 
@@ -40,12 +41,17 @@ class App extends React.Component {
             entremets: [],
             chocolat: [],
             tartes: [],
-            today: ''
+            today: '',
+            producer: ''
         };
 
         this.selectProducerToPlaceOrders = this.selectProducerToPlaceOrders.bind(this)
         this.listMyOrders = this.listMyOrders.bind(this)
         this.createOrder = this.createOrder.bind(this)
+        this.updateOrder = this.updateOrder.bind(this)
+        this.deleteOrder = this.deleteOrder.bind(this)
+
+
     }
 
     componentDidMount() {
@@ -54,9 +60,10 @@ class App extends React.Component {
 
     selectProducerToPlaceOrders(producer) {
 
-        let container = producer
+        this.setState({producer: producer})
+
         get(uri_orders_to_producer + producer).then((data) => {
-            this.setState({[container]: data});
+            this.setState({[producer]: data});
         });
 
     }
@@ -69,59 +76,80 @@ class App extends React.Component {
 
 
     createOrder(order) {
-        let producer = order.producer
+        let producer = this.state.producer
 
-        var newOrder = JSON.stringify({
-            "id": 0,
-            "created": order.created,
-            "deadline": order.deadline,
-            "producer": order.producer,
-            "product": order.product,
-            "shop": order.shop,
-            "quantity": order.quantity
-        })
+        post(uri_orders + '/to/' + producer, order)
+            .then(
+                () => get(uri_orders_to_producer + producer, {page: 0}).then(
+                    (data) => {
+                        this.setState({[producer]: data});
+                    }
+                )
+            );
+    }
 
-        if (order.id === 0) {
-            post(uri_orders + '/to/' + producer, newOrder)
-                .then(
-                    () => get(uri_orders_to_producer + producer, {page: 0}).then(
-                        (data) => {
-                            this.setState({[producer]: data});
-                        }
-                    )
-                );
-        } else {
-            put(uri_orders + '/' + order.id, newOrder)
-                .then(
-                    () => get(uri_orders_to_producer + producer, {page: 0}).then(
-                        (data) => {
-                            this.setState({[producer]: data});
-                        }
-                    )
-                );
-        }
+    updateOrder(id, order) {
+        let producer = this.state.producer
+
+        put(uri_orders + '/' + id, order)
+            .then(
+                () => get(uri_orders_to_producer + producer, {page: 0}).then(
+                    (data) => {
+                        this.setState({[producer]: data});
+                    }
+                )
+            );
 
 
     }
 
+    deleteOrder(id) {
+        let producer = this.state.producer
+
+        deleteObject(uri_orders, id).then(() => get(uri_orders_to_producer + producer, {page: 0}).then((data) => {
+            this.setState({[producer]: data});
+        }));
+
+    }
+
+
     render() {
 
-
         let orderList = <OrderList orders={this.state.orders}
-                                   callbacks={{create: this.createOrder}}/>
+                                   callbacks={{
+                                       create: this.createOrder,
+                                       update: this.updateOrder,
+                                       delete: this.deleteOrder
+                                   }}/>
 
 
         let fourOrderList = <OrderList orders={this.state.four}
-                                       callbacks={{create: this.createOrder}}/>
+                                       callbacks={{
+                                           create: this.createOrder,
+                                           update: this.updateOrder,
+                                           delete: this.deleteOrder
+                                       }}/>
 
         let tartesOrderList = <OrderList orders={this.state.tartes}
-                                         callbacks={{create: this.createOrder}}/>
+                                         callbacks={{
+                                             create: this.createOrder,
+                                             update: this.updateOrder,
+                                             delete: this.deleteOrder
+                                         }}/>
 
         let entremetsOrderList = <OrderList orders={this.state.entremets}
-                                            callbacks={{create: this.createOrder}}/>
+                                            callbacks={{
+                                                create: this.createOrder,
+                                                update: this.updateOrder,
+                                                delete: this.deleteOrder
+                                            }}/>
 
         let chocolatOrderList = <OrderList orders={this.state.chocolat}
-                                           callbacks={{create: this.createOrder}}/>
+                                           callbacks={{
+                                               create: this.createOrder,
+                                               update: this.updateOrder,
+                                               delete: this.deleteOrder
+                                           }}/>
 
 
         return (

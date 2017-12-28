@@ -14,6 +14,7 @@ class Order extends Component {
         this.select = this.select.bind(this);
         this.handleChange = this.handleChange.bind(this)
         this.sendData = this.sendData.bind(this)
+        this.remove = this.remove.bind(this)
         this.handleKeyDown = this.handleKeyDown.bind(this)
 
     }
@@ -40,7 +41,51 @@ class Order extends Component {
         let o = this.state.order
         o.quantity = this.state.quantity
         o.executed = 0
-        this.props.callbacks.create(o)
+
+        var order = JSON.stringify({
+            "id": o.id,
+            "created": o.created,
+            "deadline": o.deadline,
+            "producer": o.producer,
+            "product": o.product,
+            "shop": o.shop,
+            "quantity": o.quantity
+        })
+
+        console.log(o)
+
+        if ((o.id === 0) && (o.quantity > 0)) {
+            console.log("create")
+            this.props.callbacks.create(order)
+            return
+        }
+        if ((o.id !== 0) && (o.quantity > 0)) {
+            console.log("update")
+            this.props.callbacks.update(o.id, order)
+            return
+        }
+        console.log("other")
+        console.log(o.id)
+        console.log(o.quantity)
+        this.setState({
+            quantity: this.props.order.quantity
+        })
+    }
+
+    remove(e) {
+
+        let o = this.state.order
+        if ( o.id !== 0 ) {
+            console.log("delete")
+            this.props.callbacks.delete(o.id)
+            return
+        }
+        console.log("other")
+        console.log(o.id)
+        console.log(o.quantity)
+        this.setState({
+            quantity: this.props.order.quantity
+        })
     }
 
 
@@ -62,16 +107,19 @@ class Order extends Component {
 
 
     handleKeyDown(e) {
+        const ESC = 27
+        const ENTER = 13
         const key = e.charCode || e.keyCode
 
-        if (key == 27) {
+        if (key == ESC) {
             this.setState({
                 quantity: this.props.order.quantity
             })
             this.refs.myInput.blur()
 
         }
-        if (key == 13) {
+
+        if (key == ENTER) {
             this.refs.myInput.blur()
         }
 
@@ -91,6 +139,11 @@ class Order extends Component {
                            onKeyDown={this.handleKeyDown}
                            onBlur={this.sendData}/>
 
+                </td>
+                <td>
+                    <Button onClick={this.remove}>
+                        <Glyphicon glyph="remove-sign" />
+                    </Button>
                 </td>
             </tr>
         )
