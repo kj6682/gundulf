@@ -46,6 +46,14 @@ class ApiBouncer {
         return response;
     }
 
+    ResponseEntity<?> put(String endpoint, @RequestBody String body) {
+        HttpEntity<?> requestEntity = new HttpEntity<Object>(body, requestHeaders);
+
+        ResponseEntity<String> response = restTemplate.exchange(endpoint, HttpMethod.PUT, requestEntity, String.class);
+
+        return response;
+    }
+
     void delete(String endpoint) {
 
         restTemplate.delete(endpoint);

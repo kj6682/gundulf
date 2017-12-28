@@ -109,7 +109,7 @@ class App extends React.Component {
         })
 
         post(uri_products, newProduct).then(
-            () => get(uri, {page: 0}).then(
+            () => get(uri_products, {page: 0}).then(
                 (data) => {
                     this.setState({products: data, show: false, newProduct: dummyProduct});
                 }

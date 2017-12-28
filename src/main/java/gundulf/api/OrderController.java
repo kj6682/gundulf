@@ -3,10 +3,7 @@ package gundulf.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -76,8 +73,33 @@ class OrderController {
                                             @PathVariable String producer) {
 
 
-        return apiBouncer.get(orders + "/shop/" + shop +"/products/"+ producer);
+        return apiBouncer.get(orders + "/shop/" + shop + "/products/" + producer);
     }
 
 
+    @PostMapping(value = "/orders/shop/{shop}/to/{producer}")
+    ResponseEntity<?> create(@PathVariable String shop,
+                                  @PathVariable String producer,
+                                  @RequestBody String order) {
+
+        System.out.println("sending order to ");
+        System.out.println(orders + "/shop/" + shop + "/to/" + producer);
+        System.out.println("with content");
+        System.out.println(order);
+        return apiBouncer.post(orders + "/shop/" + shop + "/to/" + producer, order);
+
+    }
+
+    @PutMapping(value = "/orders/shop/{shop}/{id}")
+    ResponseEntity<?> update(@PathVariable String shop,
+                                  @PathVariable String id,
+                                  @RequestBody String order) {
+
+        System.out.println("sending order to ");
+        System.out.println(orders + "/shop/" + shop + "/" + id);
+        System.out.println("with content");
+        System.out.println(order);
+        return apiBouncer.put(orders + "/shop/" + shop + "/" + id, order);
+
+    }
 }//:)

@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import Header from './components/Header.jsx';
 import OrderList from './components/OrderList.jsx';
 import {get} from './api/client.jsx'
+import {post} from './api/client.jsx'
+import {put} from './api/client.jsx'
 
 import {Accordion, Panel, Jumbotron, Button, Modal, FormGroup} from 'react-bootstrap';
 
@@ -26,6 +28,7 @@ else {
 const uri_orders = api.orders + '/shop/' + shop;
 const uri_orders_to_producer = uri_orders + '/products/';
 
+
 class App extends React.Component {
 
     constructor(props) {
@@ -37,8 +40,7 @@ class App extends React.Component {
             entremets: [],
             chocolat: [],
             tartes: [],
-            today: '',
-            producer: ''
+            today: ''
         };
 
         this.selectProducerToPlaceOrders = this.selectProducerToPlaceOrders.bind(this)
@@ -52,8 +54,6 @@ class App extends React.Component {
 
     selectProducerToPlaceOrders(producer) {
 
-        this.setState({producer: producer});
-
         let container = producer
         get(uri_orders_to_producer + producer).then((data) => {
             this.setState({[container]: data});
@@ -62,7 +62,6 @@ class App extends React.Component {
     }
 
     listMyOrders() {
-        console.log(uri_orders)
         get(uri_orders).then((data) => {
             this.setState({orders: data});
         });
@@ -70,31 +69,60 @@ class App extends React.Component {
 
 
     createOrder(order) {
-        console.log('create order name ' + order.name)
-        console.log('create order cate ' + order.category)
-        console.log('create order prod ' + order.producer)
-        console.log('create order piec ' + order.pieces)
-        console.log('create order quan ' + order.quantity)
-        console.log('create order date ' + order.date)
+        let producer = order.producer
+
+        var newOrder = JSON.stringify({
+            "id": 0,
+            "created": order.created,
+            "deadline": order.deadline,
+            "producer": order.producer,
+            "product": order.product,
+            "shop": order.shop,
+            "quantity": order.quantity
+        })
+
+        if (order.id === 0) {
+            post(uri_orders + '/to/' + producer, newOrder)
+                .then(
+                    () => get(uri_orders_to_producer + producer, {page: 0}).then(
+                        (data) => {
+                            this.setState({[producer]: data});
+                        }
+                    )
+                );
+        } else {
+            put(uri_orders + '/' + order.id, newOrder)
+                .then(
+                    () => get(uri_orders_to_producer + producer, {page: 0}).then(
+                        (data) => {
+                            this.setState({[producer]: data});
+                        }
+                    )
+                );
+        }
+
+
     }
 
     render() {
 
 
         let orderList = <OrderList orders={this.state.orders}
-                                   callbacks={{}}/>
+                                   callbacks={{create: this.createOrder}}/>
+
 
         let fourOrderList = <OrderList orders={this.state.four}
-                                       callbacks={{}}/>
+                                       callbacks={{create: this.createOrder}}/>
 
         let tartesOrderList = <OrderList orders={this.state.tartes}
-                                         callbacks={{}}/>
+                                         callbacks={{create: this.createOrder}}/>
 
         let entremetsOrderList = <OrderList orders={this.state.entremets}
-                                            callbacks={{}}/>
+                                            callbacks={{create: this.createOrder}}/>
 
         let chocolatOrderList = <OrderList orders={this.state.chocolat}
-                                           callbacks={{}}/>
+                                           callbacks={{create: this.createOrder}}/>
+
 
         return (
             <div className='container'>

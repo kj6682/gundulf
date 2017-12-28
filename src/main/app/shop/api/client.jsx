@@ -9,8 +9,6 @@ export function get(endpoint, params) {
             .join('&');
     }
 
-    console.log(endpoint + query)
-
     return fetch(endpoint + query)
         .then((response) => response.json())
         .catch(err => {
@@ -19,14 +17,25 @@ export function get(endpoint, params) {
 }
 
 
-export function post(endpoint, item) {
+export function post(endpoint, order) {
     return fetch(endpoint, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
         },
-        body: item
+        body: order
+    })
+}
+
+export function put(endpoint, order) {
+    return fetch(endpoint, {
+        method: 'PUT',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: order
     })
 }
 

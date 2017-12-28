@@ -40581,7 +40581,7 @@ var App = function (_React$Component) {
             });
 
             (0, _client.post)(uri_products, newProduct).then(function () {
-                return (0, _client.get)(uri, { page: 0 }).then(function (data) {
+                return (0, _client.get)(uri_products, { page: 0 }).then(function (data) {
                     _this4.setState({ products: data, show: false, newProduct: dummyProduct });
                 });
             });

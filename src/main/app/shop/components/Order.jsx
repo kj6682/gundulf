@@ -7,35 +7,27 @@ class Order extends Component {
         super(props);
 
         this.state = {
-            "id": "",
-            "created": "0001-01-01",
-            "deadline": "0001-01-01",
-            "quantity": 0,
-            "producer": "",
+            "order": '',
+            "quantity": 0
         };
 
         this.select = this.select.bind(this);
         this.handleChange = this.handleChange.bind(this)
-        this.getValidationState = this.getValidationState.bind(this)
         this.sendData = this.sendData.bind(this)
-        this.handleKeyUp = this.handleKeyUp.bind(this)
+        this.handleKeyDown = this.handleKeyDown.bind(this)
 
     }
 
     componentDidMount() {
         this.setState({
-                "id": this.props.order.id,
-                "created": this.props.order.created,
-                "deadline": this.props.order.deadline,
-                "quantity": this.props.order.quantity,
-                "producer": this.props.order.producer
+                "order":this.props.order,
+                "quantity":this.props.order.quantity
             }
         )
     }
 
     select(e) {
         let attribute = e.target.id
-        console.log('onClick ' + this.state.quantity)
 
         this.setState({
             quantity: ''
@@ -45,7 +37,10 @@ class Order extends Component {
 
     sendData(e) {
 
-        console.log("sendData " + this.state.quantity)
+        let o = this.state.order
+        o.quantity = this.state.quantity
+        o.executed = 0
+        this.props.callbacks.create(o)
     }
 
 
@@ -54,38 +49,37 @@ class Order extends Component {
         let value = e.target.value
 
         if (value < 0 || isNaN(value)) {
-            console.log("invalid input " + value)
+            this.setState({
+                quantity: this.props.order.quantity
+            })
             return
         }
-        console.log('before ' + this.state.quantity)
         this.setState({
             quantity: value
         })
 
     }
 
-    getValidationState() {
 
-        if (this.state.quantity > 0) return 'success';
-        return 'error';
-    }
-
-    handleKeyUp(e) {
+    handleKeyDown(e) {
         const key = e.charCode || e.keyCode
 
-        console.log(key);
-        if (key == 13) {
-            console.log("you  typed enter")
+        if (key == 27) {
+            this.setState({
+                quantity: this.props.order.quantity
+            })
             this.refs.myInput.blur()
-            //  e.preventDefault();
-            //  e.stopPropagation();
+
         }
+        if (key == 13) {
+            this.refs.myInput.blur()
+        }
+
 
     }
 
     render() {
 
-        console.log('render  ' + this.state.quantity)
         return (<tr>
                 <td className={"col-md-2"}>{this.props.order.deadline}</td>
                 <td className={"col-md-5"}>{this.props.order.product}</td>
@@ -94,7 +88,7 @@ class Order extends Component {
                     <input ref="myInput" type="text" value={this.state.quantity}
                            onChange={this.handleChange}
                            onClick={this.select}
-                           onKeyDown={this.handleKeyUp}
+                           onKeyDown={this.handleKeyDown}
                            onBlur={this.sendData}/>
 
                 </td>

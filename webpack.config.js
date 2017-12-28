@@ -79,7 +79,7 @@ module.exports = (env = {}) => {
                 headers: {
                     "Access-Control-Allow-Origin": "*",
                     "Access-Control-Allow-Credentials": "true",
-                    "Access-Control-Allow-Methods": "POST, GET, OPTIONS, DELETE",
+                    "Access-Control-Allow-Methods": "POST, GET, OPTIONS, DELETE, PUT",
                     "Access-Control-Max-Age": "3600",
                     "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, remember-me"
                 },
