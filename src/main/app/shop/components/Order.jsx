@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Button, Glyphicon, FormGroup, ControlLabel, FormControl, InputGroup} from 'react-bootstrap';
 
 class Order extends Component {
     constructor(props) {
@@ -27,8 +26,6 @@ class Order extends Component {
     }
 
     select(e) {
-        let attribute = e.target.id
-
         this.setState({
             quantity: ''
         })
@@ -37,36 +34,41 @@ class Order extends Component {
 
     sendData(e) {
 
-        let o = this.state.order
-        o.quantity = this.state.quantity
-        o.executed = 0
-
-        var order = JSON.stringify({
-            "id": o.id,
-            "created": o.created,
-            "deadline": o.deadline,
-            "producer": o.producer,
-            "product": o.product,
-            "shop": o.shop,
-            "quantity": o.quantity
-        })
-
-        if (o.quantity < 0 || isNaN(o.quantity)) {
+        var quantity = this.state.quantity
+        if (quantity < 0 || quantity === '' || isNaN(quantity)) {
             this.setState({
                 quantity: this.props.order.quantity
             })
             return
         }
-        if ((o.id !== 0)) {
-            if(o.quantity > 0) {
-                this.props.callbacks.update(o.id, order)
+
+        let o = this.state.order
+
+
+        if(quantity > 0) {
+            var json = JSON.stringify({
+                "id": o.id,
+                "created": o.created,
+                "deadline": o.deadline,
+                "producer": o.producer,
+                "product": o.product,
+                "shop": o.shop,
+                "quantity": quantity
+            })
+
+            if ((o.id !== 0)) {
+
+                this.props.callbacks.update(o.id, o.producer, json)
                 return
             }
-            this.props.callbacks.delete(o.id)
+
+            this.props.callbacks.create(o.producer, json)
             return
         }
-        if ((o.id === 0) && (o.quantity > 0)) {
-            this.props.callbacks.create(order)
+
+        if ((o.id !== 0)) {
+
+            this.props.callbacks.delete(o.id, o.producer)
             return
         }
 
@@ -81,7 +83,7 @@ class Order extends Component {
         let attribute = e.target.id
         let value = e.target.value
 
-        if (value < 0 || isNaN(value)) {
+        if (isNaN(value) || value < 0) {
             this.setState({
                 quantity: this.props.order.quantity
             })

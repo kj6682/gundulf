@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import Header from './components/Header.jsx';
 import OrderList from './components/OrderList.jsx';
-import MyOrderList from './components/MyOrderList.jsx';
 import {get} from './api/client.jsx'
 import {post} from './api/client.jsx'
 import {put} from './api/client.jsx'
@@ -35,22 +34,21 @@ class App extends React.Component {
 
     constructor(props) {
         super(props);
-        // noinspection JSAnnotator
+
         this.state = {
             orders: [],
             four: [],
             entremets: [],
             chocolat: [],
             tartes: [],
-            today: '',
-            producer: ''
+            today: ''
         };
 
         this.listMyOrders = this.listMyOrders.bind(this)
         this.updateMyOrder = this.updateMyOrder.bind(this)
         this.deleteMyOrder = this.deleteMyOrder.bind(this)
 
-        this.selectProducerToPlaceOrders = this.selectProducerToPlaceOrders.bind(this)
+        this.listOrdersPerProducer = this.listOrdersPerProducer.bind(this)
         this.createOrder = this.createOrder.bind(this)
         this.updateOrder = this.updateOrder.bind(this)
         this.deleteOrder = this.deleteOrder.bind(this)
@@ -62,31 +60,27 @@ class App extends React.Component {
         this.setState({today: new Date().toISOString().slice(0, 10)})
     }
 
+
     listMyOrders() {
-        this.setState({producer: ''})
         get(uri_orders)
             .then((data) => {
                 this.setState({orders: data});
             });
     }
 
-    updateMyOrder(id, order) {
-        let producer = this.state.producer
+    updateMyOrder(id, producer, jsonOrder) {
 
-        put(uri_orders + '/' + id, order)
+        put(uri_orders + '/' + id, jsonOrder)
             .then(
                 () => get(uri_orders).then(
                     (data) => {
-                        this.setState({orders: data});
+                        this.setState({orders: data, [producer]: []});
                     }
                 )
             );
-
-
     }
 
-    deleteMyOrder(id) {
-        let producer = this.state.producer
+    deleteMyOrder(id, producer) {
 
         deleteObject(uri_orders, id).then(() => get(uri_orders).then((data) => {
             this.setState({orders: data});
@@ -94,9 +88,7 @@ class App extends React.Component {
 
     }
 
-    selectProducerToPlaceOrders(producer) {
-
-        this.setState({producer: producer})
+    listOrdersPerProducer(producer) {
 
         get(uri_orders_to_producer + producer)
             .then((data) => {
@@ -105,10 +97,9 @@ class App extends React.Component {
 
     }
 
-    createOrder(order) {
-        let producer = this.state.producer
+    createOrder(producer, jsonOrder) {
 
-        post(uri_orders + '/to/' + producer, order)
+        post(uri_orders + '/to/' + producer, jsonOrder)
             .then(
                 () => get(uri_orders_to_producer + producer, {page: 0}).then(
                     (data) => {
@@ -118,23 +109,20 @@ class App extends React.Component {
             );
     }
 
-    updateOrder(id, order) {
-        let producer = this.state.producer
+    updateOrder(id, producer, jsonOrder) {
 
-        put(uri_orders + '/' + id, order)
+        put(uri_orders + '/' + id, jsonOrder)
             .then(
                 () => get(uri_orders_to_producer + producer, {page: 0}).then(
                     (data) => {
-                        this.setState({[producer]: data});
+                        this.setState({[producer]: data, orders:[]});
                     }
                 )
             );
 
-
     }
 
-    deleteOrder(id) {
-        let producer = this.state.producer
+    deleteOrder(id, producer) {
 
         deleteObject(uri_orders, id).then(() => get(uri_orders_to_producer + producer, {page: 0}).then((data) => {
             this.setState({[producer]: data});
@@ -212,25 +200,25 @@ class App extends React.Component {
 
                             </Panel>
 
-                            <Panel header="four" eventKey="four" onSelect={this.selectProducerToPlaceOrders}>
+                            <Panel header="four" eventKey="four" onSelect={this.listOrdersPerProducer}>
 
                                 {fourOrderList}
 
                             </Panel>
 
-                            <Panel header="tartes" eventKey="tartes" onSelect={this.selectProducerToPlaceOrders}>
+                            <Panel header="tartes" eventKey="tartes" onSelect={this.listOrdersPerProducer}>
 
                                 {tartesOrderList}
 
                             </Panel>
 
-                            <Panel header="entremets" eventKey="entremets" onSelect={this.selectProducerToPlaceOrders}>
+                            <Panel header="entremets" eventKey="entremets" onSelect={this.listOrdersPerProducer}>
 
                                 {entremetsOrderList}
 
                             </Panel>
 
-                            <Panel header="chocolat" eventKey="chocolat" onSelect={this.selectProducerToPlaceOrders}>
+                            <Panel header="chocolat" eventKey="chocolat" onSelect={this.listOrdersPerProducer}>
 
                                 {chocolatOrderList}
 
