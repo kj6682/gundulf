@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Button, Glyphicon, FormGroup, ControlLabel, FormControl, InputGroup} from 'react-bootstrap';
 
-class Order extends Component {
+class MyOrder extends Component {
     constructor(props) {
         super(props);
 
@@ -14,6 +14,7 @@ class Order extends Component {
         this.select = this.select.bind(this);
         this.handleChange = this.handleChange.bind(this)
         this.sendData = this.sendData.bind(this)
+        this.remove = this.remove.bind(this)
         this.handleKeyDown = this.handleKeyDown.bind(this)
 
     }
@@ -51,30 +52,30 @@ class Order extends Component {
             "quantity": o.quantity
         })
 
-        if (o.quantity < 0 || isNaN(o.quantity)) {
-            this.setState({
-                quantity: this.props.order.quantity
-            })
-            return
-        }
-        if ((o.id !== 0)) {
-            if(o.quantity > 0) {
-                this.props.callbacks.update(o.id, order)
-                return
-            }
-            this.props.callbacks.delete(o.id)
-            return
-        }
         if ((o.id === 0) && (o.quantity > 0)) {
             this.props.callbacks.create(order)
             return
         }
-
+        if ((o.id !== 0) && (o.quantity > 0)) {
+            this.props.callbacks.update(o.id, order)
+            return
+        }
         this.setState({
             quantity: this.props.order.quantity
         })
     }
 
+    remove(e) {
+
+        let o = this.state.order
+        if ( o.id !== 0 ) {
+            this.props.callbacks.delete(o.id)
+            return
+        }
+        this.setState({
+            quantity: this.props.order.quantity
+        })
+    }
 
 
     handleChange(e) {
@@ -128,17 +129,22 @@ class Order extends Component {
                            onBlur={this.sendData}/>
 
                 </td>
+                <td>
+                    <Button onClick={this.remove}>
+                        <Glyphicon glyph="remove-sign" />
+                    </Button>
+                </td>
             </tr>
         )
     }
 }
 
-Order.propTypes = {
+MyOrder.propTypes = {
     order: PropTypes.object.isRequired,
     callbacks: PropTypes.object.isRequired,
 }
 
-export default Order
+export default MyOrder
 
                            
                            

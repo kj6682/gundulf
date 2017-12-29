@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Order from './Order.jsx';
+import MyOrder from './MyOrder.jsx';
 
 
 import { Table } from 'react-bootstrap';
 
-class OrderList extends React.Component {
+class MyOrderList extends React.Component {
     constructor(props) {
         super(props)
     }
@@ -14,7 +14,7 @@ class OrderList extends React.Component {
 
 
         var orders = this.props.orders.map(order =>
-            <Order
+            <MyOrder
                 key={order.id+order.deadLineAndProduct}
                 order={order}
                 callbacks={this.props.callbacks}/>
@@ -31,6 +31,7 @@ class OrderList extends React.Component {
                             <th>deadline</th>
                             <th>product</th>
                             <th>quantity</th>
+                            <th></th>
                         </tr>
                         {orders}
                         </tbody>
@@ -41,9 +42,9 @@ class OrderList extends React.Component {
     }
 }
 
-OrderList.propTypes = {
+MyOrderList.propTypes = {
     orders: PropTypes.arrayOf(PropTypes.object),
     callbacks: PropTypes.object.isRequired
 }
 
-export default OrderList
+export default MyOrderList
