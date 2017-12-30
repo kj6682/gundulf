@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import Header from './components/Header.jsx';
 import OrderList from './components/OrderList.jsx';
+import SearchBar from './components/SearchBar.jsx';
+
 import {get} from './api/client.jsx'
 import {post} from './api/client.jsx'
 import {put} from './api/client.jsx'
@@ -42,7 +44,8 @@ class App extends React.Component {
             entremets: [],
             chocolat: [],
             tartes: [],
-            today: ''
+            today: '',
+            search4me: ''
         };
 
         this.listMyOrders = this.listMyOrders.bind(this)
@@ -54,13 +57,16 @@ class App extends React.Component {
         this.updateOrder = this.updateOrder.bind(this)
         this.deleteOrder = this.deleteOrder.bind(this)
 
-
+        this.filter = this.filter.bind(this)
     }
 
     componentDidMount() {
         this.setState({today: new Date().toISOString().slice(0, 10)})
     }
 
+    filter(searchTerm){
+        this.setState({search4me:searchTerm})
+    }
 
     listMyOrders() {
         get(uri_orders)
@@ -135,6 +141,7 @@ class App extends React.Component {
     render() {
 
         let myOrderList = <OrderList orders={this.state.orders}
+                                     filterText={this.state.search4me}
                                      callbacks={{
                                          create: this.createOrder,
                                          update: this.updateMyOrder,
@@ -143,6 +150,7 @@ class App extends React.Component {
 
 
         let fourOrderList = <OrderList orders={this.state.four}
+                                       filterText={this.state.search4me}
                                        callbacks={{
                                            create: this.createOrder,
                                            update: this.updateOrder,
@@ -150,6 +158,7 @@ class App extends React.Component {
                                        }}/>
 
         let tartesOrderList = <OrderList orders={this.state.tartes}
+                                         filterText={this.state.search4me}
                                          callbacks={{
                                              create: this.createOrder,
                                              update: this.updateOrder,
@@ -157,6 +166,7 @@ class App extends React.Component {
                                          }}/>
 
         let entremetsOrderList = <OrderList orders={this.state.entremets}
+                                            filterText={this.state.search4me}
                                             callbacks={{
                                                 create: this.createOrder,
                                                 update: this.updateOrder,
@@ -164,12 +174,17 @@ class App extends React.Component {
                                             }}/>
 
         let chocolatOrderList = <OrderList orders={this.state.chocolat}
+                                           filterText={this.state.search4me}
                                            callbacks={{
                                                create: this.createOrder,
                                                update: this.updateOrder,
                                                delete: this.deleteOrder
                                            }}/>
 
+        let searchBar = <SearchBar filterText={this.state.search4me}
+                                   callbacks={{
+                                       onUserInput: this.filter,
+                                   }}/>
 
         return (
             <div className='container'>
@@ -185,6 +200,9 @@ class App extends React.Component {
 
                         {config.lorem}
 
+                        {searchBar}
+
+
                     </Col>
                     <Col xs={12} md={8}>
                         <Accordion defaultActiveKey="1">
@@ -196,12 +214,11 @@ class App extends React.Component {
                                 {myOrderList}
 
                             </Panel>
-                        </Accordion>
 
-                        <p>{config.products_and_orders}</p>
 
-                        <Accordion defaultActiveKey="1">
                             <Panel header="Four" eventKey="four" onSelect={this.listOrdersPerProducer}>
+
+                                <p>{config.products_and_orders}</p>
 
                                 {fourOrderList}
 
@@ -209,17 +226,23 @@ class App extends React.Component {
 
                             <Panel header="Tartes" eventKey="tartes" onSelect={this.listOrdersPerProducer}>
 
+                                <p>{config.products_and_orders}</p>
+
                                 {tartesOrderList}
 
                             </Panel>
 
                             <Panel header="Entremets" eventKey="entremets" onSelect={this.listOrdersPerProducer}>
 
+                                <p>{config.products_and_orders}</p>
+
                                 {entremetsOrderList}
 
                             </Panel>
 
                             <Panel header="Chocolat" eventKey="chocolat" onSelect={this.listOrdersPerProducer}>
+
+                                <p>{config.products_and_orders}</p>
 
                                 {chocolatOrderList}
 

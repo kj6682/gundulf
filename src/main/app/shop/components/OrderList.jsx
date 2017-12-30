@@ -13,7 +13,11 @@ class OrderList extends React.Component {
     render() {
 
 
-        var orders = this.props.orders.map(order =>
+        let filteredContacts = this.props.orders.filter(
+            (order) => order.product.indexOf(this.props.filterText) !== -1
+        );
+
+        var orders = filteredContacts.map(order =>
             <Order
                 key={order.id+order.deadLineAndProduct}
                 order={order}
