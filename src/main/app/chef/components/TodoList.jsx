@@ -11,7 +11,21 @@ class TodoList extends React.Component {
 
     render() {
 
-        var orders = this.props.todos.map(todo =>
+        let filteredTodos = this.props.orders.filter(
+            (order) => order.product.indexOf(this.props.filterText) !== -1
+        ).sort(
+            (a, b) => {
+                if( a.deadline > b.deadline) return 1
+                if( a.deadline < b.deadline) return -1
+                var aa = a.product.split("-")
+                var bb = b.product.split("-")
+                if( aa[0] > bb[0] ) return 1
+                if( aa[0] < bb[0] ) return -1
+
+                return parseInt(aa[1])-parseInt(bb[1])
+            });
+
+        var orders = filteredTodos.map(todo =>
             <Todo
                 key={todo.product}
                 todo={todo}/>

@@ -13,11 +13,22 @@ class OrderList extends React.Component {
     render() {
 
 
-        let filteredContacts = this.props.orders.filter(
+        let filteredOrders = this.props.orders.filter(
             (order) => order.product.indexOf(this.props.filterText) !== -1
-        );
+        ).sort(
+            (a, b) => {
+                if( a.deadline > b.deadline) return 1
+                if( a.deadline < b.deadline) return -1
+                var aa = a.product.split("-")
+                var bb = b.product.split("-")
+                if( aa[0] > bb[0] ) return 1
+                if( aa[0] < bb[0] ) return -1
 
-        var orders = filteredContacts.map(order =>
+                return parseInt(aa[1])-parseInt(bb[1])
+            });
+
+
+        var orders = filteredOrders.map(order =>
             <Order
                 key={order.id+order.deadLineAndProduct}
                 order={order}
