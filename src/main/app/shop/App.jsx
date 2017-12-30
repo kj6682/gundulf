@@ -10,6 +10,7 @@ import {deleteObject} from './api/client.jsx'
 
 import {Accordion, Panel, Jumbotron, Button, Modal, FormGroup, Row, Col} from 'react-bootstrap';
 
+var config = require('./components/config.json')
 var api;
 var shop;
 
@@ -181,44 +182,44 @@ class App extends React.Component {
 
                 <Row className="show-grid">
                     <Col xs={12} md={4}>
-                        Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of
-                        classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a
-                        Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin
-                        words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in
-                        classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32
-                        and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero,
-                        written in 45 BC. This book is a treatise on the theory of ethics, very popular during the
-                        Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in
-                        section 1.10.32.
+
+                        {config.lorem}
+
                     </Col>
                     <Col xs={12} md={8}>
                         <Accordion defaultActiveKey="1">
 
                             <Panel header="My orders" eventKey="" onSelect={this.listMyOrders}>
 
+                                <p>{config.my_orders}</p>
+
                                 {myOrderList}
 
                             </Panel>
+                        </Accordion>
 
-                            <Panel header="four" eventKey="four" onSelect={this.listOrdersPerProducer}>
+                        <p>{config.products_and_orders}</p>
+
+                        <Accordion defaultActiveKey="1">
+                            <Panel header="Four" eventKey="four" onSelect={this.listOrdersPerProducer}>
 
                                 {fourOrderList}
 
                             </Panel>
 
-                            <Panel header="tartes" eventKey="tartes" onSelect={this.listOrdersPerProducer}>
+                            <Panel header="Tartes" eventKey="tartes" onSelect={this.listOrdersPerProducer}>
 
                                 {tartesOrderList}
 
                             </Panel>
 
-                            <Panel header="entremets" eventKey="entremets" onSelect={this.listOrdersPerProducer}>
+                            <Panel header="Entremets" eventKey="entremets" onSelect={this.listOrdersPerProducer}>
 
                                 {entremetsOrderList}
 
                             </Panel>
 
-                            <Panel header="chocolat" eventKey="chocolat" onSelect={this.listOrdersPerProducer}>
+                            <Panel header="Chocolat" eventKey="chocolat" onSelect={this.listOrdersPerProducer}>
 
                                 {chocolatOrderList}
 
