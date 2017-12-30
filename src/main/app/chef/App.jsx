@@ -72,6 +72,7 @@ class App extends React.Component {
         this.getOrders = this.getOrders.bind(this)
         this.getOrdersGroupedByProduct = this.getOrdersGroupedByProduct.bind(this)
 
+        this.filter = this.filter.bind(this)
     }
 
     componentWillMount() {
@@ -79,6 +80,10 @@ class App extends React.Component {
         get(uri_orders_group_by_product).then((data) => {
             this.setState({todos: data});
         });
+    }
+
+    filter(searchTerm){
+        this.setState({search4me:searchTerm})
     }
 
     close() {
@@ -149,9 +154,10 @@ class App extends React.Component {
     }
 
     render() {
-        let searchBar = <SearchBar search4me={this.state.search4me}
-                                   callbacks={{onUserInput: this.search}}/>
-
+        let searchBar = <SearchBar filterText={this.state.search4me}
+                                   callbacks={{
+                                       onUserInput: this.filter,
+                                   }}/>
 
         let addProductForm = <AddProductForm
             product={this.state.newProduct}
@@ -165,9 +171,9 @@ class App extends React.Component {
                                            remove: this.removeProduct
                                        }}/>
 
-        let orderList = <OrderList orders={this.state.orders}/>
+        let orderList = <OrderList orders={this.state.orders} filterText={this.state.search4me}/>
 
-        let todoList = <TodoList todos={this.state.todos}/>
+        let todoList = <TodoList todos={this.state.todos} filterText={this.state.search4me}/>
 
         return (
             <div className='container'>

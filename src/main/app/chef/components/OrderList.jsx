@@ -30,7 +30,7 @@ class OrderList extends React.Component {
 
         var orders = filteredOrders.map(order =>
             <Order
-                key={order.id}
+                key={order.id+order.deadLineAndProduct}
                 order={order}/>
         );
 
