@@ -15,9 +15,9 @@ class Order extends Component {
 
     render() {
         return (<tr>
+                <td>{this.props.order.deadline}</td>
                 <td>{this.props.order.product}</td>
                 <td>{this.props.order.quantity}</td>
-                <td>{this.props.order.deadline}</td>
                 <td>{this.props.order.shop}</td>
                 <td>
                     <Button onClick={this.remove}>

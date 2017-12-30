@@ -28,11 +28,10 @@ class OrderList extends React.Component {
                     <Table responsive striped bordered condensed hover>
                         <tbody>
                         <tr>
+                            <th>deadline             </th>
                             <th>Product             </th>
                             <th>Quantity             </th>
-                            <th>deadline             </th>
                             <th>Shop             </th>
-
                             <th></th>
                         </tr>
                         {orders}
