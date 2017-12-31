@@ -12,7 +12,11 @@ class ProductList extends React.Component {
 
     render() {
 
-        var products = this.props.products.map(product =>
+        let filteredProducts = this.props.products.filter(
+            (product) => product.name.indexOf(this.props.filterText) !== -1
+        );
+
+        var products = filteredProducts.map(product =>
             <Product
                 key={product.id}
                 product={product}
@@ -48,6 +52,7 @@ class ProductList extends React.Component {
 
 ProductList.propTypes = {
     products: PropTypes.arrayOf(PropTypes.object),
+    filterText: PropTypes.string,
     callbacks: PropTypes.object.isRequired
 }
 

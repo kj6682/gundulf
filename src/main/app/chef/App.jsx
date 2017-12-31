@@ -165,15 +165,18 @@ class App extends React.Component {
 
         let productList = <ProductList products={this.state.products}
                                        product={this.state.newProduct}
+                                       filterText={this.state.search4me}
                                        callbacks={{
                                            add: this.addProduct,
                                            cancel: this.cancel,
                                            remove: this.removeProduct
                                        }}/>
 
-        let orderList = <OrderList orders={this.state.orders} filterText={this.state.search4me}/>
+        let orderList = <OrderList orders={this.state.orders}
+                                   filterText={this.state.search4me}/>
 
-        let todoList = <TodoList todos={this.state.todos} filterText={this.state.search4me}/>
+        let todoList = <TodoList todos={this.state.todos}
+                                 filterText={this.state.search4me}/>
 
         return (
             <div className='container'>
