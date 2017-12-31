@@ -6,7 +6,7 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api/products")
 class ProductController {
 
     @Autowired
@@ -15,7 +15,7 @@ class ProductController {
     @Value("${API_PRODUCTS}")
     private String products;
 
-    @GetMapping("/products/{producer}")
+    @GetMapping("/{producer}")
     ResponseEntity<String> listByProducer(@PathVariable String producer,
                                 @RequestParam(value = "page", defaultValue = "0") int page,
                                 @RequestParam(value = "size", defaultValue = "0") int size){
@@ -24,14 +24,7 @@ class ProductController {
 
     }
 
-    @GetMapping("/products/{producer}/search")
-    ResponseEntity<String>  search(@PathVariable(required = true) String producer,
-                                   @RequestParam(value = "name", defaultValue = "") String name) {
-
-        return apiBouncer.get(products +"/"+ producer +"/search?name=" + name);
-    }
-
-    @PostMapping(value = "/products/{producer}")
+    @PostMapping(value = "/{producer}")
     ResponseEntity<?> create(@PathVariable String producer,
                              @RequestBody String product) {
 
@@ -39,7 +32,7 @@ class ProductController {
 
     }
 
-    @DeleteMapping(value = "/products/{producer}/{id}")
+    @DeleteMapping(value = "/{producer}/{id}")
     void delete(@PathVariable String producer,
                 @PathVariable(required = true) Long id) {
 
