@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/orders")
 class OrderController {
 
 
@@ -23,7 +25,7 @@ class OrderController {
      * I want to list all my order lines
      * so that I can facilitate dispatching the products
      */
-    @GetMapping("/orders/producer/{producer}")
+    @GetMapping("/producer/{producer}")
     ResponseEntity<String> producerOrders(@PathVariable String producer) {
 
         return apiBouncer.get(orders + "/producer/" + producer);
@@ -38,10 +40,10 @@ class OrderController {
      * so that I can facilitate my daily work
      * and possibly anticipate the future productions
      */
-    @GetMapping("/orders/producer/{producer}/group_by_product")
+    @GetMapping("/producer/{producer}/todo")
     ResponseEntity<String> producerTodos(@PathVariable String producer) {
 
-        return apiBouncer.get(orders + "/producer/" + producer + "/group_by_product");
+        return apiBouncer.get(orders + "/producer/" + producer + "/todo");
 
     }
 
@@ -53,7 +55,7 @@ class OrderController {
      * so that I can track what I asked
      * and possibly validate returns
      */
-    @GetMapping("/orders/shop/{shop}")
+    @GetMapping("/shop/{shop}")
     ResponseEntity<String> shopOrders(@PathVariable String shop) {
 
         return apiBouncer.get(orders + "/shop/" + shop);
@@ -68,10 +70,9 @@ class OrderController {
      * so I can place an order for their products
      * and possibly modify or cancel my commands
      */
-    @GetMapping("/orders/shop/{shop}/products/{producer}")
-    ResponseEntity<String> prepareOrderList(@PathVariable String shop,
+    @GetMapping("/shop/{shop}/products/{producer}")
+    ResponseEntity<String> dailyOrders(@PathVariable String shop,
                                             @PathVariable String producer) {
-
 
         return apiBouncer.get(orders + "/shop/" + shop + "/products/" + producer);
     }
@@ -85,12 +86,11 @@ class OrderController {
      * so I can place an order on it
      * and possibly modify it
      */
-    @PostMapping(value = "/orders/shop/{shop}/to/{producer}")
+    @PostMapping(value = "/shop/{shop}")
     ResponseEntity<?> create(@PathVariable String shop,
-                                  @PathVariable String producer,
-                                  @RequestBody String order) {
+                             @RequestBody String order) {
 
-        return apiBouncer.post(orders + "/shop/" + shop + "/to/" + producer, order);
+        return apiBouncer.post(orders + "/shop/" + shop, order);
 
     }
 
@@ -103,7 +103,7 @@ class OrderController {
      * so I can place an order on it
      * and possibly modify it
      */
-    @PutMapping(value = "/orders/shop/{shop}/{id}")
+    @PutMapping(value = "/shop/{shop}/{id}")
     ResponseEntity<?> update(@PathVariable String shop,
                                   @PathVariable String id,
                                   @RequestBody String order) {
@@ -112,7 +112,7 @@ class OrderController {
 
     }
 
-    @DeleteMapping(value = "/orders/shop/{shop}/{id}")
+    @DeleteMapping(value = "/shop/{shop}/{id}")
     void delete(@PathVariable String shop,
                 @PathVariable(required = true) Long id) {
 

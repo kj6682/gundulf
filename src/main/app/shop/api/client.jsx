@@ -18,6 +18,7 @@ export function get(endpoint, params) {
 
 
 export function post(endpoint, order) {
+
     return fetch(endpoint, {
         method: 'POST',
         headers: {
@@ -28,8 +29,8 @@ export function post(endpoint, order) {
     })
 }
 
-export function put(endpoint, order) {
-    return fetch(endpoint, {
+export function put(endpoint, id, order) {
+    return fetch(endpoint + '/' + id, {
         method: 'PUT',
         headers: {
             'Accept': 'application/json',

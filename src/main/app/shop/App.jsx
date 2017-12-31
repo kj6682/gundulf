@@ -30,7 +30,7 @@ else {
 
 
 const uri_orders = api.orders + '/shop/' + shop;
-const uri_orders_to_producer = uri_orders + '/products/';
+const uri_orders_products = uri_orders + '/products/';
 
 
 class App extends React.Component {
@@ -75,9 +75,30 @@ class App extends React.Component {
             });
     }
 
+    listOrdersPerProducer(producer) {
+
+        get( uri_orders_products + producer )
+            .then((data) => {
+                this.setState({[producer]: data});
+            });
+
+    }
+
+    createOrder(producer, jsonOrder) {
+
+        post(uri_orders, jsonOrder)
+            .then(
+                () => get(uri_orders_products + producer, {page: 0}).then(
+                    (data) => {
+                        this.setState({[producer]: data});
+                    }
+                )
+            );
+    }
+
     updateMyOrder(id, producer, jsonOrder) {
 
-        put(uri_orders + '/' + id, jsonOrder)
+        put(uri_orders, id, jsonOrder)
             .then(
                 () => get(uri_orders).then(
                     (data) => {
@@ -85,6 +106,19 @@ class App extends React.Component {
                     }
                 )
             );
+    }
+
+    updateOrder(id, producer, jsonOrder) {
+
+        put(uri_orders, id, jsonOrder)
+            .then(
+                () => get(uri_orders_products + producer, {page: 0}).then(
+                    (data) => {
+                        this.setState({[producer]: data, orders:[]});
+                    }
+                )
+            );
+
     }
 
     deleteMyOrder(id, producer) {
@@ -95,43 +129,10 @@ class App extends React.Component {
 
     }
 
-    listOrdersPerProducer(producer) {
-
-        get(uri_orders_to_producer + producer)
-            .then((data) => {
-                this.setState({[producer]: data});
-            });
-
-    }
-
-    createOrder(producer, jsonOrder) {
-
-        post(uri_orders + '/to/' + producer, jsonOrder)
-            .then(
-                () => get(uri_orders_to_producer + producer, {page: 0}).then(
-                    (data) => {
-                        this.setState({[producer]: data});
-                    }
-                )
-            );
-    }
-
-    updateOrder(id, producer, jsonOrder) {
-
-        put(uri_orders + '/' + id, jsonOrder)
-            .then(
-                () => get(uri_orders_to_producer + producer, {page: 0}).then(
-                    (data) => {
-                        this.setState({[producer]: data, orders:[]});
-                    }
-                )
-            );
-
-    }
 
     deleteOrder(id, producer) {
 
-        deleteObject(uri_orders, id).then(() => get(uri_orders_to_producer + producer, {page: 0}).then((data) => {
+        deleteObject(uri_orders, id).then(() => get(uri_orders_products + producer, {page: 0}).then((data) => {
             this.setState({[producer]: data});
         }));
 

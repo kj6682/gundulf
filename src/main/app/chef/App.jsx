@@ -33,7 +33,7 @@ else {
 }
 
 const uri_orders = api.orders + '/producer/' + producer;
-const uri_orders_group_by_product = uri_orders + '/group_by_product';
+const uri_orders_todo = uri_orders + '/todo';
 const uri_products = api.products + '/' + producer;
 const uri_products_search = uri_products + '/search';
 
@@ -63,21 +63,39 @@ class App extends React.Component {
 
         this.addProduct = this.addProduct.bind(this)
         this.removeProduct = this.removeProduct.bind(this)
-        this.search = this.search.bind(this)
 
         this.close = this.close.bind(this)
         this.cancel = this.cancel.bind(this)
 
         this.getProducts = this.getProducts.bind(this)
         this.getOrders = this.getOrders.bind(this)
-        this.getOrdersGroupedByProduct = this.getOrdersGroupedByProduct.bind(this)
+        this.getTodoList = this.getTodoList.bind(this)
 
         this.filter = this.filter.bind(this)
     }
 
     componentWillMount() {
 
-        get(uri_orders_group_by_product).then((data) => {
+        get(uri_orders_todo).then((data) => {
+            this.setState({todos: data});
+        });
+    }
+
+    getProducts() {
+        get(uri_products).then((data) => {
+            this.setState({products: data});
+        });
+    }
+
+    getOrders() {
+        get(uri_orders).then((data) => {
+            this.setState({orders: data});
+        });
+    }
+
+    getTodoList() {
+
+        get(uri_orders_todo).then((data) => {
             this.setState({todos: data});
         });
     }
@@ -90,17 +108,6 @@ class App extends React.Component {
         this.setState({show: false});
     }
 
-
-    search(search4me) {
-        this.setState({search4me: search4me})
-
-        get(uri_products_search, {name: [search4me]}).then((data) => {
-
-            this.setState({products: data});
-        });
-
-
-    }
 
     addProduct(product) {
         var newProduct = JSON.stringify({
@@ -131,26 +138,6 @@ class App extends React.Component {
 
     cancel(item) {
         this.setState({newProduct: dummyProduct, show: false});
-    }
-
-
-    getProducts() {
-        get(uri_products).then((data) => {
-            this.setState({products: data});
-        });
-    }
-
-    getOrders() {
-        get(uri_orders).then((data) => {
-            this.setState({orders: data});
-        });
-    }
-
-    getOrdersGroupedByProduct() {
-
-        get(uri_orders_group_by_product).then((data) => {
-            this.setState({todos: data});
-        });
     }
 
     render() {
@@ -193,7 +180,7 @@ class App extends React.Component {
                 <Accordion defaultActiveKey="todos">
 
 
-                    <Panel header={"ToDo"} eventKey="todos" onSelect={this.getOrdersGroupedByProduct}>
+                    <Panel header={"ToDo"} eventKey="todos" onSelect={this.getTodoList}>
 
                         {todoList}
 
