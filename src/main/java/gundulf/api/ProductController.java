@@ -13,14 +13,16 @@ class ProductController {
     ApiBouncer apiBouncer;
 
     @Value("${API_PRODUCTS}")
-    private String products;
+    private String root;
+
+    private String products = "/api/products";
 
     @GetMapping("/{producer}")
     ResponseEntity<String> listByProducer(@PathVariable String producer,
                                 @RequestParam(value = "page", defaultValue = "0") int page,
                                 @RequestParam(value = "size", defaultValue = "0") int size){
 
-        return apiBouncer.get(products +"/"+ producer);
+        return apiBouncer.get(root + products +"/"+ producer);
 
     }
 
@@ -28,7 +30,7 @@ class ProductController {
     ResponseEntity<?> create(@PathVariable String producer,
                              @RequestBody String product) {
 
-        return apiBouncer.post(products +"/"+ producer, product);
+        return apiBouncer.post(root + products +"/"+ producer, product);
 
     }
 
@@ -36,7 +38,7 @@ class ProductController {
     void delete(@PathVariable String producer,
                 @PathVariable(required = true) Long id) {
 
-        apiBouncer.delete(products +"/"+ producer +"/"+ id);
+        apiBouncer.delete(root + products +"/"+ producer +"/"+ id);
     }
 
 }//:)

@@ -16,7 +16,9 @@ class OrderController {
     ApiBouncer apiBouncer;
 
     @Value("${API_ORDERS}")
-    private String orders;
+    private String root;
+
+    private String orders = "/api/orders";
 
     /**
      * ORDER-001 - the_producer_lists_the_orders
@@ -28,7 +30,7 @@ class OrderController {
     @GetMapping("/producer/{producer}")
     ResponseEntity<String> producerOrders(@PathVariable String producer) {
 
-        return apiBouncer.get(orders + "/producer/" + producer);
+        return apiBouncer.get(root + orders + "/producer/" + producer);
 
     }
 
@@ -43,7 +45,7 @@ class OrderController {
     @GetMapping("/producer/{producer}/todo")
     ResponseEntity<String> producerTodos(@PathVariable String producer) {
 
-        return apiBouncer.get(orders + "/producer/" + producer + "/todo");
+        return apiBouncer.get(root + orders + "/producer/" + producer + "/todo");
 
     }
 
@@ -58,7 +60,7 @@ class OrderController {
     @GetMapping("/shop/{shop}")
     ResponseEntity<String> shopOrders(@PathVariable String shop) {
 
-        return apiBouncer.get(orders + "/shop/" + shop);
+        return apiBouncer.get(root + orders + "/shop/" + shop);
 
     }
 
@@ -74,7 +76,7 @@ class OrderController {
     ResponseEntity<String> dailyOrders(@PathVariable String shop,
                                             @PathVariable String producer) {
 
-        return apiBouncer.get(orders + "/shop/" + shop + "/products/" + producer);
+        return apiBouncer.get(root + orders + "/shop/" + shop + "/products/" + producer);
     }
 
     /**
@@ -90,7 +92,7 @@ class OrderController {
     ResponseEntity<?> create(@PathVariable String shop,
                              @RequestBody String order) {
 
-        return apiBouncer.post(orders + "/shop/" + shop, order);
+        return apiBouncer.post(root + orders + "/shop/" + shop, order);
 
     }
 
@@ -108,7 +110,7 @@ class OrderController {
                                   @PathVariable String id,
                                   @RequestBody String order) {
 
-        return apiBouncer.put(orders + "/shop/" + shop + "/" + id, order);
+        return apiBouncer.put(root + orders + "/shop/" + shop + "/" + id, order);
 
     }
 
@@ -116,6 +118,6 @@ class OrderController {
     void delete(@PathVariable String shop,
                 @PathVariable(required = true) Long id) {
 
-        apiBouncer.delete(orders + "/shop/" + shop + "/" + id);
+        apiBouncer.delete(root + orders + "/shop/" + shop + "/" + id);
     }
 }//:)

@@ -5,9 +5,9 @@
 export VERSION="1.1.0"
 export API_ROOT="http://localhost:8080"
 
-export API_PRODUCTS="http://localhost:9000/api/products"
-export API_ITEMS="http://localhost:9000/api/items"
-export API_ORDERS="http://localhost:9100/api/orders"
+export API_PRODUCTS="http://localhost:9000"
+export API_ITEMS="http://localhost:9000"
+export API_ORDERS="http://localhost:9100"
 
 set -e
 set -o pipefail

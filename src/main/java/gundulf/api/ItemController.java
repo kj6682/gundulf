@@ -13,27 +13,29 @@ class ItemController {
     ApiBouncer apiBouncer;
 
     @Value("${API_ITEMS}")
-    private String items;
+    private String root;
+
+    private String items = "/api/items";
 
 
     @GetMapping("/items")
     ResponseEntity<String> list(@RequestParam(value = "page", defaultValue = "0") int page,
                                 @RequestParam(value = "size", defaultValue = "0") int size){
 
-        return apiBouncer.get(items);
+        return apiBouncer.get(root + items);
 
     }
 
     @GetMapping("/items/search")
     ResponseEntity<String>  search(@RequestParam(value = "name", defaultValue = "") String name) {
 
-        return apiBouncer.get(items + "/search?name=" + name);
+        return apiBouncer.get(root + items + "/search?name=" + name);
     }
 
     @PostMapping(value = "/items")
     ResponseEntity<?> create(@RequestBody String item) {
 
-        return apiBouncer.post(items, item);
+        return apiBouncer.post(root +items, item);
 
     }
 
