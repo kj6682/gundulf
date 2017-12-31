@@ -14,7 +14,13 @@ class ProductList extends React.Component {
 
         let filteredProducts = this.props.products.filter(
             (product) => product.name.indexOf(this.props.filterText) !== -1
-        );
+        ).sort(
+            (a, b) => {
+                if( a.name > b.name) return 1
+                if( a.name < b.name) return -1
+                return parseInt(a.pieces)-parseInt(b.pieces)
+            });
+        ;
 
         var products = filteredProducts.map(product =>
             <Product
