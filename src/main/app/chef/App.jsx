@@ -15,27 +15,22 @@ import {deleteObject} from './api/client.jsx'
 
 import {Navbar, Nav, NavItem, NavDropdown, MenuItem, Accordion, Panel, Jumbotron, Button, Modal} from 'react-bootstrap';
 
-var api;
+var root;
 var producer;
 
 if (!process.env.DEV_SERVER) {
-    producer = window.proxy.producer;
-    api = window.proxy.api;
+    producer = window.api.producer;
+    root = window.api.root;
 }
 else {
     producer = 'four';
-    api =
-        {
-            products: "http://localhost:8080/api/products",
-            items: "http://localhost:8080/api/items",
-            orders: "http://localhost:8080/api/orders"
-        }
+    root = "http://localhost:8080";
 }
 
-const uri_orders = api.orders + '/producer/' + producer;
+const uri_orders = root + '/api/orders/producer/' + producer;
 const uri_orders_todo = uri_orders + '/todo';
-const uri_products = api.products + '/' + producer;
-const uri_products_search = uri_products + '/search';
+
+const uri_products = root + '/api/products/' + producer;
 
 const dummyProduct = {
     "category": "category",

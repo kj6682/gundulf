@@ -3,9 +3,7 @@
 #
 # use this DEV script to fully build the bundle with dev config
 export VERSION="1.1.0"
-export PROXY_PRODUCTS="http://localhost:8080/api/products"
-export PROXY_ITEMS="http://localhost:8080/api/items"
-export PROXY_ORDERS="http://localhost:8080/api/orders"
+export API_ROOT="http://localhost:8080"
 
 export API_PRODUCTS="https://gundulf-products.herokuapp.com/api/products"
 export API_ITEMS="https://gundulf-products.herokuapp.com/api/items"

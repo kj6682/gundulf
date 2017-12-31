@@ -40286,20 +40286,19 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var config = __webpack_require__(297);
-var api;
+
 var shop;
+var root;
 
 if (!Object({"NODE_ENV":"dev"}).DEV_SERVER) {
-    shop = window.proxy.shop;
-    api = window.proxy.api;
+    shop = window.api.shop;
+    root = window.api.root;
 } else {
     shop = 'paris';
-    api = {
-        orders: "http://localhost:8080/api/orders"
-    };
+    root = "http://localhost:8080";
 }
 
-var uri_orders = api.orders + '/shop/' + shop;
+var uri_orders = root + '/api/orders/shop/' + shop;
 var uri_orders_products = uri_orders + '/products/';
 
 var App = function (_React$Component) {
@@ -40585,7 +40584,7 @@ var isProduction = "dev" === 'production';
 var config = __webpack_require__(297);
 
 var shop;
-if (!Object({"NODE_ENV":"dev"}).DEV_SERVER) shop = window.proxy.shop;else shop = 'paris';
+if (!Object({"NODE_ENV":"dev"}).DEV_SERVER) shop = window.api.shop;else shop = 'paris';
 
 var Header = function (_React$Component) {
     _inherits(Header, _React$Component);

@@ -8,12 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 class ChefController {
 
-    @Value("${PROXY_PRODUCTS}")
-    private String proxyProducts;
-    @Value("${PROXY_ITEMS}")
-    private String proxyItems;
-    @Value("${PROXY_ORDERS}")
-    private String proxyOrders;
+    @Value("${API_ROOT}")
+    private String api_root;
 
     @RequestMapping("/four")
     public String oven(Model model) {
@@ -37,9 +33,7 @@ class ChefController {
 
     private String getModel(PRODUCER producer, Model model) {
         model.addAttribute("producer", producer.name);
-        model.addAttribute("proxyProducts", proxyProducts);
-        model.addAttribute("proxyItems", proxyItems);
-        model.addAttribute("proxyOrders", proxyOrders);
+        model.addAttribute("root", api_root);
         return "chef/index";
     }
 

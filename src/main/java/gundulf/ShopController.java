@@ -3,42 +3,34 @@ package gundulf;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 
 @Controller
 class ShopController {
 
-    @Value("${PROXY_ORDERS}")
-    private String proxyOrders;
+    @Value("${API_ROOT}")
+    private String root;
 
-    @RequestMapping("/shop/{shop}")
-    public String paris(@PathVariable String shop, Model model) {
-
-
-        if(SHOP.LUXEMBOURG.toString().equals(shop.toUpperCase())){
-
-            return getModel(SHOP.LUXEMBOURG, model);
-        }
-
-        if(SHOP.MILAN.toString().equals(shop.toUpperCase())){
-
-            return getModel(SHOP.MILAN, model);
-        }
-
+    @RequestMapping("/paris")
+    public String paris(Model model) {
         return getModel(SHOP.PARIS, model);
     }
 
+    @RequestMapping("/luxembourg")
+    public String luxembourg(Model model) {
+        return getModel(SHOP.LUXEMBOURG, model);
+    }
+
+
     private String getModel(SHOP shop, Model model) {
         model.addAttribute("shop", shop.name);
-        model.addAttribute("proxyOrders", proxyOrders);
+        model.addAttribute("root", root);
         return "shop/index";
     }
 
 
     private enum SHOP {
-        PARIS("paris"), LUXEMBOURG("luxembourg"), MILAN("milan");
+        PARIS("paris"), LUXEMBOURG("luxembourg");
 
         private String name;
 

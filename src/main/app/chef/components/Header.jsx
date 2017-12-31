@@ -4,7 +4,7 @@ var config = require('./config.json')
 
 var producer;
 if(!process.env.DEV_SERVER)
-    producer = window.proxy.producer;
+    producer = window.api.producer;
 else
     producer = 'four';
 

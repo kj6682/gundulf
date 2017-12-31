@@ -19,13 +19,9 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
 
-    var proxy = {
+    var api = {
         producer: [[${producer}]],
-        api: {
-            products: [[${proxyProducts}]],
-            items: [[${proxyItem}]],
-            orders: [[${proxyOrders}]]
-        }
+        root: [[${root}]]
     }
 
     /*]]>*/

@@ -13,23 +13,21 @@ import {deleteObject} from './api/client.jsx'
 import {Accordion, Panel, Jumbotron, Button, Modal, FormGroup, Row, Col} from 'react-bootstrap';
 
 var config = require('./components/config.json')
-var api;
+
 var shop;
+var root;
 
 if (!process.env.DEV_SERVER) {
-    shop = window.proxy.shop;
-    api = window.proxy.api;
+    shop = window.api.shop;
+    root = window.api.root;
 }
 else {
     shop = 'paris';
-    api =
-        {
-            orders: "http://localhost:8080/api/orders"
-        }
+    root = "http://localhost:8080";
 }
 
 
-const uri_orders = api.orders + '/shop/' + shop;
+const uri_orders = root + '/api/orders/shop/' + shop;
 const uri_orders_products = uri_orders + '/products/';
 
 
@@ -64,8 +62,8 @@ class App extends React.Component {
         this.setState({today: new Date().toISOString().slice(0, 10)})
     }
 
-    filter(searchTerm){
-        this.setState({search4me:searchTerm})
+    filter(searchTerm) {
+        this.setState({search4me: searchTerm})
     }
 
     listMyOrders() {
@@ -77,7 +75,7 @@ class App extends React.Component {
 
     listOrdersPerProducer(producer) {
 
-        get( uri_orders_products + producer )
+        get(uri_orders_products + producer)
             .then((data) => {
                 this.setState({[producer]: data});
             });
@@ -114,7 +112,7 @@ class App extends React.Component {
             .then(
                 () => get(uri_orders_products + producer, {page: 0}).then(
                     (data) => {
-                        this.setState({[producer]: data, orders:[]});
+                        this.setState({[producer]: data, orders: []});
                     }
                 )
             );

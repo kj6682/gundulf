@@ -4,7 +4,7 @@ var config = require('./config.json')
 
 var shop;
 if(!process.env.DEV_SERVER)
-    shop = window.proxy.shop;
+    shop = window.api.shop;
 else
     shop = 'paris';
 
