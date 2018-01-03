@@ -33,10 +33,10 @@ const uri_orders_todo = uri_orders + '/todo';
 const uri_products = root + '/api/products/' + producer;
 
 const dummyProduct = {
-    "category": "category",
-    "created": "0001-01-01",
+    "startDate": "0001-01-01",
+    "endDate": "9999-12-31",
     "id": 0,
-    "name": "name",
+    "name": "produit",
     "pieces": "pieces",
     "producer": producer,
     "status": "string"
@@ -106,8 +106,8 @@ class App extends React.Component {
 
     addProduct(product) {
         var newProduct = JSON.stringify({
-            "category": product.category,
-            "created": product.created,
+            "startDate": product.startDate,
+            "endDate": product.endDate,
             "id": 0,
             "name": product.name,
             "pieces": product.pieces,
@@ -182,13 +182,13 @@ class App extends React.Component {
                     </Panel>
 
 
-                    <Panel header={"Orders"} eventKey="orders" onSelect={this.getOrders}>
+                    <Panel header={"Ordres"} eventKey="orders" onSelect={this.getOrders}>
 
                         {orderList}
 
                     </Panel>
 
-                    <Panel header={"Commercial Products"} eventKey="products" onSelect={this.getProducts}>
+                    <Panel header={"Produits Commerciaux"} eventKey="products" onSelect={this.getProducts}>
 
                         {productList}
 

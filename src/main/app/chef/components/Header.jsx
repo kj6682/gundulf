@@ -12,7 +12,7 @@ else
 export default class Header extends React.Component {
 
     render() {
-        let title = config.title + " " + producer;
+        let title = config.title + " " + producer.toUpperCase();
         return (
                 <div>
                     <div><img src="img/hop.png" className="logoimg" /></div>

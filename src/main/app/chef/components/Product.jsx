@@ -18,7 +18,10 @@ class Product extends Component {
                   <td>{this.props.product.name}</td>
                   <td>{this.props.product.pieces}</td>
                   <td>{this.props.product.producer}</td>
-                  <td>
+                  <td>{this.props.product.startDate}</td>
+                  <td>{this.props.product.endDate}</td>
+
+                <td>
                       <Button onClick={this.remove}>
                           <Glyphicon glyph="remove-sign" />
                       </Button>

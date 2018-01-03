@@ -1,10 +1,10 @@
 {
-  "title": "Welcome to sweet ",
-  "caption": "this is a simple responsive application to manage the product catalog",
-  "description": "the application lists all the products and allow the lab manager to create or delete items",
-  "products":"This is the list of the commercial products. They are composed of at least one base product and can be used else by shops and customers to create orders. These products can be associated with a recipe.",
-  "orders": "This is the detailed list of orders requested by the shops",
-  "todos": "This section shows the actions required by stores, grouped by product and sorted by date."
+  "title": " ",
+  "caption": "application pour la gestion du catalogue produit",
+  "description": "l'application répertorie tous les produits et permet au responsable du laboratoire de créer ou de supprimer des éléments",
+  "products":"Ceci est la liste des produits commerciaux. Ils peuvent être utilisés par les magasins et les clients pour créer des commandes. ",
+  "orders": "Voici la liste détaillée des commandes demandées par les boutiques",
+  "todos": "Cette section présente les actions requises par les magasins, regroupées par produit et triées par date."
 }
 
 

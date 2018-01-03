@@ -24,7 +24,7 @@ class ProductList extends React.Component {
 
         var products = filteredProducts.map(product =>
             <Product
-                key={product.id}
+                key={product.name + product.pieces}
                 product={product}
                 callbacks={this.props.callbacks}/>
         );
@@ -43,9 +43,11 @@ class ProductList extends React.Component {
                     <Table responsive striped bordered condensed hover>
                         <tbody>
                         <tr>
-                            <th>Name</th>
+                            <th>Produit</th>
                             <th>Pieces             </th>
-                            <th>Producer           </th>
+                            <th>Producteur           </th>
+                            <th>valide du          </th>
+                            <th>au                 </th>
                             <th></th>
                         </tr>
                         {products}

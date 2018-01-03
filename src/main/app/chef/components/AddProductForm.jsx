@@ -9,8 +9,8 @@ class AddProductForm extends React.Component {
         super(props)
 
         this.state = {
-            "category": "",
-            "created": "0001-01-01",
+            "startDate": "0001-01-01",
+            "endDate": "2020-31-12",
             "name": "",
             "pieces": "1",
             "producer": "",
@@ -28,7 +28,8 @@ class AddProductForm extends React.Component {
                 name: this.props.product.name,
                 pieces: this.props.product.pieces,
                 producer: this.props.product.producer,
-                created: this.props.product.created
+                startDate: this.props.product.startDate,
+                endDate: this.props.product.endDate
             }
         )
     }
@@ -44,10 +45,10 @@ class AddProductForm extends React.Component {
     submit(e) {
         let newProduct = {
             name: this.state.name,
-            category: '',
             pieces: this.state.pieces,
             producer: this.state.producer,
-            created: this.state.created
+            startDate: this.state.startDate,
+            endDate: this.state.endDate
         }
         this.props.callbacks.add(newProduct)
     }
@@ -58,10 +59,12 @@ class AddProductForm extends React.Component {
     }
 
     getValidationState(elem) {
-        const length = this.state[elem].length;
+        console.log(elem)
+        console.log(">>" + this.state[elem])
+        /*const length = this.state[elem].length;
         if (length > 5) return 'success';
         else if (length > 3) return 'warning';
-        else if (length > 0) return 'error';
+        else if (length > 0) return 'error';*/
         return null;
     }
 
@@ -79,7 +82,7 @@ class AddProductForm extends React.Component {
                     controlId="name"
                     validationState={this.getValidationState('name')}
                 >
-                    <ControlLabel>Name :</ControlLabel>
+                    <ControlLabel>Produit :</ControlLabel>
                     <FormControl
                         type="text"
                         value={this.state.name}
@@ -95,7 +98,7 @@ class AddProductForm extends React.Component {
                     controlId="pieces"
                     validationState={this.getValidationStatePieces()}
                 >
-                    <ControlLabel>Number of pieces :</ControlLabel>
+                    <ControlLabel>Nombre de pieces :</ControlLabel>
                     <FormControl
                         type="text"
                         value={this.state.pieces}
@@ -106,18 +109,33 @@ class AddProductForm extends React.Component {
                 </FormGroup>
 
                 <FormGroup
-                    controlId="created"
-                    validationState={this.getValidationState('created')}
+                    controlId="startDate"
+                    validationState={this.getValidationState('startDate')}
                 >
-                    <ControlLabel>Creation Date :</ControlLabel>
+                    <ControlLabel>Valide du :</ControlLabel>
                     <FormControl
                         type="date"
-                        value={this.state.created}
+                        value={this.state.startDate}
                         placeholder="Enter text"
                         onChange={this.handleChange}
                     />
                     <FormControl.Feedback/>
                 </FormGroup>
+
+                <FormGroup
+                    controlId="endDate"
+                    validationState={this.getValidationState('endDate')}
+                >
+                    <ControlLabel>au :</ControlLabel>
+                    <FormControl
+                        type="date"
+                        value={this.state.endDate}
+                        placeholder="Enter text"
+                        onChange={this.handleChange}
+                    />
+                    <FormControl.Feedback/>
+                </FormGroup>
+
 
                 <ButtonGroup>
                     <Button onClick={this.cancel}>
