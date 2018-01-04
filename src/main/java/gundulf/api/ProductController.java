@@ -34,11 +34,12 @@ class ProductController {
 
     }
 
-    @DeleteMapping(value = "/{producer}/{id}")
-    void delete(@PathVariable String producer,
-                @PathVariable(required = true) Long id) {
+    @DeleteMapping(value = "/{producer}/{product}/{pieces}")
+    void delete(@PathVariable(required = true) String producer,
+                @PathVariable(required = true) String product,
+                @PathVariable(required = true) Integer pieces) {
 
-        apiBouncer.delete(root + products +"/"+ producer +"/"+ id);
+        apiBouncer.delete(root + products +"/"+ producer +"/"+ product +"/"+ pieces);
     }
 
 }//:)

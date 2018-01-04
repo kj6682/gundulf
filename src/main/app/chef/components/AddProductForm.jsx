@@ -28,7 +28,7 @@ class AddProductForm extends React.Component {
                 name: this.props.product.name,
                 pieces: this.props.product.pieces,
                 producer: this.props.product.producer,
-                startDate: this.props.product.startDate,
+                startDate: new Date().toISOString().slice(0, 10),
                 endDate: this.props.product.endDate
             }
         )
@@ -59,12 +59,10 @@ class AddProductForm extends React.Component {
     }
 
     getValidationState(elem) {
-        console.log(elem)
-        console.log(">>" + this.state[elem])
-        /*const length = this.state[elem].length;
-        if (length > 5) return 'success';
+        const length = this.state[elem].length;
+        if (length > 4) return 'success';
         else if (length > 3) return 'warning';
-        else if (length > 0) return 'error';*/
+        else if (length > 0) return 'error';
         return null;
     }
 
@@ -86,7 +84,7 @@ class AddProductForm extends React.Component {
                     <FormControl
                         type="text"
                         value={this.state.name}
-                        placeholder={this.state.name}
+                        placeholder="nom du produit"
                         onChange={this.handleChange}
                     />
                     <FormControl.Feedback/>
@@ -102,7 +100,7 @@ class AddProductForm extends React.Component {
                     <FormControl
                         type="text"
                         value={this.state.pieces}
-                        placeholder="Enter text"
+                        placeholder="1"
                         onChange={this.handleChange}
                     />
                     <FormControl.Feedback/>

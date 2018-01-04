@@ -30,8 +30,8 @@ export function post(endpoint, item) {
     })
 }
 
-export function deleteObject(endpoint, id) {
-    return fetch(endpoint + '/' + id, {method: 'DELETE',})
+export function deleteObject(endpoint, name, pieces) {
+    return fetch(endpoint + '/' + name + '/' + pieces, {method: 'DELETE',})
         .catch(err => {
             console.log(err);
         });

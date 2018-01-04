@@ -33,11 +33,11 @@ const uri_orders_todo = uri_orders + '/todo';
 const uri_products = root + '/api/products/' + producer;
 
 const dummyProduct = {
-    "startDate": "0001-01-01",
+    "startDate": "",
     "endDate": "9999-12-31",
     "id": 0,
-    "name": "produit",
-    "pieces": "pieces",
+    "name": "",
+    "pieces": "",
     "producer": producer,
     "status": "string"
 }
@@ -53,7 +53,8 @@ class App extends React.Component {
             search4me: '',
             newProduct: dummyProduct,
             show: false,
-            producer: producer
+            producer: producer,
+            today: ''
         };
 
         this.addProduct = this.addProduct.bind(this)
@@ -70,7 +71,7 @@ class App extends React.Component {
     }
 
     componentWillMount() {
-
+        this.setState({today: new Date().toISOString().slice(0, 10)})
         get(uri_orders_todo).then((data) => {
             this.setState({todos: data});
         });
@@ -124,8 +125,8 @@ class App extends React.Component {
         );
     }
 
-    removeProduct(id) {
-        deleteObject(uri_products, id).then(() => get(uri_products, {page: 0}).then((data) => {
+    removeProduct(name, pieces) {
+        deleteObject(uri_products, name, pieces).then(() => get(uri_products, {page: 0}).then((data) => {
             this.setState({products: data});
         }));
     }
@@ -143,6 +144,7 @@ class App extends React.Component {
 
         let addProductForm = <AddProductForm
             product={this.state.newProduct}
+            today={this.state.today}
             callbacks={{add: this.addProduct, cancel: this.cancel}}/>
 
         let productList = <ProductList products={this.state.products}

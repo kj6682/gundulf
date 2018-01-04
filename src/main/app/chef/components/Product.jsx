@@ -9,7 +9,7 @@ class Product extends Component {
     }
     
     remove(){
-        this.props.callbacks.remove(this.props.product.id);
+        this.props.callbacks.remove(this.props.product.name, this.props.product.pieces);
     }
     
     
