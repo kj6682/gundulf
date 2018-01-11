@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Product from './Product.jsx';
 import AddProduct from './AddProduct.jsx';
 
-import { Table } from 'react-bootstrap';
+import { Grid, Row } from 'react-bootstrap';
 
 class ProductList extends React.Component {
     constructor(props) {
@@ -40,19 +40,12 @@ class ProductList extends React.Component {
                 {addProduct}
 
                 {(this.props.products.length > 0) ?
-                    <Table responsive striped bordered condensed hover>
-                        <tbody>
-                        <tr>
-                            <th>Produit</th>
-                            <th>Pieces             </th>
-                            <th>Producteur           </th>
-                            <th>valide du          </th>
-                            <th>au                 </th>
-                            <th></th>
-                        </tr>
-                        {products}
-                        </tbody>
-                    </Table> : <p>no object found for this selection</p>}
+                    <Grid>
+                        <Row className="show-grid">
+                            {products}
+                        </Row>
+
+                    </Grid> : <p>no object found for this selection</p>}
             </div>
         )
     }

@@ -1,41 +1,45 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Button, Glyphicon} from 'react-bootstrap';
+import {Row, Col, Button, Glyphicon} from 'react-bootstrap';
 
 class Product extends Component {
-   constructor(props) {
+    constructor(props) {
         super(props);
-        this.remove= this.remove.bind(this);
+        this.remove = this.remove.bind(this);
     }
-    
-    remove(){
+
+    remove() {
         this.props.callbacks.remove(this.props.product.name, this.props.product.pieces);
     }
-    
-    
-    render() {
-        return (<tr>
-                  <td>{this.props.product.name}</td>
-                  <td>{this.props.product.pieces}</td>
-                  <td>{this.props.product.producer}</td>
-                  <td>{this.props.product.startDate}</td>
-                  <td>{this.props.product.endDate}</td>
 
-                <td>
-                      <Button onClick={this.remove}>
-                          <Glyphicon glyph="remove-sign" />
-                      </Button>
-                  </td>     
-                </tr>
-               )
-    } 
+
+    render() {
+        return (
+
+                <Col xs={12} md={3} className='card'>
+
+                        <div className="container">
+                            <h4><b>{this.props.product.name}</b> ({this.props.product.pieces})</h4>
+
+                            <p>{this.props.product.producer}</p>
+                            <p>valide du : {this.props.product.startDate}</p><p> au : {this.props.product.endDate} </p>
+                            <Button onClick={this.remove}>
+                                <Glyphicon glyph="remove-sign"/>
+                            </Button>
+                        </div>
+
+
+                </Col>
+
+        )
+    }
 }
 
 Product.propTypes = {
-  product: PropTypes.object.isRequired,
-  callbacks: PropTypes.object.isRequired,
+    product: PropTypes.object.isRequired,
+    callbacks: PropTypes.object.isRequired,
 }
-    
+
 export default Product     
 
                            
