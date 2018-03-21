@@ -1,9 +1,8 @@
-package gundulf;
+package org.kj6682.gundulf;
 
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -15,9 +14,9 @@ import java.util.Enumeration;
 
 @Profile({"dev"})
 @Component
-public class SimpleCorsFilter implements Filter {
+public class DevCorsFilter implements Filter {
 
-    private final Logger log = LoggerFactory.getLogger(SimpleCorsFilter.class);
+    private final Logger log = LoggerFactory.getLogger(DevCorsFilter.class);
 
 
     @Override

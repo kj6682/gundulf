@@ -1,15 +1,27 @@
-package gundulf;
+package org.kj6682.gundulf;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+@SpringBootApplication
 @Controller
-class ChefController {
+public class Application {
+
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
 
     @Value("${API_ROOT}")
     private String api_root;
+
+    @RequestMapping("/")
+    public String root(Model model) {
+        return "index";
+    }
 
     @RequestMapping("/four")
     public String oven(Model model) {

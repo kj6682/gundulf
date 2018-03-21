@@ -14,7 +14,6 @@ module.exports = (env = {}) => {
     return {
         entry: {
             chef: SRC_DIR + "/chef/index.jsx",
-            shop: SRC_DIR + "/shop/index.jsx",
         },
         output: {
             path: TARGET_DIR,
