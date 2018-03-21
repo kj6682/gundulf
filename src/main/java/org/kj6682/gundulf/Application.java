@@ -46,7 +46,7 @@ public class Application {
     private String getModel(PRODUCER producer, Model model) {
         model.addAttribute("producer", producer.name);
         model.addAttribute("root", api_root);
-        return "chef/index";
+        return "producer/index";
     }
 
     private enum PRODUCER {
