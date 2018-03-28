@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = {"http://localhost:3000",
+                        "http://gundulf-chef.herokuapp.com",
+                        "https://gundulf-chef.herokuapp.com"})
 @RestController
 @RequestMapping("/api")
 class ProducerController {
